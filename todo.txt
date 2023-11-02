@@ -1,0 +1,2 @@
+figure out where to put the newitem dialog
+    - gets opened in topBar.tsx

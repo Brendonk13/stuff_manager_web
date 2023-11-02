@@ -1,0 +1,75 @@
+{
+  // "compilerOptions": {
+  //     "jsx": "react-jsx"
+  // },
+  "compilerOptions": {
+    /* https://www.youtube.com/watch?v=ejxveju3xlm */
+    /* base options */
+    "esModuleInterop": true,
+    // "esmoduleinterop": false,
+    "skipLibCheck": true,
+    // "target": "es5",
+    "target": "es2022",
+    "verbatimModuleSyntax": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    // "moduledetection": "force",
+
+    /* strictness */
+    "strict": true,
+    /* helps with indexing arrays */
+    "noUncheckedIndexedAccess": true,
+
+    /* if transpiling with typescript */
+    /* "moduleresolution": "nodenext",
+    "module": "nodenext",
+    "outdir": "dist",
+    "sourcemap": true,
+    */
+
+    /* if not transpiling with typescript */
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "noEmit": true,
+
+    /* if your code runs in the dom */
+    "lib": [ "dom", "dom.iterable", "es2022" ],
+    /* if your code does not run in the dom */
+    /* "lib": [ "es2022" ], */
+
+    /* if building for a library: */
+     /* "declaration": true, */
+
+    /* if building for a library in a monorepo: */
+    /* "composite": true,
+    /* next allows goto definition to take u to source file and not declaration file
+    "declarationmap": true,
+    */
+
+
+    /* mine: */
+    /* strict */
+    "allowSyntheticDefaultImports": true,
+    // "allowsyntheticdefaultimports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallThroughCasesInSwitch": true,
+
+    "isolatedmodules": true,
+    /* "jsx": "react" */
+    "jsx": "react-jsx",
+    "allowImportingTsExtensions": true,
+    "baseUrl": ".",
+
+    /* mine: */
+    "paths": {
+      "@/*": ["src/*"],
+    },
+  },
+  "include": [
+        "src",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+    ],
+   "exclude": ["node_modules"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
