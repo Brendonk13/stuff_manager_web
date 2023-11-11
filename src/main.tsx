@@ -1,10 +1,11 @@
-import './styles/globals.css'
+// import './styles/globals.css'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 // import App from './App.tsx'
 // import './index.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import ThemeCustomization from './themes';
 import { CssBaseline, ThemeProvider } from '@mui/material'
 
 import { LocalizationProvider } from '@mui/x-date-pickers'
@@ -13,13 +14,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { SnackbarProvider } from '@/contexts/SnackbarContext'
 
 import Router from './router'
-import theme from './theme'
+// import theme from './theme'
 
 const queryClient = new QueryClient()
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <ThemeProvider theme={theme}>
+  <ThemeCustomization>
     <CssBaseline />
     <SnackbarProvider>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -28,7 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </QueryClientProvider>
       </LocalizationProvider>
     </SnackbarProvider>
-  </ThemeProvider>,
+  </ThemeCustomization>
 )
 
 

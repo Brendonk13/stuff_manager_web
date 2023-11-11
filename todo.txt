@@ -1,2 +1,8 @@
+think about the design
+
+once design done:
+    change the styling and colors, generate them!!!!!!!!
+
+
 figure out where to put the newitem dialog
     - gets opened in topBar.tsx

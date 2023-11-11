@@ -190,9 +190,9 @@ const theme: ThemeOptions = {
         InputLabelProps: {
           shrink: true,
         },
-        InputProps: {
-          disableUnderline: true,
-        },
+        // InputProps: {
+        //   disableUnderline: true,
+        // },
       },
       styleOverrides: {
         root: ({ theme }) => ({
