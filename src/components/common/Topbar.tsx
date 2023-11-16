@@ -1,18 +1,16 @@
 /* import { UserButton, useUser } from '@clerk/clerk-react' */
-import { KeyboardArrowLeft, Search } from "@mui/icons-material";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { KeyboardArrowLeft, Search } from "@mui/icons-material";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import sidebarLinks from './Sidebar/links'
 import NewItemDialog from "@/dialogs/NewItemDialog"
 
 export default function Topbar(){
-  const location = useLocation()
-  const { postId } = useParams()
   const navigate = useNavigate()
   const [pageTitle, setPageTitle] = useState('Stuff')
   const [showBackButton, setShowBackButton] = useState(false)
-  /* const user = useUser() */
+  // const user = useUser()
   // todo: add search filters
   const searchingFor = "notes"
   const [newItemDialogOpen, setNewItemDialogOpen] = useState(false)
@@ -21,36 +19,20 @@ export default function Topbar(){
     setNewItemDialogOpen(false)
   }
 
-
-  useEffect(() => {
-    const link = sidebarLinks.find((link) => link.path === location.pathname)
-    if (location.pathname.endsWith('/create-post')) {
-      setPageTitle('New Post')
-      setShowBackButton(false)
-    } else if (location.pathname.endsWith(`preview-post/${postId}`)) {
-      setPageTitle('Preview Post')
-      setShowBackButton(true)
-    } else if (link) {
-      setShowBackButton(false)
-      setPageTitle(link.text)
-    }
-  }, [location.pathname])
-
-
-
   return (
     <Box
       sx={{
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'space-between',
+        alignItems: 'center',
       }}
     >
-      <Stack direction="column" spacing={2} alignItems="center">
+      <Stack direction="column" alignItems="center" spacing={2}>
         {/* todo: make this smaller */}
         <Typography variant="h3" sx={{ fontSize: '30px', fontWeight: 'bold' }}>
           {pageTitle}
         </Typography>
+        {/* back button */}
         {showBackButton && (
           <Typography variant="subtitle2" position="absolute" pt={1} pr={1}>
             <Button onClick={() => navigate(-1)} variant="text" color="primary">
@@ -66,19 +48,17 @@ export default function Topbar(){
         InputProps={{
           startAdornment: <Search color="primary" />,
           disableUnderline: true,
-          // inputProps: { style: {textAlign: 'center', } },
         }}
-        // inputProps={{ style: {textAlign: 'center'} }}
         variant="filled"
         sx={{ width: '30%' }}
-        onClick={(e) => {return}}
+        onClick={(e) => e}
       />
 
       <Stack direction="row" spacing={1} alignItems="center">
-        {/* <Typography>Welcome back, user!</Typography> */}
         <Button variant="contained" onClick={() => setNewItemDialogOpen(true)}>
           Add new
         </Button>
+
         {/* <UserButton afterSignOutUrl="/sign-in" /> */}
       </Stack>
       <NewItemDialog open={newItemDialogOpen} onClose={handleCloseNewItemDialog} />

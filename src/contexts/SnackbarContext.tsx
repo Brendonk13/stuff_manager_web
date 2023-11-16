@@ -6,10 +6,10 @@ import Snackbar from '@/components/common/Snackbar'
 
 interface SnackbarOptions {
   open?: boolean
-  message?: string
   autoHideDuration?: number
-  type?: 'error' | 'warning' | 'info' | 'success'
+  message?: string
   AlertProps?: AlertProps
+  type?: 'error' | 'warning' | 'info' | 'success'
 }
 
 export interface ISnackbarContext {
