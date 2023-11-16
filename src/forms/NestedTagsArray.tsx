@@ -1,8 +1,10 @@
 import React from "react";
 import { useFieldArray } from "react-hook-form"
-import { Button, Typography, InputLabel, Box, Grid, Paper, Stack, styled } from "@mui/material"
+import { Button, IconButton, Typography, InputLabel, Box, Grid, Paper, Stack, InputAdornment, Divider, styled } from "@mui/material"
 import ControlledTextField from "@/forms/ControlledTextField"
 import { useFormContext } from "react-hook-form"
+import AddIcon from '@mui/icons-material/Add';
+import CloseWindowImage from "@/assets/icons8-close-window-24.png"
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -33,17 +35,19 @@ export default function NestedTagsArray(
   // todo: make the tags look cool (also make sure we always show this in alphabetically sorted order
   return (
     <>
-      <Stack spacing={2} direction="row">
-        <InputLabel id={`${name}_${nestIndex}`}>{label}</InputLabel>
-        <Button
+      <Stack direction="row">
+        <InputLabel sx={{padding: 1, alignSelf: "center"}} id={`${name}_${nestIndex}`}>{label}</InputLabel>
+        <IconButton
+          color="primary"
           onClick={() =>
             append({
               value: "",
             })
           }
         >
-          Add {label}
-        </Button>
+          {/* Add tag button */}
+          <AddIcon />
+        </IconButton>
       </Stack>
       <Box key={`${name}_${nestIndex}_box`} sx={{ flexDirection: "column", flexGrow: 1 }}>
         <Grid container>
@@ -51,25 +55,43 @@ export default function NestedTagsArray(
           {fields.map((item, index) => {
             // console.log("fieldname", `${fieldArrayName}[${index}].value`)
             return (
-            <Grid key={`${name}_${index}_grid`}>
+            <Grid key={item.id}>
+                {/* useFieldArray needs something with this id for remove to work: https://github.com/react-hook-form/react-hook-form/issues/1571#issuecomment-690882455 */}
               <ControlledTextField
                 control={control}
-                // name={`${fieldArrayName}.${index}.value`}
                 name={`${fieldArrayName}[${index}].value`}
-                // label="Tags"
               // todo: make this a drop down
                 TextFieldProps={{
                   sx: {
                     width: '100%',
                     padding: 1,
-                  }
+                  },
+                  InputProps: {
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton size="small" onClick={() => remove(index)} color="secondary"
+                            sx={{
+                              // alignSelf: "flex-end",
+                              // justifySelf: "flex-end",
+                              float: "right",
+                              position: 'absolute',
+                              left: '89%',
+                              top: '-13%',
+                            }}
+                          >
+                            <Box
+                              component="img"
+                              sx={{
+                                borderRadius: 5,
+                              }}
+                              src={CloseWindowImage}
+                            />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
                 }}
               />
-              {/* todo: make this appear as an X in the top corner of the tag textfield */}
-              {/* todo: why does this always only delete the last one instead of the deleted one */}
-              <Button onClick={() => remove(index)}>
-                Remove {label}
-              </Button>
           </Grid>
           )
         })}

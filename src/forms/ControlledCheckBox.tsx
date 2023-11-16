@@ -1,4 +1,4 @@
-import { Checkbox, type CheckboxProps, FormControlLabel } from "@mui/material"
+import { Checkbox, type CheckboxProps, FormControlLabel, InputLabel } from "@mui/material"
 // import React from "react"
 import React, { type FC, type ReactElement } from 'react';
 import { Controller, type FieldValues, type UseControllerProps } from "react-hook-form"
@@ -30,7 +30,8 @@ const ControlledCheckbox = <FieldValueProps extends FieldValues>({
         onChange={onChange}
         checked={!!value}
         control={<Checkbox />}
-        label={label}
+        //label={label}
+        label={<InputLabel id={name}>{label ? label : ""}</InputLabel>}
         sx={{ cursor: "pointer" }}
       />
     )}

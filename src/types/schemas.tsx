@@ -6,7 +6,7 @@ export const StepSchema = z.object({
   description: z.string().min(1, "No 1 letter descriptions").optional(),
   // date: z.date().optional(),
   // todo: change this back to date !!!!
-  date: z.string().optional(),
+  date: z.date().optional(),
   somedayMaybe: z.boolean(), // todo: decide if this should just be another tag -- nah then i gotta filter that out everywhere when showing tags
   delegate: z.boolean(),
   cannotBeDoneYet: z.boolean(),

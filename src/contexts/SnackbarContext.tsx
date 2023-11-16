@@ -1,6 +1,7 @@
 import { type AlertProps } from '@mui/material/Alert'
 import { createContext, type ReactNode, useContext, useState } from 'react'
-
+// import { useContextSelector, createContext } from "use-context-selector"
+// note: use useContextSelector instead to avoid re-renders
 import Snackbar from '@/components/common/Snackbar'
 
 interface SnackbarOptions {
@@ -15,8 +16,11 @@ export interface ISnackbarContext {
   snackbar: SnackbarOptions
   openSnackbar: (snackbarOptions: SnackbarOptions) => void
 }
+
+// Context
 const SnackbarContext = createContext<ISnackbarContext>({} as ISnackbarContext)
 
+// Provider
 function SnackbarProvider({ children }: { children: ReactNode }) {
   const [snackbar, setSnackbar] = useState<SnackbarOptions>({
     open: false,

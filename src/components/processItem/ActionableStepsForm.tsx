@@ -1,6 +1,5 @@
 //import * as React from 'react'
-//import Box from '@mui/material/Box'
-import { Typography, Button, Box, Stack} from '@mui/material'
+import { Typography, Button, Box, Stack, Divider, IconButton, Paper } from '@mui/material'
 import { useFormContext } from "react-hook-form"
 // import { useSnackbarContext } from '@/contexts/SnackbarContext'
 // import { type Tag } from "@/types/Common"
@@ -9,130 +8,167 @@ import { useFormContext } from "react-hook-form"
 import ControlledTextField from "@/forms/ControlledTextField"
 import NestedTagsArray from "@/forms/NestedTagsArray"
 import ControlledCheckBox from "@/forms/ControlledCheckBox"
+import ControlledDatePicker from "@/forms/ControlledDatePicker"
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 export default function ActionableStepsForm({
   fields,
   defaultValues,
-  // control,
-  // register,
-  // errors,
   append,
+  remove,
   defaultStep,
 }: {
     fields: any,
     defaultValues: any,
-    // control: any,
-    // register: any,
-    // errors: any,
     append: any,
+    remove: any,
     defaultStep: any,
 }){
   const { control, register, formState: {errors,}, } = useFormContext()
   return (
       <>
-        <Typography variant="h2"> Actionable Steps </Typography>
-        <Stack spacing={5}>
-          {fields.map((field, index: number) => {
-            console.log(index)
-            // todo: add a stack for showing all the fields in a step (title, description, tags, date
-              // todo: do steps have dates or ? -- yes
-              // todo: how to group each step together visually
-            return (
-              <Box key={`Actions_${index}`} padding={2} sx={{
-                borderRadius: '8px',
-                borderStyle: true ? 'solid' : 'dashed',
-                backgroundColor: '#fafafa',
-                color: '#bdbdbd',
-                outline: 'none',
-              }}>
-                <Stack sx={{justifyContent: "space-between" }} spacing={2} direction="row">
-                  <ControlledTextField
-                    control={control}
-                    // name={`steps.${index}.title`}
-                    name={`steps[${index}].title`}
-                    label="Title"
-                    TextFieldProps={{
-                      sx: {
-                        width: '60%',
-                        padding: 1,
-                      }
-                    }}
-                  />
-                  <ControlledTextField
-                    control={control}
-                    name={`steps[${index}].date`}
-                    label="Date"
-                  // todo: make this a drop down
-                    TextFieldProps={{
-                      sx: {
-                        width: '100%',
-                        padding: 1,
-                      }
-                    }}
-                  />
-                  <ControlledCheckBox
-                    control={control}
-                    label={<Typography variant="subtitle1">Someday/Maybe ?</Typography>}
-                    // if not isProject, this is a project
-                    defaultValue={defaultValues.somedayMaybe}
-                    name={`steps[${index}].somedayMaybe`}
-                  />
-                  <ControlledCheckBox
-                    control={control}
-                    label={<Typography variant="subtitle1">Cannot be done yet ?</Typography>}
-                    // if not isProject, this is a project
-                    defaultValue={defaultValues.cannotBeDoneYet}
-                    name={`steps[${index}].cannotBeDoneYet`}
-                  />
-                  <ControlledCheckBox
-                    control={control}
-                    label={<Typography variant="subtitle1">Delegate ?</Typography>}
-                    // if not isProject, this is a project
-                    defaultValue={defaultValues.delegate}
-                    name={`steps[${index}].delegate`}
-                  />
-                </Stack>
-                <ControlledTextField
-                  control={control}
-                  // name={`steps.${index}.description`} // todo: how THEFUCK do I do a list of these all with diff names in a form, they shouldn't have a name since its the array of them that has a name ....
-                  name={`steps[${index}].description`} // todo: how THEFUCK do I do a list of these all with diff names in a form, they shouldn't have a name since its the array of them that has a name ....
-                  label="Description"
-                  TextFieldProps={{
-                    sx: {
-                      width: '80%',
-                      padding: 1,
+        <Paper
+          key={`Actions_form`}
+          elevation={2}
+          sx={{
+            margin: 2,
+            padding: 2,
+            // border: "1px solid black",
+          }}
+        >
+        <Stack direction="row">
+          <Typography variant="h2">Steps</Typography>
+          <IconButton
+            color="primary"
+            // size="small"
+            // variant="contained"
+            onClick={() =>
+              append(defaultStep)
+            }
+          >
+            <AddIcon />
+          </IconButton>
+        </Stack>
+          <Stack spacing={5}>
+            {fields.map((field, index: number) => {
+              // remove step button
+              return (
+                <Stack key={field.id}>
+                  {index > 0 && <Divider sx={{borderBottomWidth:4}}/>}
+                  <IconButton
+                    color="primary"
+                    onClick={() =>
+                      remove(index)
                     }
-                  }}
-                />
-              <NestedTagsArray
-                parentName="steps"
-                nestIndex={index}
-                control={control}
-                register={register}
-                errors={errors}
-                label="Tags"
-                name="tags"
-                // key="tags"
-              />
-              <NestedTagsArray
-                // key="requiredContext"
-                parentName="steps"
-                nestIndex={index}
-                control={control}
-                register={register}
-                errors={errors}
-                name="requiredContext"
-                label="Required context"
-              />
-            </Box>
-            )
-          })
-          }
-          <Button sx={{ width: "50%" }} onClick={() => append(defaultStep) }>
+                    //sx={{alignSelf: "flex-end", color: "text.secondary"}}
+                  // todo: figure out how to align this button according to the paper element and not the stack or box
+                    sx={{padding: 2, alignSelf: "flex-end", color: "error.main"}}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                  <Box key={`Actions_${index}`} padding={2} sx={{
+                    // borderStyle: true ? 'solid' : 'dashed',
+                    // backgroundColor: '#fafafa',
+                    // color: '#bdbdbd',
+                    outline: 'none',
+                  }}>
+                    <ControlledTextField
+                      control={control}
+                      name={`steps[${index}].title`}
+                      label="Title"
+                      TextFieldProps={{
+                        sx: {
+                          width: '60%',
+                          padding: 1,
+                        }
+                      }}
+                    />
+                    <ControlledTextField
+                      control={control}
+                      name={`steps[${index}].description`}
+                      label="Description"
+                      TextFieldProps={{
+                        multiline: true,
+                        minRows: 2,
+                        sx: {
+                          width: '80%',
+                          padding: 1,
+                        }
+                      }}
+                    />
+                  <Divider
+                    // sx={{ marginTop: !isMobile ? 2 : 'initial', marginBottom: 3 }}
+                    sx={{ marginTop: 2 , marginBottom: 3, borderBottomWidth: 1 }}
+                  />
+
+                  <Box padding={1} >
+                  <ControlledDatePicker
+                    control={control}
+                    label="Date"
+                    name={`steps[${index}].date`}
+                    />
+                    </Box>
+                    {/* <ControlledTextField */}
+                    {/*   control={control} */}
+                    {/*   name={`steps[${index}].date`} */}
+                    {/*   label="Date" */}
+                    {/*   TextFieldProps={{ */}
+                    {/*     sx: { */}
+                    {/*       width: '14%', */}
+                    {/*       padding: 1, */}
+                    {/*     } */}
+                    {/*   }} */}
+                    {/* /> */}
+                  <Stack padding={1}>
+                    {/* &nbsp;&nbsp; */}
+                    <ControlledCheckBox
+                      control={control}
+                      // label={<Typography variant="subtitle1">Someday/Maybe ?</Typography>}
+                      label="Someday/Maybe ?"
+                      defaultValue={defaultValues.somedayMaybe}
+                      name={`steps[${index}].somedayMaybe`}
+                    />
+                    {/* &nbsp;&nbsp;&nbsp;&nbsp; */}
+                    <ControlledCheckBox
+                      control={control}
+                      // label={<Typography variant="subtitle1">Cannot be done yet ?</Typography>}
+                      label="Cannot be done yet ?"
+                      defaultValue={defaultValues.cannotBeDoneYet}
+                      name={`steps[${index}].cannotBeDoneYet`}
+                    />
+                    {/* &nbsp;&nbsp;&nbsp;&nbsp; */}
+                    <ControlledCheckBox
+                      control={control}
+                      // label={<Typography variant="subtitle1">Delegate ?</Typography>}
+                      label="Delegate ?"
+                      defaultValue={defaultValues.delegate}
+                      name={`steps[${index}].delegate`}
+                    />
+              </Stack>
+                  <NestedTagsArray
+                    parentName="steps"
+                    nestIndex={index}
+                    label="Tags"
+                    name="tags"
+                  />
+                  <NestedTagsArray
+                    parentName="steps"
+                    nestIndex={index}
+                    name="requiredContext"
+                    label="Required context"
+                  />
+                </Box>
+              </Stack>
+              )
+            })
+            }
+          </Stack>
+          <Button variant="contained" sx={{alignItems: "start", width: "25%" }} onClick={() => append(defaultStep) }>
           Add Step
           </Button>
-        </Stack>
+        </Paper>
       </>
     )
 }

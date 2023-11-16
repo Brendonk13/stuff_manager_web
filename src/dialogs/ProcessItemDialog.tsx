@@ -1,14 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from "zod"
 import { Close } from '@mui/icons-material'
-// import { LoadingButton } from '@mui/lab'
+import { LoadingButton } from '@mui/lab'
 import {
   Box,
   Button,
   Dialog,
+  DialogActions,
+  DialogContent,
   DialogTitle,
   IconButton,
   Stack,
+  Typography,
 } from '@mui/material'
 import { AxiosError } from 'axios'
 import ControlledTextField from "@/forms/ControlledTextField"
@@ -19,24 +22,33 @@ import { useNavigate } from "react-router-dom";
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
 
 
-interface NewItemProps {
+interface ProcessItemProps {
   open: boolean
   onClose: () => void
+  title?: string
+  description: string
 }
 
-export default function NewItemDialog({
+export default function ProcessItemDialog({
   open,
   onClose,
-}: NewItemProps) {
-  const { openSnackbar } = useSnackbarContext()
+}: ProcessItemProps) {
+  const handleClose = () => {
+    onClose()
+    reset(defaultValues)
+  }
+  // let clickedProcess = useRef<boolean>(false)
   let clickedProcess = false
   const navigate = useNavigate()
+  // const [actionable, 
 
   const defaultValues = {
     title: "",
     description: "",
   }
 
+
+  const { openSnackbar } = useSnackbarContext()
   const formSchema = z.object({
     title: z.string().nullable(),
     description: z.string().min(1, { message: 'Description is required' }),
@@ -56,12 +68,11 @@ export default function NewItemDialog({
     try {
       // const newItemId = mutateAsync await createContact(data)
       const newItemId = 13
-      console.log("submit dialog")
+      console.log("submit")
       openSnackbar({ message: 'New item added', type: 'success' })
       if (clickedProcess === true){
         // uncategorized things are "stuff"
-        // should I pass title and description ? NO -- we need to store this in the db incase they dont wanna process it now
-        navigate(`/stuff/new/${newItemId}`)
+        navigate(`/process/${newItemId}?actionable=${actionable}`)
       }
       onClose()
       reset(defaultValues)
@@ -75,18 +86,12 @@ export default function NewItemDialog({
     }
   }
 
-  const handleClose = () => {
-    onClose()
-    reset(defaultValues)
-  }
-
   return (
     <Dialog
       open={open}
       onClose={handleClose}
       disableEscapeKeyDown={true}
       maxWidth="sm"
-      //fullWidth
       sx={{
         gap: 3,
         borderRadius: '12px',
@@ -95,18 +100,15 @@ export default function NewItemDialog({
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
-        sx={{ padding: 4, justifyContent: "space-between"}}
+        sx={{ padding: 4 }}
       >
         <DialogTitle
           sx={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            color: 'text.primary',
-            alignItems: 'center',
-            fontSize: 26,
-            fontWeight: '500',
-            padding: 0,
+            alignSelf: 'stretch',
+            color: 'primary.main',
           }}
         >
           Add New Item
@@ -114,7 +116,6 @@ export default function NewItemDialog({
             <Close />
           </IconButton>
         </DialogTitle>
-        <br/>
         <Stack spacing={3}>
           <ControlledTextField
             control={control}
@@ -122,7 +123,7 @@ export default function NewItemDialog({
             label="Title"
             TextFieldProps={{
               sx: {
-                width: '80%',
+                width: '50%',
               }
             }}
           />
@@ -131,10 +132,10 @@ export default function NewItemDialog({
             name="description"
             label="Description"
           />
+        </Stack>
         <Button type='submit' onClick={() => clickedProcess = true}>
           Process Now
         </Button>
-        </Stack>
       </Box>
     </Dialog>
   )

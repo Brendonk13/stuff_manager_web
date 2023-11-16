@@ -66,15 +66,17 @@ export default function Topbar(){
         InputProps={{
           startAdornment: <Search color="primary" />,
           disableUnderline: true,
+          // inputProps: { style: {textAlign: 'center', } },
         }}
+        // inputProps={{ style: {textAlign: 'center'} }}
         variant="filled"
         sx={{ width: '30%' }}
         onClick={(e) => {return}}
       />
 
       <Stack direction="row" spacing={1} alignItems="center">
-        <Typography>Welcome back, user!</Typography>
-        <Button onClick={() => setNewItemDialogOpen(true)}>
+        {/* <Typography>Welcome back, user!</Typography> */}
+        <Button variant="contained" onClick={() => setNewItemDialogOpen(true)}>
           Add new
         </Button>
         {/* <UserButton afterSignOutUrl="/sign-in" /> */}

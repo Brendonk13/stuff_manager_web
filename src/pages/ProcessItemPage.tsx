@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 // import { z } from "zod"
 import * as React from 'react'
 //import Box from '@mui/material/Box'
-import { Typography, Button, Box, Stack} from '@mui/material'
+import { InputLabel, Switch, Typography, Button, Box, Stack, Divider } from '@mui/material'
 import { FormProvider, useForm, useFieldArray, type FieldArrayWithId } from "react-hook-form"
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
 import { type Step, StepSchema } from "@/types/schemas"
@@ -13,25 +13,28 @@ import ControlledTextField from "@/forms/ControlledTextField"
 import NestedTagsArray from "@/forms/NestedTagsArray"
 import ControlledCheckBox from "@/forms/ControlledCheckBox"
 import ActionableForm from "@/components/processItem/ActionableStepsForm"
+// import ControlledSwitch from "@/forms/ControlledSwitch"
+import dayjs from "dayjs"
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
-const defaultTag = {value: ""}
+// const defaultTag = {value: ""}
 
 const defaultStep: Step = {
   title: "",
   description: "",
-  tags: [defaultTag],
-  requiredContext: [defaultTag],
+  // tags: [defaultTag],
+  // requiredContext: [defaultTag],
   somedayMaybe: false,
   cannotBeDoneYet: false,
   delegate: false,
-  date: ""
 }
 
 export default function ProcessItemPage() {
   // const [activeStep, setActiveStep] = React.useState(0);
   // const [skipped, setSkipped] = React.useState(new Set<number>());
   const { openSnackbar } = useSnackbarContext()
+  const [actionable, setActionable] = React.useState(true)
 
   const { methods, defaultValues } = setupForm()
   const {
@@ -68,6 +71,7 @@ export default function ProcessItemPage() {
       })
     }
   }
+  console.log(JSON.stringify(errors))
 
 
   return (
@@ -94,31 +98,46 @@ export default function ProcessItemPage() {
             }
           }}
         />
-        <Button variant="contained" sx={{alignItems: "start", width: "25%" }}>
-          <Typography variant="subtitle1">
-            Not Actionable (takes you to diff page)
-          </Typography>
-        </Button>
-        <ActionableForm
-          fields={fields}
-          // control={control}
-          append={append}
-          defaultStep={defaultStep}
-          defaultValues={defaultValues}
-        />
-        <ControlledCheckBox
-          control={control}
-          label={<Typography variant="subtitle1">Project ?</Typography>}
-          // if not isProject, this is a project
-          defaultValue={defaultValues.isProject}
-          name="isProject"
-        />
-        <Button type="submit" variant="contained">
-          submit
-          {/* <Typography variant="h2"> */}
-          {/* SUBMIT */}
-          {/* </Typography> */}
-        </Button>
+        {/* <Button variant="contained" sx={{alignItems: "start", width: "25%" }}> */}
+        {/*   <Typography variant="subtitle1"> */}
+        {/*     Not Actionable (takes you to diff page) */}
+        {/*   </Typography> */}
+        {/* </Button> */}
+        {/* <ControlledCheckBox */}
+        {/*   control={control} */}
+        {/*   label={<Typography variant="subtitle1">Project ?</Typography>} */}
+        {/*   // if not isProject, this is a project */}
+        {/*   defaultValue={defaultValues.isProject} */}
+        {/*   name="isProject" */}
+        {/* /> */}
+        <Stack direction="row">
+        <Typography variant="h2">Actionable?</Typography>
+          <Switch
+            onChange={() => {setActionable(!actionable)}}
+            checked={actionable}
+          />
+        </Stack>
+          <br/>
+        {actionable &&
+          <ActionableForm
+            fields={fields}
+            // control={control}
+            append={append}
+            remove={remove}
+            defaultStep={defaultStep}
+            defaultValues={defaultValues}
+          />
+        }
+        <Box sx={{ display: "flex",  justifyContent: "center" }}>
+            {/* todo: dont make this red but maybe just disabled -- no this is less clear*/}
+          <Button type="submit" variant="contained" sx={{  width: "75%" }} color={Object.keys(errors).length > 0 ? "error" : "primary"}>
+          {/* <Button type="submit" variant="contained" sx={{  width: "75%" }} disabled={Object.keys(errors).length > 0}> */}
+            submit
+            {/* <Typography variant="h2"> */}
+            {/* SUBMIT */}
+            {/* </Typography> */}
+          </Button>
+        </Box>
       </Stack>
       </FormProvider>
     </Box>
