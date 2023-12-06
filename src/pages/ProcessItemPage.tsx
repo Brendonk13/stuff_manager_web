@@ -1,63 +1,65 @@
-
+// import { useSession } from '@clerk/clerk-react'
 import { AxiosError } from 'axios'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useParams } from 'react-router-dom'
 // import { z } from "zod"
 import * as React from 'react'
 //import Box from '@mui/material/Box'
-import { InputLabel, Switch, Typography, Button, Box, Stack, Divider } from '@mui/material'
+import { InputLabel, Switch, Typography, Button, Box, Stack, Divider, TextField } from '@mui/material'
 import { FormProvider, useForm, useFieldArray, type FieldArrayWithId } from "react-hook-form"
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
-import { type Step, StepSchema } from "@/types/schemas"
-import { CreateItemSchema, type CreateItem } from "@/types/ProcessItem"
-import ControlledTextField from "@/forms/ControlledTextField"
-import NestedTagsArray from "@/forms/NestedTagsArray"
-import ControlledCheckBox from "@/forms/ControlledCheckBox"
+import { CreateItemSchema, type CreateItem, defaultProject, defaultStep } from "@/types/Action"
 import ActionableForm from "@/components/processItem/ActionableStepsForm"
-// import ControlledSwitch from "@/forms/ControlledSwitch"
-import dayjs from "dayjs"
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import useWriteBearer from "@/hooks/useWriteBearer"
+import useGetUnprocessed from "@/hooks/api/useGetUnprocessed"
+import useCreateActions from "@/hooks/api/useCreateActions"
+// import defaultStep from "@/forms/DefaultStep"
 
 
-// const defaultTag = {value: ""}
-
-const defaultStep: Step = {
-  title: "",
-  description: "",
-  // tags: [defaultTag],
-  // requiredContext: [defaultTag],
-  somedayMaybe: false,
-  cannotBeDoneYet: false,
-  delegate: false,
-}
 
 export default function ProcessItemPage() {
-  // const [activeStep, setActiveStep] = React.useState(0);
-  // const [skipped, setSkipped] = React.useState(new Set<number>());
   const { openSnackbar } = useSnackbarContext()
   const [actionable, setActionable] = React.useState(true)
 
-  const { methods, defaultValues } = setupForm()
+  const { unprocessedId } = useParams()
+  const { mutateAsync: createActions } = useCreateActions()
+
+  // console.log({unprocessedId})
+
+
+  const unprocessedData = useGetUnprocessed(Number(unprocessedId))
+  // console.log({unprocessedData})
+  useWriteBearer()
+
+  const defaultValues: CreateItem = {
+    unprocessedId: 0,
+    project: defaultProject,
+    // project_titles: ["project titles"],
+    steps: [defaultStep], // if .length > 1, this is a project
+  }
+
+
+  const methods = useForm({
+    defaultValues,
+    resolver: zodResolver(CreateItemSchema),
+  })
+
   const {
-    control,
     handleSubmit,
-    reset,
-    register,
-    formState: { errors, isSubmitted, isValid, dirtyFields },
+    setValue,
+    formState: { errors, },
   } = methods
 
-  const { fields, remove, append } = useFieldArray({ control, name: "steps" })
+  React.useEffect(() =>
+    setValue('unprocessedId', Number(unprocessedId) ?? 0), [setValue, unprocessedId]
+  )
 
+    // foirm will fail cuz I dont have an unprocessedId in the form
   const onSubmit = async (data: typeof defaultValues) => {
     try {
-      const submittedData = data
-      console.log("========================= SUBMIT ============================= ")
-      console.log(data)
-      if (submittedData.steps.length > 1){
-        // This will be done on the backend?
-        submittedData.isProject = true
-      }
+      console.log("========================= SUBMIT ============================= ", {data})
+      await createActions(data)
 
-      // const newItemId = mutateAsync await createContact(data)
       openSnackbar({ message: 'Item Processed', type: 'success' })
       // onClose()
       // reset(defaultValues)
@@ -71,47 +73,20 @@ export default function ProcessItemPage() {
       })
     }
   }
-  console.log(JSON.stringify(errors))
 
 
   return (
     <Box sx={{ width: '100%', padding: 2, }} component="form" onSubmit={handleSubmit(onSubmit)}>
       <FormProvider {...methods}>
-      <Stack spacing={3}>
-        <ControlledTextField
-          control={control}
-          name="title"
-          label="Title"
-          TextFieldProps={{
-            sx: {
-              width: '50%',
-            }
-          }}
-        />
-        <ControlledTextField
-          control={control}
-          name="description"
-          label="Description"
-          TextFieldProps={{
-            sx: {
-              width: '50%',
-            }
-          }}
-        />
-        {/* <Button variant="contained" sx={{alignItems: "start", width: "25%" }}> */}
-        {/*   <Typography variant="subtitle1"> */}
-        {/*     Not Actionable (takes you to diff page) */}
-        {/*   </Typography> */}
-        {/* </Button> */}
-        {/* <ControlledCheckBox */}
-        {/*   control={control} */}
-        {/*   label={<Typography variant="subtitle1">Project ?</Typography>} */}
-        {/*   // if not isProject, this is a project */}
-        {/*   defaultValue={defaultValues.isProject} */}
-        {/*   name="isProject" */}
-        {/* /> */}
+      <Stack spacing={2}>
+
+      <Stack >
+        <Typography variant="h2"> {unprocessedData?.data?.title || ""} </Typography>
+        <Typography sx={{padding: 2}}> {unprocessedData?.data?.description || ""} </Typography>
+      </Stack>
+        <Divider sx={{borderBottomWidth:2}}/>
         <Stack direction="row">
-        <Typography variant="h2">Actionable?</Typography>
+        <Typography variant="h3">Actionable?</Typography>
           <Switch
             onChange={() => {setActionable(!actionable)}}
             checked={actionable}
@@ -119,14 +94,7 @@ export default function ProcessItemPage() {
         </Stack>
           <br/>
         {actionable &&
-          <ActionableForm
-            fields={fields}
-            // control={control}
-            append={append}
-            remove={remove}
-            defaultStep={defaultStep}
-            defaultValues={defaultValues}
-          />
+          <ActionableForm />
         }
         <Box sx={{ display: "flex",  justifyContent: "center" }}>
             {/* todo: dont make this red but maybe just disabled -- no this is less clear*/}
@@ -142,43 +110,4 @@ export default function ProcessItemPage() {
       </FormProvider>
     </Box>
   )
-}
-
-
-
-function setupForm(){
-  const defaultValues: CreateItem = {
-    title: "",       // this can be loaded from db
-    description: "", // this can be loaded from db
-    // todo: this isnt actually in the form, since we go to a diff form for these
-    steps: [defaultStep], // if .length > 1, this is a project
-    isProject: false,
-    // specificDate: "",
-    // maybe this should only be for the individual steps
-    // tags: [defaultTag],
-  }
-
-
-  // const {
-  //   control,
-  //   handleSubmit,
-  //   reset,
-  //   register,
-  //   formState: { errors, isSubmitted, isValid, dirtyFields },
-
-  const methods = useForm({
-    defaultValues,
-    // todo: re-add zod !!
-    resolver: zodResolver(CreateItemSchema),
-  })
-
-  return {
-    defaultValues,
-    methods
-    // control,
-    // handleSubmit,
-    // reset,
-    // register,
-    // formState: { errors, isSubmitted, isValid, dirtyFields },
-  }
 }

@@ -14,7 +14,7 @@ import {
   Typography,
 } from '@mui/material'
 import { AxiosError } from 'axios'
-import ControlledTextField from "@/forms/ControlledTextField"
+import ControlledTextField from "@/components/controlled/ControlledTextField"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 

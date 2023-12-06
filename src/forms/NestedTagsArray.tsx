@@ -1,7 +1,7 @@
 import React from "react";
 import { useFieldArray } from "react-hook-form"
 import { Button, IconButton, Typography, InputLabel, Box, Grid, Paper, Stack, InputAdornment, Divider, styled } from "@mui/material"
-import ControlledTextField from "@/forms/ControlledTextField"
+import ControlledTextField from "@/components/controlled/ControlledTextField"
 import { useFormContext } from "react-hook-form"
 import AddIcon from '@mui/icons-material/Add';
 import CloseWindowImage from "@/assets/icons8-close-window-24.png"

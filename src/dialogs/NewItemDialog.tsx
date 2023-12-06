@@ -11,10 +11,11 @@ import {
   Stack,
 } from '@mui/material'
 import { AxiosError } from 'axios'
-import ControlledTextField from "@/forms/ControlledTextField"
+import ControlledTextField from "@/components/controlled/ControlledTextField"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 
+import useCreateUnprocessed from "@/hooks/api/useCreateUnprocessed"
 
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
 
@@ -31,6 +32,7 @@ export default function NewItemDialog({
   const { openSnackbar } = useSnackbarContext()
   let clickedProcess = false
   const navigate = useNavigate()
+  const createMutation = useCreateUnprocessed()
 
   const defaultValues = {
     title: "",
@@ -55,12 +57,16 @@ export default function NewItemDialog({
   const onSubmit = async (data: typeof defaultValues) => {
     try {
       // const newItemId = mutateAsync await createContact(data)
-      const newItemId = 13
+      const created_item = await createMutation.mutateAsync(data)
+        //.then(() => navigate('/'))
+      console.log({created_item})
+      const newItemId = created_item.data.id
       console.log("submit dialog")
       openSnackbar({ message: 'New item added', type: 'success' })
       if (clickedProcess === true){
         // uncategorized things are "stuff"
         // should I pass title and description ? NO -- we need to store this in the db incase they dont wanna process it now
+        // how do I make this title and description appear?
         navigate(`/stuff/new/${newItemId}`)
       }
       onClose()

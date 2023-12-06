@@ -1,8 +1,60 @@
-think about the design
+next:
+    1. fix so you can make a new project in the form by following mui example
+    - fix naming: change from item to actions
+    - fix naming: change from step to action
+    - add hook for createActionable
+    - fix types and form so that projects work with ID's
+        -- rn works with strings
+        -- need to edit the types/Action file s.t project is an object, instead of project_title the string
 
-once design done:
-    change the styling and colors, generate them!!!!!!!!
+    - works on postman
+    - then add hook for creating a processed item
+    - and api
+    processitempage:
+        - already getting data from the hook
+        - autofill the title and description
+        - the data is in default values but not in the title or description
+        - and can no longer edit said title
+
+        solution:
+            title, description are un-editable
+            todo: how to make it clear what this title/description is for
+            - add project picker so you can add the actions to existing projects or make a new one
+
+Autocomplete:
+    - fix the clear button not being centered vertically
+        https://mui.com/material-ui/api/autocomplete/#Autocomplete-prop-clearIcon
+    - need to make sure it highlights/bolds your characters you type
+        https://stackoverflow.com/questions/48444803/react-material-ui-autocomplete-highlight-searched-text-in-results
 
 
-figure out where to put the newitem dialog
-    - gets opened in topBar.tsx
+Actionable form todo:
+
+    Energy slider:
+        - see what it looks like to change the color as you slide: https://codesandbox.io/p/sandbox/slider-with-colors-material-ui-io4q7?file=%2Fdemo.js
+        - make it stand out less
+        - make the size of the circle thing smaller so things look left-aligned (currently only looks aligned once you move the slider from 0)
+        - make this look optional on the form ?
+
+
+
+todo:
+    - when goto link /unprocessed/100 ==> if 100 d.n exist or this user doesn't own it then we need to redirect the user to home
+    - simplify types by always returning ID
+
+
+
+Big features:
+    - Notes system
+    - calendar -- this could be such a bitch to work with datetimes this much
+    - Post-complete-action form
+        -- maybe implement this first with db then migrate to using git files ??
+    - auto-delegate: sends a message through configured medium (ie email, slack)
+
+
+
+Random features:
+    - group items by contexts during sorting
+    -- in additon to other methods
+        - can have a "break" mode where you seperate things arbitrarily by space and blur idk
+        - I wanted to group my todo list by context first then dates: today and tommorow and later themes

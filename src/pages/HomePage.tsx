@@ -1,8 +1,11 @@
+import PageLayout from "@/layouts/Page"
 
 export default function HomePage(){
   return (
-  <div>
-      HomePage
-  </div>
+    <PageLayout>
+      <div>
+          HomePage
+      </div>
+    </PageLayout>
   )
 }

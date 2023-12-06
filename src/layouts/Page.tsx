@@ -1,18 +1,21 @@
-// import { SignedIn, SignedOut } from '@clerk/clerk-react'
+import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react'
 import { Box } from '@mui/material'
-import { type ReactNode } from 'react'
-import { Navigate } from 'react-router-dom'
+import { type ReactNode, useEffect } from 'react'
+// import { Navigate } from 'react-router-dom'
+import getCookie from "@/utils/getCookie"
+import useWriteBearer from "@/hooks/useWriteBearer"
 
-// import ActionCenter from '@/components/common/ActionCenter'
 
 interface IPageLayout {
   children: ReactNode
 }
 
 export default function PageLayout({ children }: IPageLayout) {
+  useWriteBearer()
+
   return (
     <>
-      {/* <SignedIn> */}
+      <SignedIn>
         <Box
           sx={{
             height: '100%',
@@ -25,10 +28,11 @@ export default function PageLayout({ children }: IPageLayout) {
         >
           {children}
         </Box>
-      {/* </SignedIn> */}
-      {/* <SignedOut> */}
-      {/*   <Navigate to="/sign-in" /> */}
-      {/* </SignedOut> */}
+      </SignedIn>
+      <SignedOut>
+        <RedirectToSignIn />
+        {/* <Navigate to="/sign-in" /> */}
+      </SignedOut>
     </>
   )
 }

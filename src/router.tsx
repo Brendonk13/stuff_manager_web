@@ -12,9 +12,11 @@ export default function Router(){
         <Route path="/" element={<SidebarLayout />}>
           <Route index element={<HomePage />} />
           <Route path="stuff/new" element={<div> This shows a list of all unprocessed stuff </div>} />
-          <Route path="stuff/new/:id" element={<ProcessItemPage />} />
+          <Route path="stuff/new/:unprocessedId" element={<ProcessItemPage />} />
           {/* <Route path="stuff/new/:id" element={<ProcessItemPage />} /> */}
         </Route>
+        {/* <Route path="/sign-in" element={<SignInPage />} /> */}
+        {/* <Route path="/sign-up" element={<SignUpPage />} /> */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

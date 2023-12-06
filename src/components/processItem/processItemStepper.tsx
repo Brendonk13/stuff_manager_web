@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material'
 import { type Key } from 'react'
-import { type ProcessItemStep } from "@/types/ProcessItem"
+import { type ProcessItemStep } from "@/types/Action"
 
 // import CustomStepIcon from '@/components/contacts/ImportContacts/CustomStepIcon'
 

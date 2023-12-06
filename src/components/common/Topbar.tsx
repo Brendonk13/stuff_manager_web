@@ -8,7 +8,7 @@ import NewItemDialog from "@/dialogs/NewItemDialog"
 
 export default function Topbar(){
   const navigate = useNavigate()
-  const [pageTitle, setPageTitle] = useState('Stuff')
+  // const [pageTitle, setPageTitle] = useState('Stuff')
   const [showBackButton, setShowBackButton] = useState(false)
   // const user = useUser()
   // todo: add search filters
@@ -29,9 +29,9 @@ export default function Topbar(){
     >
       <Stack direction="column" alignItems="center" spacing={2}>
         {/* todo: make this smaller */}
-        <Typography variant="h3" sx={{ fontSize: '30px', fontWeight: 'bold' }}>
-          {pageTitle}
-        </Typography>
+        {/* <Typography variant="h3" sx={{ fontSize: '30px', fontWeight: 'bold' }}> */}
+        {/*   {pageTitle} */}
+        {/* </Typography> */}
         {/* back button */}
         {showBackButton && (
           <Typography variant="subtitle2" position="absolute" pt={1} pr={1}>
