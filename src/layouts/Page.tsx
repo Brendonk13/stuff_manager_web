@@ -20,8 +20,8 @@ export default function PageLayout({ children }: IPageLayout) {
           sx={{
             height: '100%',
             width: '100%',
-            backgroundColor: '#F2F2F266',
-            borderRadius: '20px',
+            // backgroundColor: '#F2F2F266',
+            // borderRadius: '20px',
             overflow: 'auto',
             p: 3,
           }}

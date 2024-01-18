@@ -1,4 +1,5 @@
 import axios, { AxiosError, type AxiosRequestConfig, type AxiosResponse } from 'axios'
+import { camelizeKeys, decamelizeKeys } from "humps"
 
 import getCookie from '@/utils/getCookie'
 
@@ -45,6 +46,38 @@ instance.interceptors.request.use(
     return Promise.reject(err)
   },
 )
+
+
+// https://dev.to/giovanniantonaccio/configuring-a-camelcase-to-snakecase-parser-with-axios-bld
+// Axios middleware to convert all api requests to snake_case
+instance.interceptors.request.use(config => {
+  const newConfig = { ...config }
+
+  if (newConfig.headers['Content-Type'] === 'multipart/form-data')
+    return newConfig
+
+  if (config.params) {
+    newConfig.params = decamelizeKeys(config.params)
+  }
+
+  if (config.data) {
+    newConfig.data = decamelizeKeys(config.data)
+  }
+
+  return newConfig
+})
+
+// Axios middleware to convert all api responses to camelCase
+instance.interceptors.response.use((response: AxiosResponse) => {
+  if (
+    response.data &&
+    response.headers['content-type'] === 'application/json'
+  ) {
+    response.data = camelizeKeys(response.data)
+  }
+
+  return response
+})
 
 instance.interceptors.response.use(
   (response: AxiosResponse) => response,

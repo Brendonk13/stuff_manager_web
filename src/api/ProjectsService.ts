@@ -1,5 +1,4 @@
-// import { type CreateUnprocessedRequestBody, type CreateUnprocessedResponse, type GetUnprocessedResponse } from "@/types/Common"
-import { type ListProjectsResponse } from "@/types/Project"
+import { type ListProjectsResponse, type GetProjectResponse } from "@/types/Project"
 
 import { CreateApiService } from './Service'
 
@@ -9,3 +8,6 @@ export const ProjectsService = CreateApiService({
 
 export const listProjects = () =>
     ProjectsService.get<ListProjectsResponse>(``).then(res => res.data)
+
+export const getProject = (projectId: number) =>
+    ProjectsService.get<GetProjectResponse>(`/${projectId}`).then(res => res.data)

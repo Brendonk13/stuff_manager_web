@@ -37,6 +37,8 @@ export interface ControlledAutocompleteProps<
   AutoCompleteProps?: any // AutocompleteProps
   // createFilterOptions: () => typeof createFilterOptions,
   placeholder?: string
+  // getOptionKey?: (option: string | object) => string | number,
+  // getOptionKey?: (option: string | object) => string | number,
   getOptionLabel?: (option: string | object) => string,
   // newChoicePrefix?: string,
   filterOptions: (options: Option[], newValue: Option) => Option[]
@@ -58,6 +60,7 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
   multiple = false,
   TextFieldProps = {},
   AutoCompleteProps = {},
+  // getOptionKey,
   getOptionLabel = (option) => option?.label ?? option,
   placeholder = '',
   // textFieldValue,
@@ -84,6 +87,7 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
           // clearOnBlur
           handleHomeEndKeys
           freeSolo
+          // getOptionKey={getOptionKey} // this not recognized for some reason as in material ui doesnt know it event hot its here: https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-getOptionKey
           options={options}
           filterSelectedOptions
           getOptionLabel={getOptionLabel}

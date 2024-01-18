@@ -3,12 +3,13 @@ import { AxiosError } from 'axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useParams } from 'react-router-dom'
 // import { z } from "zod"
+import PageLayout from "@/layouts/Page"
 import * as React from 'react'
 //import Box from '@mui/material/Box'
 import { InputLabel, Switch, Typography, Button, Box, Stack, Divider, TextField } from '@mui/material'
 import { FormProvider, useForm, useFieldArray, type FieldArrayWithId } from "react-hook-form"
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
-import { CreateItemSchema, type CreateItem, defaultProject, defaultStep } from "@/types/Action"
+import { CreateItemSchema, type CreateItem, defaultProject, defaultAction } from "@/types/Action"
 import ActionableForm from "@/components/processItem/ActionableStepsForm"
 import useWriteBearer from "@/hooks/useWriteBearer"
 import useGetUnprocessed from "@/hooks/api/useGetUnprocessed"
@@ -35,7 +36,7 @@ export default function ProcessItemPage() {
     unprocessedId: 0,
     project: defaultProject,
     // project_titles: ["project titles"],
-    steps: [defaultStep], // if .length > 1, this is a project
+    actions: [defaultAction], // if .length > 1, this is a project
   }
 
 
@@ -50,8 +51,9 @@ export default function ProcessItemPage() {
     formState: { errors, },
   } = methods
 
-  React.useEffect(() =>
-    setValue('unprocessedId', Number(unprocessedId) ?? 0), [setValue, unprocessedId]
+  React.useEffect(
+    () => setValue('unprocessedId', Number(unprocessedId) ?? 0),
+    [setValue, unprocessedId]
   )
 
     // foirm will fail cuz I dont have an unprocessedId in the form
@@ -76,38 +78,40 @@ export default function ProcessItemPage() {
 
 
   return (
-    <Box sx={{ width: '100%', padding: 2, }} component="form" onSubmit={handleSubmit(onSubmit)}>
-      <FormProvider {...methods}>
-      <Stack spacing={2}>
+    <PageLayout>
+      <Box sx={{ width: '100%', padding: 2, }} component="form" onSubmit={handleSubmit(onSubmit)}>
+        <FormProvider {...methods}>
+        <Stack spacing={2}>
 
-      <Stack >
-        <Typography variant="h2"> {unprocessedData?.data?.title || ""} </Typography>
-        <Typography sx={{padding: 2}}> {unprocessedData?.data?.description || ""} </Typography>
-      </Stack>
-        <Divider sx={{borderBottomWidth:2}}/>
-        <Stack direction="row">
-        <Typography variant="h3">Actionable?</Typography>
-          <Switch
-            onChange={() => {setActionable(!actionable)}}
-            checked={actionable}
-          />
+        <Stack >
+          <Typography variant="h2"> {unprocessedData?.data?.title || ""} </Typography>
+          <Typography sx={{padding: 2}}> {unprocessedData?.data?.description || ""} </Typography>
         </Stack>
-          <br/>
-        {actionable &&
-          <ActionableForm />
-        }
-        <Box sx={{ display: "flex",  justifyContent: "center" }}>
-            {/* todo: dont make this red but maybe just disabled -- no this is less clear*/}
-          <Button type="submit" variant="contained" sx={{  width: "75%" }} color={Object.keys(errors).length > 0 ? "error" : "primary"}>
-          {/* <Button type="submit" variant="contained" sx={{  width: "75%" }} disabled={Object.keys(errors).length > 0}> */}
-            submit
-            {/* <Typography variant="h2"> */}
-            {/* SUBMIT */}
-            {/* </Typography> */}
-          </Button>
-        </Box>
-      </Stack>
-      </FormProvider>
-    </Box>
+          <Divider sx={{borderBottomWidth:2}}/>
+          <Stack direction="row">
+          <Typography variant="h3">Actionable?</Typography>
+            <Switch
+              onChange={() => {setActionable(!actionable)}}
+              checked={actionable}
+            />
+          </Stack>
+            <br/>
+          {actionable &&
+            <ActionableForm />
+          }
+          <Box sx={{ display: "flex",  justifyContent: "center" }}>
+              {/* todo: dont make this red but maybe just disabled -- no this is less clear*/}
+            <Button type="submit" variant="contained" sx={{  width: "75%" }} color={Object.keys(errors).length > 0 ? "error" : "primary"}>
+            {/* <Button type="submit" variant="contained" sx={{  width: "75%" }} disabled={Object.keys(errors).length > 0}> */}
+              submit
+              {/* <Typography variant="h2"> */}
+              {/* SUBMIT */}
+              {/* </Typography> */}
+            </Button>
+          </Box>
+        </Stack>
+        </FormProvider>
+      </Box>
+    </PageLayout>
   )
 }

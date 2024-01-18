@@ -1,4 +1,3 @@
-//import * as React from 'react'
 import { createFilterOptions, Typography, Button, Box, Stack, Divider, IconButton, Paper, InputLabel } from '@mui/material'
 import { useFormContext, useFieldArray } from "react-hook-form"
 // import { useSnackbarContext } from '@/contexts/SnackbarContext'
@@ -11,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ControlledAutoComplete from "@/components/controlled/ControlledAutoComplete"
 import ControlledSlider from "@/components/controlled/ControlledSlider"
 import useListProjects from "@/hooks/api/useListProjects"
-import { type Project, defaultStep, defaultProject} from "@/types/Action"
+import { type Project, defaultAction, defaultProject} from "@/types/Action"
 import { type Option } from "@/types/Common"
 
 
@@ -28,7 +27,6 @@ function getOptionLabel(option: string | Project){
 function addNewProjectToOptions(options: Option[], params: any){
   const filter = createFilterOptions<string | Project>()
   const filtered = filter(options, params);
-  console.log("filterOptions", {options}, {params}, {filtered})
 
   const { inputValue, getOptionLabel } = params;
   // Suggest the creation of a new value unless they have entered an existing one
@@ -40,7 +38,6 @@ function addNewProjectToOptions(options: Option[], params: any){
       realName: inputValue,
     });
   }
-  console.log("AFTER", {filtered})
 
   return filtered;
 }
@@ -53,13 +50,11 @@ function extractNewProjectName(event, chosenOption){
   }
 }
 
-export default function ActionableStepsForm(){
-  const { control, formState: {errors,}, } = useFormContext()
-  const { fields, remove, append } = useFieldArray({ control, name: "steps" })
+export default function ActionableForm(){
+  const { control } = useFormContext()
+  const { fields, remove, append } = useFieldArray({ control, name: "actions" })
   const projects = useListProjects()
   const options = projects?.data ?? [defaultProject]
-  const filter = createFilterOptions<string | Project>();
-  // console.log("options for autocomplete", {options})
   return (
       <>
         {/* <Box sx={{ display: "flex", flexDirection: "column" }}> */}
@@ -90,16 +85,16 @@ export default function ActionableStepsForm(){
           }}
         >
         <Stack direction="row">
-          <Typography variant="h3">Steps</Typography>
+          <Typography variant="h3">Actions</Typography>
           <IconButton
             color="primary"
-            onClick={() => append(defaultStep)}
+            onClick={() => append(defaultAction)}
           >
             <AddIcon />
           </IconButton>
         </Stack>
 
-        {/*  ======================== STEPS ======================== */}
+        {/*  ======================== ACTIONS ======================== */}
         <Stack spacing={5}>
           {fields.map((field, index) => {
             return (
@@ -121,7 +116,7 @@ export default function ActionableStepsForm(){
                 }}>
                   <ControlledTextField
                     control={control}
-                    name={`steps[${index}].title`}
+                    name={`actions[${index}].title`}
                     label="Title"
                     TextFieldProps={{
                       sx: {
@@ -132,7 +127,7 @@ export default function ActionableStepsForm(){
                   />
                   <ControlledTextField
                     control={control}
-                    name={`steps[${index}].description`}
+                    name={`actions[${index}].description`}
                     label="Description"
                     TextFieldProps={{
                       multiline: true,
@@ -152,7 +147,7 @@ export default function ActionableStepsForm(){
                 <ControlledSlider
                   control={control}
                   label="Energy"
-                  name={`steps[${index}].energy`}
+                  name={`actions[${index}].energy`}
                   min={0}
                   step={1}
                   max={10}
@@ -170,37 +165,37 @@ export default function ActionableStepsForm(){
                   <ControlledDatePicker
                     control={control}
                     label="Date"
-                    name={`steps[${index}].date`}
+                    name={`actions[${index}].date`}
                     />
                 </Box>
                 <Stack padding={1}>
                   <ControlledCheckBox
                     control={control}
                     label="Someday/Maybe ?"
-                    defaultValue={defaultStep.somedayMaybe}
-                    name={`steps[${index}].somedayMaybe`}
+                    defaultValue={defaultAction.somedayMaybe}
+                    name={`actions[${index}].somedayMaybe`}
                   />
                   <ControlledCheckBox
                     control={control}
                     label="Cannot be done yet ?"
-                    defaultValue={defaultStep.cannotBeDoneYet}
-                    name={`steps[${index}].cannotBeDoneYet`}
+                    defaultValue={defaultAction.cannotBeDoneYet}
+                    name={`actions[${index}].cannotBeDoneYet`}
                   />
                   <ControlledCheckBox
                     control={control}
                     label="Delegate ?"
-                    defaultValue={defaultStep.delegate}
-                    name={`steps[${index}].delegate`}
+                    defaultValue={defaultAction.delegated}
+                    name={`actions[${index}].delegated`}
                   />
                 </Stack>
                 <NestedTagsArray
-                  parentName="steps"
+                  parentName="actions"
                   nestIndex={index}
                   label="Tags"
                   name="tags"
                 />
                 <NestedTagsArray
-                  parentName="steps"
+                  parentName="actions"
                   nestIndex={index}
                   name="requiredContext"
                   label="Required context"
@@ -211,8 +206,8 @@ export default function ActionableStepsForm(){
           })
           }
         </Stack>
-        <Button variant="contained" sx={{alignItems: "start", width: "25%" }} onClick={() => append(defaultStep) }>
-        Add Step
+        <Button variant="contained" sx={{alignItems: "start", width: "25%" }} onClick={() => append(defaultAction) }>
+        Add Action
         </Button>
       </Paper>
       <br/>

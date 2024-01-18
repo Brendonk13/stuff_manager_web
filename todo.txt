@@ -1,7 +1,8 @@
 next:
-    1. fix so you can make a new project in the form by following mui example
-    - fix naming: change from item to actions
-    - fix naming: change from step to action
+    - have list views for different things
+        - list projects:
+            - be able to view actions from here
+
     - add hook for createActionable
     - fix types and form so that projects work with ID's
         -- rn works with strings
@@ -29,6 +30,8 @@ Autocomplete:
 
 
 Actionable form todo:
+    FIX:
+        - when you create a new thing, it autofills the form with the values from the previous form
 
     Energy slider:
         - see what it looks like to change the color as you slide: https://codesandbox.io/p/sandbox/slider-with-colors-material-ui-io4q7?file=%2Fdemo.js

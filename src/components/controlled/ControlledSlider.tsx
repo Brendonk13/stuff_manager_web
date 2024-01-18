@@ -16,8 +16,6 @@ interface ControlledSliderProps<FieldValueProps extends FieldValues>
   SliderProps?: SliderProps
 }
 
-// todo: pass in marks, step, min, max as input
-
 export default function ControlledSlider<FieldValueProps extends FieldValues>({
   control,
   name,
@@ -31,8 +29,6 @@ export default function ControlledSlider<FieldValueProps extends FieldValues>({
       control={control}
       name={name}
       render={({
-        // fieldState: { error },
-        // field: { onChange, onBlur, value, ref },
         field: { onChange, value },
       }) => (
         <>
