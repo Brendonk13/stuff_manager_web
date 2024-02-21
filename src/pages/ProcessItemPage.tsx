@@ -35,8 +35,7 @@ export default function ProcessItemPage() {
   const defaultValues: CreateItem = {
     unprocessedId: 0,
     project: defaultProject,
-    // project_titles: ["project titles"],
-    actions: [defaultAction], // if .length > 1, this is a project
+    actions: [defaultAction],
   }
 
 
@@ -51,20 +50,19 @@ export default function ProcessItemPage() {
     formState: { errors, },
   } = methods
 
+  // when we get the unprocessedId from the query param, convert to Number and add to form
   React.useEffect(
     () => setValue('unprocessedId', Number(unprocessedId) ?? 0),
     [setValue, unprocessedId]
   )
 
-    // foirm will fail cuz I dont have an unprocessedId in the form
+    // form will fail cuz I dont have an unprocessedId in the form
   const onSubmit = async (data: typeof defaultValues) => {
     try {
       console.log("========================= SUBMIT ============================= ", {data})
       await createActions(data)
 
       openSnackbar({ message: 'Item Processed', type: 'success' })
-      // onClose()
-      // reset(defaultValues)
     } catch (err) {
       const error = err as AxiosError<{ message: string }>
       console.log("form ERROR", err)

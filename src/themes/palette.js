@@ -31,7 +31,7 @@ const Palette = (mode) => {
   colors.grey = [...greyPrimary, ...greyAscent, ...greyConstant];
 
   const paletteColor = ThemeOption(colors);
-  // console.log({paletteColor});
+  console.log({paletteColor});
 
   return createTheme({
     palette: {

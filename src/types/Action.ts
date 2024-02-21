@@ -65,10 +65,11 @@ export type CreateItemResponse = z.infer<typeof CreateItemResponseSchema>
 export type CreateItem = z.infer<typeof CreateItemSchema>
 // export type CreateItemRequest = z.infer<typeof Crea>
 
-export const ListActionSchema = z.object(actionSchemaAll).omit({
-  somedayMaybe: true,
-  delegated: true,
-  cannotBeDoneYet: true
+export const ListActionSchema = z.object({...actionSchemaAll, project: ProjectSchema.optional()} )
+  .omit({
+    somedayMaybe: true,
+    delegated: true,
+    cannotBeDoneYet: true
 })
 
 export type ListActionResponse = z.infer<typeof ListActionSchema>
@@ -77,6 +78,7 @@ export type ListActionResponse = z.infer<typeof ListActionSchema>
 export const ListActionQuerySchema = z.object({
   title: actionSchemaAll.title.optional().nullable(),
   // project_id: z.number().optional().nullable(),
+  // does this mean we want a project to transform it
   project_id: ProjectSchema.optional().nullable().transform(project => project?.id ?? null),
   energy: actionSchemaAll.energy.nullable(),
   date: actionSchemaAll.date.nullable(),

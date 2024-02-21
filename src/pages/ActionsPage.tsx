@@ -1,34 +1,25 @@
 import { AxiosError } from 'axios'
 import { useState, useEffect } from "react"
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, Stack, Button } from "@mui/material"
+import { Divider, Box, Stack, Button } from "@mui/material"
 import { FormProvider, useForm } from "react-hook-form"
+import Action from "@/components/common/Action"
 
 import PageLayout from "@/layouts/Page"
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
 import useListActions from "@/hooks/api/useListActions"
 import ActionsFilterForm from "@/forms/ActionsFilterForm"
 
-import { defaultActionQueryParams, ListActionQuerySchema, type ListActionResponse} from "@/types/Action"
+import { defaultActionQueryParams, ListActionQuerySchema } from "@/types/Action"
 
 export default function ActionsPage(){
-  // let actionQueryParams = useRef<typeof defaultActionQueryParams>()
   const [actionQueryParams, setActionQueryParams] = useState(defaultActionQueryParams)
-  // const [actions, setActions] = useState(useListActions(actionQueryParams))
-  // const [actions, setActions] = useState(useListActions(actionQueryParams))
   const actions = useListActions(actionQueryParams)
-  // const { data, refetch } = useListActions(actionQueryParams)
-  // const actionsList = data
-  // const [actions, setActions] = useState(data)
-  //let actions = useRef<ListActionResponse>()
-  console.log("actions, query filters", actions, { actionQueryParams })
-
-  // useEffect(() => {
-  //   setActions(actionsList)
-  // }, [actionQueryParams])
+  // console.log("actions, query filters", actions, { actionQueryParams })
+  console.log({actions})
 
   // todo: make it so changing this doesnt cause a complete re-render unless actionQueryParams changes
-  const [showing, setShowing] = useState(false);
+  const [showingFilterMenu, setShowingFilterMenu] = useState(false);
   const { openSnackbar } = useSnackbarContext()
 
   // just have autocomplete for: tags, required_context, project_id
@@ -45,15 +36,8 @@ export default function ActionsPage(){
 
   const {
     handleSubmit,
-    // setValue,
     formState: { errors, },
   } = methods
-  // console.log("ERRORS", {errors})
-
-  // useEffect(
-  //   () => { actions.current = useListActions(actionQueryParams as typeof defaultValues) },
-  //   [actionQueryParams],
-  // )
 
   const onSubmit = async (data: typeof defaultActionQueryParams) => {
     try {
@@ -64,8 +48,7 @@ export default function ActionsPage(){
 
       // trigger a re-render with new actions
       setActionQueryParams(data)
-      console.log("new query parameters: ", {actionQueryParams})
-      // actions = useListActions(actionQueryParams)
+      // console.log("new query parameters: ", {actionQueryParams})
     } catch (err) {
       const error = err as AxiosError<{ message: string }>
       console.log("form ERROR", err)
@@ -85,15 +68,17 @@ export default function ActionsPage(){
         <Box sx={{ width: '100%', padding: 2, }} component="form" onSubmit={handleSubmit(onSubmit)}>
           <FormProvider {...methods}>
             <ActionsFilterForm
-              showing={showing}
-              setShowing={setShowing}
+              showing={showingFilterMenu}
+              setShowing={setShowingFilterMenu}
             />
           </FormProvider>
         </Box>
+        {/* todo: decide if I want to keep this */}
+        <Divider/>
         {/* <Button variant="contained" onClick={() => {}}> */}
         {/*   filters */}
         {/* </Button> */}
-        actions
+        {actions?.data?.map(action => <Action key={`Action_${action.id}`} action={action} />)}
       </Stack>
     </PageLayout>
   )

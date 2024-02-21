@@ -108,7 +108,7 @@ export default function ProcessItemDialog({
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignSelf: 'stretch',
-            color: 'primary.main',
+            color: 'secondary.main',
           }}
         >
           Add New Item

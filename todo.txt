@@ -1,4 +1,12 @@
 next:
+    List Actions:
+        - make get_action return the project name
+        - finish components/Action.tsx
+        - need? to add a cluttered mode where I can see lots of diff things at once without having to go to diff page
+            - can toggle this per action AS WELL AS having a button to do it to all actions on the page
+
+    - change Pagelayout to LoggedInLayout
+
     - have list views for different things
         - list projects:
             - be able to view actions from here
@@ -8,8 +16,6 @@ next:
         -- rn works with strings
         -- need to edit the types/Action file s.t project is an object, instead of project_title the string
 
-    - works on postman
-    - then add hook for creating a processed item
     - and api
     processitempage:
         - already getting data from the hook
@@ -61,3 +67,6 @@ Random features:
     -- in additon to other methods
         - can have a "break" mode where you seperate things arbitrarily by space and blur idk
         - I wanted to group my todo list by context first then dates: today and tommorow and later themes
+
+
+theme: https://github.com/flatlogic/react-material-admin
