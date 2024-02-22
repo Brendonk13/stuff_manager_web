@@ -12,20 +12,6 @@ import { Controller, type FieldValues, type UseControllerProps } from 'react-hoo
 import { type Option } from "@/types/Common"
 
 
-//const filter = createFilterOptions();
-
-// interface FilmOptionType {
-//   inputValue?: string;
-//   title: string;
-//   year?: number;
-// }
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-// const top100Films: readonly FilmOptionType[] = [
-//   { title: 'The Shawshank Redemption', year: 1994 },
-//   { title: 'The Godfather', year: 1972 },
-
-// type Options = Option[] | object[]
 
 export interface ControlledAutocompleteProps<
   FieldValueProps extends FieldValues
@@ -37,7 +23,7 @@ export interface ControlledAutocompleteProps<
   AutoCompleteProps?: any // AutocompleteProps
   // createFilterOptions: () => typeof createFilterOptions,
   placeholder?: string
-  // getOptionKey?: (option: string | object) => string | number,
+  getOptionKey?: (option: string | object) => string | number,
   // getOptionKey?: (option: string | object) => string | number,
   getOptionLabel?: (option: string | object) => string,
   // newChoicePrefix?: string,
@@ -60,7 +46,7 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
   multiple = false,
   TextFieldProps = {},
   AutoCompleteProps = {},
-  // getOptionKey,
+  getOptionKey,
   getOptionLabel = (option) => option?.label ?? option,
   placeholder = '',
   // textFieldValue,
@@ -89,10 +75,17 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
           freeSolo
           // getOptionKey={getOptionKey} // this not recognized for some reason as in material ui doesnt know it event hot its here: https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-getOptionKey
           options={options}
+          // getOptionKey={getOptionKey}
           filterSelectedOptions
           getOptionLabel={getOptionLabel}
+          // renderOption={(props, option, state, ownerState) => {
+          //   console.log("TEXT", {option})
+          //   return getOptionLabel(option)
+          // }}
           //onChange={(_e, values) => field.onChange( values)}
-          renderInput={params => (
+          renderInput={params => { 
+            console.log("TEXT", {params})
+            return (
               <TextField
                 {...params}
                 placeholder={placeholder}
@@ -106,7 +99,7 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
                   },
                 }}
               />
-            )
+            )}
           }
         />
       )}

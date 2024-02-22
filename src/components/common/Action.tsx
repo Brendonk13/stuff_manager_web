@@ -48,23 +48,24 @@ export default function Action({action, showProjectName}: ActionProps){
       <Paper elevation={2} sx={{ padding: 1 }}>
       {/* <Paper elevation={2}> */}
         <Stack direction="row" sx={{ justifyContent: "space-between" }}>
+
+          {/* ================== LEFT elements ================== */}
           <Stack>
             {showProjectName && action?.project?.name && (
-              <Link href={`localhost:4000/projects/${action.project.id}`} color="secondary" underline="always" >
+              // todo: make this not be super fucking weird with trying to use xdg-open
+              <Link href={`localhost:4000/projects/${action.project.id}`} color="secondary" underline="always">
                 {action.project.name}
               </Link>
             )}
+            {/* I have this stack so that the link above will appear in the top left without padding but below stack is padded */}
             <Stack sx={{padding: 1}}>
-            <Typography variant="h3">{action?.title || ""}</Typography>
-                        {/* <Link to={user.id}>{user.name}</Link> */}
-            {/* {showProjectName && action?.project?.name && <a href={`localhost:4000/projects/${action.project.id}`}>{action.project.name}</a>} */}
-            <Typography variant="subtitle1">{action?.description || ""}</Typography>
+              <Typography variant="h3">{action?.title || ""}</Typography>
+              <Typography variant="subtitle1">{action?.description || ""}</Typography>
             </Stack>
           </Stack>
+
+          {/* ================== RIGHT elements ================== */}
           <Stack sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end"}}>
-
-            {/* can I show this at the very top of the box */}
-
             <img src={getEnergySymbol(action.energy)} alt="energy" style={{ height: 35, width: 24 }} />
           </Stack>
         </Stack>

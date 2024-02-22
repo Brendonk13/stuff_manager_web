@@ -70,6 +70,7 @@ export default function ActionsPage(){
             <ActionsFilterForm
               showing={showingFilterMenu}
               setShowing={setShowingFilterMenu}
+              // filteredActions={actions?.data}
             />
           </FormProvider>
         </Box>
