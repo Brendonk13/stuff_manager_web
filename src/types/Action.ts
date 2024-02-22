@@ -65,12 +65,16 @@ export type CreateItemResponse = z.infer<typeof CreateItemResponseSchema>
 export type CreateItem = z.infer<typeof CreateItemSchema>
 // export type CreateItemRequest = z.infer<typeof Crea>
 
-export const ListActionSchema = z.object({...actionSchemaAll, project: ProjectSchema.optional()} )
-  .omit({
+export const ListActionSchema = z.array(z.object(
+{
+  ...actionSchemaAll,
+  id: z.number(),
+  project: ProjectSchema.optional(),
+}).omit({
     somedayMaybe: true,
     delegated: true,
     cannotBeDoneYet: true
-})
+}))
 
 export type ListActionResponse = z.infer<typeof ListActionSchema>
 

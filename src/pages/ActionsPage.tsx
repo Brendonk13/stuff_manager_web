@@ -78,7 +78,13 @@ export default function ActionsPage(){
         {/* <Button variant="contained" onClick={() => {}}> */}
         {/*   filters */}
         {/* </Button> */}
-        {actions?.data?.map(action => <Action key={`Action_${action.id}`} action={action} />)}
+        {actions?.data?.map(action => (
+          <Action
+            key={`Action_${action.id}`}
+            action={action}
+            showProjectName={true} // todo: should i always show this ?
+          />
+        ))}
       </Stack>
     </PageLayout>
   )

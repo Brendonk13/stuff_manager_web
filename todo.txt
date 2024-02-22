@@ -7,6 +7,8 @@ next:
 
     - change Pagelayout to LoggedInLayout
 
+    - change list actions to have wider Paper's when using mobile
+
     - have list views for different things
         - list projects:
             - be able to view actions from here

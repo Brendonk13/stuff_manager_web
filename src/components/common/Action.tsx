@@ -16,7 +16,7 @@ import lightning10 from "@/assets/lightning_bolt_yellow_rocket.png"
 
 interface ActionProps {
   action: any
-  projectName?: string
+  showProjectName?: boolean
 }
 
 function getEnergySymbol(energy: number){
@@ -36,7 +36,7 @@ function getEnergySymbol(energy: number){
   }
 }
 
-export default function Action({action, projectName}: ActionProps){
+export default function Action({action, showProjectName}: ActionProps){
 
   // todo: add an info icon for: created, tags, required_contexts, project name
   // this slides in additional info, making each action bigger
@@ -51,9 +51,9 @@ export default function Action({action, projectName}: ActionProps){
             <Typography variant="h3">{action?.title || ""}</Typography>
             <Typography variant="subtitle1">{action?.description || ""}</Typography>
           </Stack>
-          <Stack sx={{ display: "flex", justifyContent: "flex-end"}}>
+          <Stack sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end"}}>
 
-            {projectName && ""}
+            {showProjectName && action?.project?.name && action.project.name}
 
             <img src={getEnergySymbol(action.energy)} alt="energy" style={{ height: 35, width: 24 }} />
           </Stack>
