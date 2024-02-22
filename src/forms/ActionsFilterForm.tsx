@@ -8,6 +8,7 @@ import ExpandMore from "@/components/common/ExpandMore"
 //import MailIcon from '@mui/icons-material/MailIcon';
 //import InboxIcon from '@mui/icons-material/InboxIcon';
 import useListActions from "@/hooks/api/useListActions"
+import { addUid } from "@/utils/uID"
 
 function getOptionLabel(option: string | Project | Action){
   // console.log("============================================================getoptionlabel", {option}, "name", option?.name)
@@ -70,6 +71,9 @@ export default function ActionsFilterForm({
             name="title"
             label=""
             getOptionLabel={getOptionLabel}
+            getOptionKey={option => {
+              return `Action_Filter_${addUid(option)}`
+            }}
             options={actionTitleOptions.map(action => action?.title)}
             AutoCompleteProps={{ sx:{ width: '60%', } }}
           />

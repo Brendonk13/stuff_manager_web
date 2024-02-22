@@ -75,7 +75,7 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
           freeSolo
           // getOptionKey={getOptionKey} // this not recognized for some reason as in material ui doesnt know it event hot its here: https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-getOptionKey
           options={options}
-          // getOptionKey={getOptionKey}
+          getOptionKey={getOptionKey}
           filterSelectedOptions
           getOptionLabel={getOptionLabel}
           // renderOption={(props, option, state, ownerState) => {
@@ -83,9 +83,7 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
           //   return getOptionLabel(option)
           // }}
           //onChange={(_e, values) => field.onChange( values)}
-          renderInput={params => { 
-            console.log("TEXT", {params})
-            return (
+          renderInput={params => (
               <TextField
                 {...params}
                 placeholder={placeholder}
@@ -99,7 +97,7 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
                   },
                 }}
               />
-            )}
+            )
           }
         />
       )}
