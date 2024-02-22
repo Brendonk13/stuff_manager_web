@@ -73,11 +73,8 @@ export default function ActionsPage(){
             />
           </FormProvider>
         </Box>
-        {/* todo: decide if I want to keep this */}
+        {/* todo: decide if I want to keep this divider */}
         <Divider/>
-        {/* <Button variant="contained" onClick={() => {}}> */}
-        {/*   filters */}
-        {/* </Button> */}
         {actions?.data?.map(action => (
           <Action
             key={`Action_${action.id}`}

@@ -46,7 +46,9 @@ export default function ProjectDetailsPage(){
         {/* todo: change from saying "default notes" */}
           <Typography sx={{padding: 2}}>{project?.notes || "default notes"}</Typography>
         </Collapse>
-        {actions?.data?.map(action => <Action key={`Action_${action.id}`} action={action} />)}
+        {actions?.data?.map(action => (
+          <Action key={`Action_${action.id}`} action={action} />
+        ))}
     </PageLayout>
   )
 }

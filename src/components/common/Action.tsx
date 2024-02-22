@@ -1,4 +1,4 @@
-import { Paper, Typography, Button, Box, Stack, Divider } from '@mui/material'
+import { Link, Paper, Typography, Button, Box, Stack, Divider } from '@mui/material'
 // import AssignmentIcon from '@mui/icons-material/Assignment';
 // import lightning from "@/assets/lightning_bolt_yellow.svg"
 import lightning0 from "@/assets/lightning_bolt_yellow.png"
@@ -45,15 +45,25 @@ export default function Action({action, showProjectName}: ActionProps){
   return (
     <Stack padding={1}>
       {/* <Paper sx={{ padding: 2, bgcolor: "action.disabled" }}> */}
-      <Paper elevation={2} sx={{ padding: 2 }}>
+      <Paper elevation={2} sx={{ padding: 1 }}>
+      {/* <Paper elevation={2}> */}
         <Stack direction="row" sx={{ justifyContent: "space-between" }}>
           <Stack>
+            {showProjectName && action?.project?.name && (
+              <Link href={`localhost:4000/projects/${action.project.id}`} color="secondary" underline="always" >
+                {action.project.name}
+              </Link>
+            )}
+            <Stack sx={{padding: 1}}>
             <Typography variant="h3">{action?.title || ""}</Typography>
+                        {/* <Link to={user.id}>{user.name}</Link> */}
+            {/* {showProjectName && action?.project?.name && <a href={`localhost:4000/projects/${action.project.id}`}>{action.project.name}</a>} */}
             <Typography variant="subtitle1">{action?.description || ""}</Typography>
+            </Stack>
           </Stack>
           <Stack sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end"}}>
 
-            {showProjectName && action?.project?.name && action.project.name}
+            {/* can I show this at the very top of the box */}
 
             <img src={getEnergySymbol(action.energy)} alt="energy" style={{ height: 35, width: 24 }} />
           </Stack>
