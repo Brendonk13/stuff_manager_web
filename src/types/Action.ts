@@ -1,10 +1,22 @@
 import z from "zod"
 
-export const TagSchema = z.object({
+const TagObject = {
+  id: z.number().optional(), // list_actions returns tags without id's, todo: should I return those Id's?
   value: z.string().min(1, "Please enter a value"),
-})
+}
 
+export const TagSchema = z.object(TagObject)
 export type Tag = z.infer<typeof TagSchema>
+
+// export const ListTagSchema = z.object({
+//   message: z.string(),
+//   data: z.array(TagSchema),
+// })
+
+export const ListTagSchema = z.array(TagSchema)
+
+export type ListTagResponse = z.infer<typeof ListTagSchema>
+
 
 // todo: cleanup project
 export const ProjectSchema = z.object({
@@ -86,10 +98,29 @@ export const ListActionQuerySchema = z.object({
   project_id: ProjectSchema.optional().nullable().transform(project => project?.id ?? null),
   energy: actionSchemaAll.energy.nullable(),
   date: actionSchemaAll.date.nullable(),
-  tags: actionSchemaAll.tags.nullable(),
+  // tags: z.array(TagSchema).optional().nullable().transform(tag => [tag] ),
+  // todo: why is the transform not running when I use z.array
+  tags: TagSchema.optional().nullable().transform(tag => {
+      if (!tag){ return null } // must return null to not use this query param
+
+    // something is converting it to the string '["undefined"]'
+      const data = Array.isArray(tag)
+        ? tag
+        : [tag]
+      console.log("LIST TAG SCHEMA", data)
+      return data
+  }),
+
+  // tags: actionSchemaAll.tags.nullable().transform(tag => [tag] ),
+  // tags: actionSchemaAll.tags.nullable().transform(tag => {
+  //     return Array.isArray(tag)
+  //       ? tag
+  //       : [tag]
+  // }),
   requiredContext: actionSchemaAll.requiredContext.nullable(),
 })
 export type ListActionQueryParams = z.infer<typeof ListActionQuerySchema>
+
 
 // =============================== defaults ===============================
 
@@ -106,7 +137,7 @@ export const defaultActionQueryParams: ListActionQueryParams = {
   title: null,
   project_id: null,
   energy: null,
-  date: null,
+  date: null, // make this date ranges maybe one day idk
   tags: null,
   requiredContext: null,
 }

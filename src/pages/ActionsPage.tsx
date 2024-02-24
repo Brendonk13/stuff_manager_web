@@ -14,6 +14,8 @@ import { defaultActionQueryParams, ListActionQuerySchema } from "@/types/Action"
 
 export default function ActionsPage(){
   const [actionQueryParams, setActionQueryParams] = useState(defaultActionQueryParams)
+
+  // the issue is that its not re-rendering upon getting the hook data and for some reason the hook is then called again
   const actions = useListActions(actionQueryParams)
   // console.log("actions, query filters", actions, { actionQueryParams })
   console.log({actions})
@@ -39,12 +41,13 @@ export default function ActionsPage(){
     formState: { errors, },
   } = methods
 
+  if (Object.keys(errors).length > 0){
+    console.log("ACTIONS PAGE QUERY FILTER ERRORS", {errors})
+  }
+
   const onSubmit = async (data: typeof defaultActionQueryParams) => {
     try {
       console.log("========================= SUBMIT ============================= ", {data})
-      // const transformedData = {
-      //   project_id: data.project_id.project_id,
-      // }
 
       // trigger a re-render with new actions
       setActionQueryParams(data)
@@ -70,7 +73,6 @@ export default function ActionsPage(){
             <ActionsFilterForm
               showing={showingFilterMenu}
               setShowing={setShowingFilterMenu}
-              // filteredActions={actions?.data}
             />
           </FormProvider>
         </Box>

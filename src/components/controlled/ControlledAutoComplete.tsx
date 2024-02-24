@@ -78,10 +78,6 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
           getOptionKey={getOptionKey}
           filterSelectedOptions
           getOptionLabel={getOptionLabel}
-          // renderOption={(props, option, state, ownerState) => {
-          //   console.log("TEXT", {option})
-          //   return getOptionLabel(option)
-          // }}
           //onChange={(_e, values) => field.onChange( values)}
           renderInput={params => (
               <TextField

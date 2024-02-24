@@ -166,7 +166,7 @@ export default function ActionableForm(){
                     control={control}
                     label="Date"
                     name={`actions[${index}].date`}
-                    />
+                  />
                 </Box>
                 <Stack padding={1}>
                   <ControlledCheckBox

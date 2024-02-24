@@ -1,6 +1,11 @@
 next:
     List Actions:
-        - make get_action return the project name
+        - Figure out why filtering tags has so many renders and times the hook is called
+
+
+        - Add controlled autocompletes for everything: tags etc
+        add check marks to each filter so can disable each individually
+        - and master check to disable all
         - finish components/Action.tsx
         - need? to add a cluttered mode where I can see lots of diff things at once without having to go to diff page
             - can toggle this per action AS WELL AS having a button to do it to all actions on the page
