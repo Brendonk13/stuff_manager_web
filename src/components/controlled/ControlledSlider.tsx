@@ -35,6 +35,7 @@ export default function ControlledSlider<FieldValueProps extends FieldValues>({
           <InputLabel id={name}>{label}</InputLabel>
           <Box padding={1} >
             <Slider
+              // valueLabelFormat={((value, idx) => `value:${value}`)}
               value={value}
               defaultValue={defaultValue}
               onChange={onChange}

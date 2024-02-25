@@ -8,6 +8,9 @@ export default function useListActions(queryParams?: ListActionQueryParams){
   if (queryParams?.tags){
     queryParams.tags = convertTags(queryParams.tags)
   }
+  if (queryParams?.requiredContext){
+    queryParams.requiredContext = convertTags(queryParams.requiredContext)
+  }
   // console.log("outside usequery", {queryParams})
 
   return useQuery({

@@ -2,6 +2,11 @@ next:
     List Actions:
         - Figure out why filtering tags has so many renders and times the hook is called
 
+    - clicking projects fails
+
+cool idea:
+    - make it so that the request query params for list actions are appended to the current frontend as query strings
+    - then we can save searches and have a feature for saved queries
 
         - Add controlled autocompletes for everything: tags etc
         add check marks to each filter so can disable each individually

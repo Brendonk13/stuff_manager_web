@@ -11,6 +11,7 @@ import { defaultActionQueryParams, defaultAction, defaultProject, type Project, 
 import useListProjects from "@/hooks/api/useListProjects"
 import useListActions from "@/hooks/api/useListActions"
 import useListTags from "@/hooks/api/useListTags"
+import useListContexts from "@/hooks/api/useListContexts"
 import { addUid } from "@/utils/uID"
 
 function getOptionLabel(option: string | Project | Action | Tag){
@@ -51,6 +52,9 @@ export default function ActionsFilterForm({
 
   const tags = useListTags()
   const tagOptions = tags?.data ?? [defaultValue]
+
+  const contexts = useListContexts()
+  const contextOptions = contexts?.data ?? [defaultValue]
   // console.log("TAGS", {tags})
 
   const handleExpandClick = () => { setShowing(!showing) }
@@ -99,21 +103,33 @@ export default function ActionsFilterForm({
           />
           <br />
 
+          {/* todo: figure out how to reset this */}
+          {/* 1. could use -1 as proxy value but can only have slider display nums not null or clear*/}
+          {/* could just show an X button */}
+          dont like having to just reload to reset since then we gotta re-apply the other queries
           <ControlledSlider
             control={control}
             label="Energy"
             name="energy"
-            defaultValue={null} // null values not used in query string
-            min={0}
-            step={1}
-            max={10}
-            sx={{
-                width: '60%',
+            SliderProps={{
+              defaultValue:null, // null values not used in query string
+              min: 0,
+              step: 1,
+              max: 10,
+              sx: { width: '60%', },
+              marks: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => {
+                if (typeof i === "number")
+                  // if (i === -1) return { label: -1, value: -1 }
+                  return {
+                    label: i,
+                    value: i,
+                  }
+                return {
+                  label: -1,
+                  value: null,
+                }
+              })
             }}
-            marks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => ({
-              label: i,
-              value: i
-            }))}
           />
           <br />
 
@@ -130,7 +146,6 @@ export default function ActionsFilterForm({
           {/* <br/> */}
 
           <ControlledAutoComplete
-            // I think the issue is that 
             placeholder="Tags"
             control={control}
             name="tags"
@@ -138,7 +153,21 @@ export default function ActionsFilterForm({
             getOptionLabel={getOptionLabel}
             options={tagOptions}
             getOptionKey={option => `${keyPrefix}_tags_${addUid(option.value)}`}
-            //multiple={true}
+            // multiple={true} // todo: make this work, will require some thought since need to change types to an array even [null] which is annoying
+            AutoCompleteProps={{ sx:{ width: '60%', } }}
+          />
+          <br />
+
+
+          <ControlledAutoComplete
+            placeholder="Contexts"
+            control={control}
+            name="requiredContext"
+            label=""
+            getOptionLabel={getOptionLabel}
+            options={contextOptions}
+            getOptionKey={option => `${keyPrefix}_contexts_${addUid(option.value)}`}
+            //multiple={true}  // todo: change
             AutoCompleteProps={{ sx:{ width: '60%', } }}
           />
 

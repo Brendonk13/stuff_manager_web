@@ -16,6 +16,7 @@ export type Tag = z.infer<typeof TagSchema>
 export const ListTagSchema = z.array(TagSchema)
 
 export type ListTagResponse = z.infer<typeof ListTagSchema>
+export type ListContextResponse = ListTagResponse
 
 
 // todo: cleanup project
@@ -90,6 +91,18 @@ export const ListActionSchema = z.array(z.object(
 
 export type ListActionResponse = z.infer<typeof ListActionSchema>
 
+const tagQueryParamSchemaObject = {
+  tags: TagSchema.optional().nullable().transform(tag => {
+      if (!tag){ return null } // must return null to not use this query param
+
+      const data = Array.isArray(tag)
+        ? tag
+        : [tag]
+      console.log("LIST TAG SCHEMA", data)
+      return data
+  }),
+}
+
 // need optional and nullable since the default value needs to be null NOT undefined (form values cannot have initial value undefined then change)
 export const ListActionQuerySchema = z.object({
   title: actionSchemaAll.title.optional().nullable(),
@@ -100,16 +113,7 @@ export const ListActionQuerySchema = z.object({
   date: actionSchemaAll.date.nullable(),
   // tags: z.array(TagSchema).optional().nullable().transform(tag => [tag] ),
   // todo: why is the transform not running when I use z.array
-  tags: TagSchema.optional().nullable().transform(tag => {
-      if (!tag){ return null } // must return null to not use this query param
-
-    // something is converting it to the string '["undefined"]'
-      const data = Array.isArray(tag)
-        ? tag
-        : [tag]
-      console.log("LIST TAG SCHEMA", data)
-      return data
-  }),
+  tags: tagQueryParamSchemaObject.tags,
 
   // tags: actionSchemaAll.tags.nullable().transform(tag => [tag] ),
   // tags: actionSchemaAll.tags.nullable().transform(tag => {
@@ -117,7 +121,8 @@ export const ListActionQuerySchema = z.object({
   //       ? tag
   //       : [tag]
   // }),
-  requiredContext: actionSchemaAll.requiredContext.nullable(),
+  // requiredContext: actionSchemaAll.requiredContext.nullable(),
+  requiredContext: tagQueryParamSchemaObject.tags,
 })
 export type ListActionQueryParams = z.infer<typeof ListActionQuerySchema>
 
