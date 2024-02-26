@@ -15,16 +15,7 @@ export const createActions = (body: CreateItem) =>
 export const listActions = async (queryParams?: ListActionQueryParams) => {
   const config = {params: queryParams}
 
-  // turn tags into a normal string and make it query param
-
-  // if (queryParams?.tags){
-  //   queryParams.tags = tagsString
-  // }
-  // else {
-  //   console.log("NO TAGS", {queryParams})
-  // }
-
   const data = await ActionsService.get<ListActionResponse>(``, config).then(res => res.data)
-  console.log("SERVICE", {data})
+  // console.log("SERVICE", {data})
   return data
 }

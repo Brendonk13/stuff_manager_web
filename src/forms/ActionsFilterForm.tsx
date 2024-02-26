@@ -7,7 +7,7 @@ import ControlledDatePicker from "@/components/controlled/ControlledDatePicker"
 import ExpandMore from "@/components/common/ExpandMore"
 
 import { useFormContext } from "react-hook-form"
-import { defaultActionQueryParams, defaultAction, defaultProject, type Project, type Action, type Tag } from "@/types/Action"
+import { defaultActionQueryParams, defaultAction, defaultProject as _defaultProject, type Project, type Action, type Tag, type ListActionQueryParams } from "@/types/Action"
 import useListProjects from "@/hooks/api/useListProjects"
 import useListActions from "@/hooks/api/useListActions"
 import useListTags from "@/hooks/api/useListTags"
@@ -25,6 +25,7 @@ function getOptionLabel(option: string | Project | Action | Tag){
 type ActionsFilterFormProps = {
   showing: boolean
   setShowing: React.Dispatch<React.SetStateAction<boolean>>
+  initialFormValues: ListActionQueryParams
   // filteredActions: any[] // tbh I should have each filter be independant as far as autocomplete goes
   // actions: any[] // Note: can pass in actions from parent to only search thru actions meeting current filter criteria and not all actions every time
 }
@@ -38,29 +39,35 @@ function extractProjectId(e: SyntheticEvent, option: string | object) {
 export default function ActionsFilterForm({
     showing,
     setShowing,
+    initialFormValues,
   }: ActionsFilterFormProps){
   const { control } = useFormContext()
-  const projects = useListProjects()
-
   // defaultValue is null so that its not in the query string
   const defaultValue = null
-
-  const projectOptions = projects?.data ?? [defaultValue]
-
   const allActions = useListActions(defaultActionQueryParams)
-  const actionTitleOptions = allActions?.data ?? [defaultValue]
-
   const tags = useListTags()
-  const tagOptions = tags?.data ?? [defaultValue]
-
+  const projects = useListProjects()
   const contexts = useListContexts()
-  const contextOptions = contexts?.data ?? [defaultValue]
+
+  const actionTitleOptions = allActions?.data ?? [defaultValue]
+  // actionTitleOptions.map(action => action?.title)
+  const projectOptions     = projects?.data ?? [defaultValue]
+  const tagOptions         = tags?.data ?? [defaultValue]
+  const contextOptions     = contexts?.data ?? [defaultValue]
   // console.log("TAGS", {tags})
+
+  let defaultProject = _defaultProject
+  if (initialFormValues?.project_id !== null){
+    const tmp = projectOptions.filter(project =>  project?.id == initialFormValues.project_id)
+    if (tmp.length > 0){
+      defaultProject = tmp[0]
+    }
+  }
 
   const handleExpandClick = () => { setShowing(!showing) }
 
   const keyPrefix = "Action_Filter"
-
+  console.log({initialFormValues})
   // todo: should someday_maybe, delegated be in tags or seperate (checkboxes)
   // todo: be able to save queries ?
   return (
@@ -86,8 +93,11 @@ export default function ActionsFilterForm({
             label=""
             getOptionLabel={getOptionLabel}
             getOptionKey={option => `${keyPrefix}_name_${addUid(option)}`}
-            options={actionTitleOptions.map(action => action?.title)}
-            AutoCompleteProps={{ sx:{ width: '60%', } }}
+            options={actionTitleOptions}
+            AutoCompleteProps={{
+              sx: { width: '60%', },
+              value: initialFormValues?.title ?? "",
+            }}
           />
           <br/>
 
@@ -99,7 +109,10 @@ export default function ActionsFilterForm({
             getOptionLabel={getOptionLabel}
             options={projectOptions}
             // onChange={extractProjectId} // I dont think I need this since I have the transform in the zod schema: ListActionQuerySchema
-            AutoCompleteProps={{ sx:{ width: '60%', } }}
+            AutoCompleteProps={{
+              sx:{ width: '60%', },
+              value: defaultProject,
+            }}
           />
           <br />
 
@@ -154,7 +167,7 @@ export default function ActionsFilterForm({
           <ControlledAutoComplete
             placeholder="Contexts"
             control={control}
-            name="requiredContext"
+            name="required_context"
             label=""
             getOptionLabel={getOptionLabel}
             options={contextOptions}

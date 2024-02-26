@@ -2,7 +2,7 @@
 export default function convertTagsQueryParamsToString(tags: any): string {
   // I know whats happening
   // this conversion needs to be done in the hook
-  console.log("original tags", tags)
+  // console.log("original tags", tags)
   let tagsString
 
   if (Array.isArray(tags)){
@@ -23,6 +23,6 @@ export default function convertTagsQueryParamsToString(tags: any): string {
     console.error("Could not parse tags in listActions service")
   }
 
-  console.log("used tagString", tagsString)
+  // console.log("used tagString", tagsString)
   return tagsString
 }

@@ -8,7 +8,7 @@ import {
   // Typography,
 } from '@mui/material'
 import type { Dispatch, SetStateAction, SyntheticEvent } from 'react'
-import { Controller, type FieldValues, type UseControllerProps } from 'react-hook-form'
+import { Controller, type FieldValues, type UseControllerProps, type AutocompleteProps } from 'react-hook-form'
 import { type Option } from "@/types/Common"
 
 
@@ -20,7 +20,8 @@ export interface ControlledAutocompleteProps<
   options: Option[],  // todo: change?
   multiple?: boolean
   TextFieldProps?: TextFieldProps
-  AutoCompleteProps?: any // AutocompleteProps
+  //AutoCompleteProps?: any // AutocompleteProps
+  AutoCompleteProps?: AutocompleteProps // AutocompleteProps
   // createFilterOptions: () => typeof createFilterOptions,
   placeholder?: string
   getOptionKey?: (option: string | object) => string | number,

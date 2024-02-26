@@ -31,14 +31,14 @@ function extractSearchParamsFromForm(formData){
 
 function extractSearchParamsFromURL(searchParams){
   const params: ListActionQueryParams = {}
-  const energy    = searchParams.get("energy")
-  const title     = searchParams.get("title")
-  const projectId = searchParams.get("project_id")
-  const tags      = searchParams.get("tags")
-  const required_context  = searchParams.get("required_context")
+  const energy           = searchParams.get("energy")
+  const title            = searchParams.get("title")
+  const project_id       = searchParams.get("project_id")
+  const tags             = searchParams.get("tags")
+  const required_context = searchParams.get("required_context")
   if (energy           ) params.energy           = energy
   if (title            ) params.title            = title
-  if (projectId        ) params.project_id       = projectId
+  if (project_id       ) params.project_id       = project_id
   if (tags             ) params.tags             = tags
   if (required_context ) params.required_context = required_context
 
@@ -48,9 +48,9 @@ function extractSearchParamsFromURL(searchParams){
 export default function ActionsPage(){
   // todo: check if there are existing query strings, if so then automatically submit form
   const [searchParams, setSearchParams] = useSearchParams()
-  const merged = {...defaultActionQueryParams, ...extractSearchParamsFromURL(searchParams)}
+  const initialFormValues = {...defaultActionQueryParams, ...extractSearchParamsFromURL(searchParams)}
 
-  const [actionQueryParams, setActionQueryParams] = useState(merged)
+  const [actionQueryParams, setActionQueryParams] = useState(initialFormValues)
   // the issue is that its not re-rendering upon getting the hook data and for some reason the hook is then called again
   const actions = useListActions(actionQueryParams)
   // console.log("actions, query filters", actions, { actionQueryParams })
@@ -115,6 +115,7 @@ export default function ActionsPage(){
             <ActionsFilterForm
               showing={showingFilterMenu}
               setShowing={setShowingFilterMenu}
+              initialFormValues={initialFormValues}
             />
           </FormProvider>
         </Box>

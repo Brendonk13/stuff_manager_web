@@ -8,8 +8,8 @@ export default function useListActions(queryParams?: ListActionQueryParams){
   if (queryParams?.tags){
     queryParams.tags = convertTags(queryParams.tags)
   }
-  if (queryParams?.requiredContext){
-    queryParams.requiredContext = convertTags(queryParams.requiredContext)
+  if (queryParams?.required_context){
+    queryParams.required_context = convertTags(queryParams.required_context)
   }
   // console.log("outside usequery", {queryParams})
 
@@ -18,7 +18,7 @@ export default function useListActions(queryParams?: ListActionQueryParams){
     queryFn: async () => {
       console.log("useListActions", {queryParams})
       const data = await listActions(queryParams)
-      console.log("========= HOOK", {data})
+      // console.log("========= HOOK", {data})
       return data
     },
     // ...postQueryKeys.detail(unprocessedId),
