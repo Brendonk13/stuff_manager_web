@@ -1,8 +1,30 @@
 next:
     List Actions:
         - Figure out why filtering tags has so many renders and times the hook is called
+        - fix clearing energy setting
+        - add query params to work via url and functionality to save queries and show these dynamically in the sidebar
+        - maybe just make someday_maybe, delegated, etc always show up first for tags
+        ------^^ do this for now, can change l8r
+            - maybe have checkboxes for filtering by these 3
+            -- this is probs way too confusing
+            -- maybe too complicated, this should be figured out after the fact
 
-    - clicking projects fails
+            -- do I need the concept of lists ie someday_maybe list, food lists
+            -- no but maybe I do need to have the concept of hierarchies
+            -- maybe too complicated, this should be figured out after the fact
+
+
+    CURRENT:
+        - the url is not saving properly when do multiple things
+        http://localhost:4000/actions?energy=0&project_id=7
+        -- tho it is sending the correct query in the api request
+        -- this works when entered
+        -- cannot be automaticlly entered by form
+
+    SideBar
+        - add query params to work via url and functionality to save queries and show these dynamically in the sidebar
+        - view all major lists
+
 
 cool idea:
     - make it so that the request query params for list actions are appended to the current frontend as query strings

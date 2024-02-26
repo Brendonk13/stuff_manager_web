@@ -42,7 +42,7 @@ const actionSchemaAll = {
   somedayMaybe: z.boolean(), // todo: decide if this should just be another tag -- nah then i gotta filter that out everywhere when showing tags
   delegated: z.boolean(),
   cannotBeDoneYet: z.boolean(),
-  requiredContext: z.array(TagSchema).optional(),
+  required_context: z.array(TagSchema).optional(),
   tags: z.array(TagSchema).optional(),
 }
 
@@ -121,8 +121,8 @@ export const ListActionQuerySchema = z.object({
   //       ? tag
   //       : [tag]
   // }),
-  // requiredContext: actionSchemaAll.requiredContext.nullable(),
-  requiredContext: tagQueryParamSchemaObject.tags,
+  // required_context: actionSchemaAll.required_context.nullable(),
+  required_context: tagQueryParamSchemaObject.tags,
 })
 export type ListActionQueryParams = z.infer<typeof ListActionQuerySchema>
 
@@ -144,7 +144,7 @@ export const defaultActionQueryParams: ListActionQueryParams = {
   energy: null,
   date: null, // make this date ranges maybe one day idk
   tags: null,
-  requiredContext: null,
+  required_context: null,
 }
 
 

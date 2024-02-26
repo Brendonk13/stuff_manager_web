@@ -1,6 +1,6 @@
 // import React, { useState } from "react";
 // import { makeStyles } from "@material-ui/core/styles";
-import { Box, InputLabel, Slider, type SliderProps } from "@mui/material"
+import { Button, Stack, Box, InputLabel, Slider, type SliderProps } from "@mui/material"
 // import React from "react"
 import { type ReactElement } from 'react';
 import { Controller, type FieldValues, type UseControllerProps } from "react-hook-form"
@@ -14,6 +14,7 @@ interface ControlledSliderProps<FieldValueProps extends FieldValues>
   extends UseControllerProps<FieldValueProps> {
   label: string | ReactElement
   SliderProps?: SliderProps
+  // clearButton?: boolean
 }
 
 export default function ControlledSlider<FieldValueProps extends FieldValues>({
@@ -21,6 +22,7 @@ export default function ControlledSlider<FieldValueProps extends FieldValues>({
   name,
   label,
   defaultValue,
+  // clearButton,
   SliderProps,
   ...props
 }: ControlledSliderProps<FieldValueProps>){
@@ -32,7 +34,10 @@ export default function ControlledSlider<FieldValueProps extends FieldValues>({
         field: { onChange, value },
       }) => (
         <>
-          <InputLabel id={name}>{label}</InputLabel>
+          {/* <Stack direction="row"> */}
+            <InputLabel id={name}>{label}</InputLabel>
+            {/* {clearButton && <Button onClick={() => value = null}>Clear</Button>} */}
+          {/* </Stack> */}
           <Box padding={1} >
             <Slider
               // valueLabelFormat={((value, idx) => `value:${value}`)}

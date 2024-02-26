@@ -106,29 +106,21 @@ export default function ActionsFilterForm({
           {/* todo: figure out how to reset this */}
           {/* 1. could use -1 as proxy value but can only have slider display nums not null or clear*/}
           {/* could just show an X button */}
-          dont like having to just reload to reset since then we gotta re-apply the other queries
+          {/* dont like having to just reload to reset since then we gotta re-apply the other queries */}
           <ControlledSlider
             control={control}
+            // clearButton={true}
+            // clearButtonClickCallback={} // passed from parents
             label="Energy"
             name="energy"
             SliderProps={{
               defaultValue:null, // null values not used in query string
-              min: 0,
+              min: -1,
               step: 1,
               max: 10,
               sx: { width: '60%', },
-              marks: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => {
-                if (typeof i === "number")
-                  // if (i === -1) return { label: -1, value: -1 }
-                  return {
-                    label: i,
-                    value: i,
-                  }
-                return {
-                  label: -1,
-                  value: null,
-                }
-              })
+              // valueLabelFormat: (value: number, index: number) => "hello",
+              marks: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => ({label: i, value: i, }))
             }}
           />
           <br />
