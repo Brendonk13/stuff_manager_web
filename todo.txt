@@ -15,11 +15,12 @@ next:
 
 
     CURRENT:
-        - the url is not saving properly when do multiple things
-        http://localhost:4000/actions?energy=0&project_id=7
-        -- tho it is sending the correct query in the api request
-        -- this works when entered
-        -- cannot be automaticlly entered by form
+        - energy form not autofilling
+            http://localhost:4000/actions?energy=3&title=attach+project&project_id=7
+            - defaultValue not working
+            - value does but cant change the value when set
+
+            - value not set in query param when I set it to -1
 
         -- doesnt work with the back arrow correctly
             -- can fix this after releasing

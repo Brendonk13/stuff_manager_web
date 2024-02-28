@@ -44,17 +44,29 @@ export default function ActionsFilterForm({
   const { control } = useFormContext()
   // defaultValue is null so that its not in the query string
   const defaultValue = null
-  const allActions = useListActions(defaultActionQueryParams)
+  const actions = useListActions(defaultActionQueryParams)?.data ?? [defaultValue]
   const tags = useListTags()
   const projects = useListProjects()
   const contexts = useListContexts()
 
-  const actionTitleOptions = allActions?.data ?? [defaultValue]
-  // actionTitleOptions.map(action => action?.title)
+  // const allActions = actions?.data ?? [defaultValue]
+
+  // only works when I do title then project
+  // NOT WHEN I FILTER BY PROJECT THEN TITLE
+  // in this case, the resulting query string had project_id, gets replaced with just the title
+
+  const actionTitleOptions = actions.map(action => action?.title)
   const projectOptions     = projects?.data ?? [defaultValue]
   const tagOptions         = tags?.data ?? [defaultValue]
   const contextOptions     = contexts?.data ?? [defaultValue]
   // console.log("TAGS", {tags})
+
+  const defaultTitle = initialFormValues?.title ?? ""
+  // const defaultTitle = ""
+  let defaultEnergy = defaultValue
+  if (initialFormValues?.energy !== null) {
+    defaultEnergy = Number(initialFormValues.energy)
+  }
 
   let defaultProject = _defaultProject
   if (initialFormValues?.project_id !== null){
@@ -64,10 +76,14 @@ export default function ActionsFilterForm({
     }
   }
 
+  // console.log({defaultTitle})
+  console.log({defaultEnergy})
+
   const handleExpandClick = () => { setShowing(!showing) }
 
   const keyPrefix = "Action_Filter"
-  console.log({initialFormValues})
+  // console.log({initialFormValues})
+
   // todo: should someday_maybe, delegated be in tags or seperate (checkboxes)
   // todo: be able to save queries ?
   return (
@@ -96,7 +112,7 @@ export default function ActionsFilterForm({
             options={actionTitleOptions}
             AutoCompleteProps={{
               sx: { width: '60%', },
-              value: initialFormValues?.title ?? "",
+              value: defaultTitle,
             }}
           />
           <br/>
@@ -127,7 +143,9 @@ export default function ActionsFilterForm({
             label="Energy"
             name="energy"
             SliderProps={{
-              defaultValue:null, // null values not used in query string
+              // defaultValue:null, // null values not used in query string
+              // defaultValue: defaultEnergy,
+              value: defaultEnergy,
               min: -1,
               step: 1,
               max: 10,

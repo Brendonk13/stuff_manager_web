@@ -86,13 +86,20 @@ export default function ActionsPage(){
   const onSubmit = async (data: typeof defaultActionQueryParams) => {
     try {
       console.log("========================= SUBMIT ============================= ", {data})
-      if (data?.energy && data.energy === -1){
-        data.energy = null
+      // this function mostly just removes the nulls from appearing in the data so we get clean URLs (no null query string)
+      const dataCombinedWithSearchParams = extractSearchParamsFromForm(
+        {...initialFormValues, ...extractSearchParamsFromForm(data)}
+      )
+
+      if (dataCombinedWithSearchParams?.energy && dataCombinedWithSearchParams.energy === -1){
+        delete dataCombinedWithSearchParams.energy
       }
 
+      // console.log({dataCombinedWithSearchParams}, {data})
+      // set query string so that the form is filled with correct inital values
+      setSearchParams(dataCombinedWithSearchParams)
       // trigger a re-render with new actions
-      setSearchParams(extractSearchParamsFromForm(data))
-      setActionQueryParams(data)
+      setActionQueryParams(dataCombinedWithSearchParams)
       // console.log("new query parameters: ", {actionQueryParams})
     } catch (err) {
       const error = err as AxiosError<{ message: string }>

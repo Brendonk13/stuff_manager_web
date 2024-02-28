@@ -26,6 +26,15 @@ export default function ControlledSlider<FieldValueProps extends FieldValues>({
   SliderProps,
   ...props
 }: ControlledSliderProps<FieldValueProps>){
+
+  const getValue = (value: number | null | undefined) => {
+    // on pageload, the value passed in from the controller is null
+    // if SliderProps.value was set, then we set it to this value obtained from URL query string
+    if (value == null && SliderProps?.value != null)
+      return SliderProps.value
+    return value
+  }
+
   return (
     <Controller
       control={control}
@@ -41,10 +50,10 @@ export default function ControlledSlider<FieldValueProps extends FieldValues>({
           <Box padding={1} >
             <Slider
               // valueLabelFormat={((value, idx) => `value:${value}`)}
-              value={value}
               defaultValue={defaultValue}
               onChange={onChange}
               {...SliderProps}
+              value={getValue(value)}
               {...props}
             />
           </Box>
