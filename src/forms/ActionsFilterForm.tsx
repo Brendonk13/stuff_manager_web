@@ -1,11 +1,13 @@
 import { Stack, Typography, Collapse, Button, Box, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, ListItemButton } from "@mui/material"
-import type { SyntheticEvent } from 'react'
+import { useContext, type SyntheticEvent } from 'react'
 import ControlledAutoComplete from "@/components/controlled/ControlledAutoComplete"
 import ControlledSelect from "@/components/controlled/ControlledSelect"
 import ControlledSlider from "@/components/controlled/ControlledSlider"
 import ControlledDatePicker from "@/components/controlled/ControlledDatePicker"
 import ExpandMore from "@/components/common/ExpandMore"
+import { useNavigate } from 'react-router-dom'
 
+import useBackListener from "@/hooks/useBackListener"
 import { useFormContext } from "react-hook-form"
 import { defaultActionQueryParams, defaultAction, defaultProject as _defaultProject, type Project, type Action, type Tag, type ListActionQueryParams } from "@/types/Action"
 import useListProjects from "@/hooks/api/useListProjects"
@@ -42,28 +44,23 @@ export default function ActionsFilterForm({
     setShowing,
     initialFormValues,
   }: ActionsFilterFormProps){
+  const navigate = useNavigate();
   const { control } = useFormContext()
   // defaultValue is null so that its not in the query string
   const defaultValue = null
-  const actions = useListActions(defaultActionQueryParams)?.data ?? [defaultValue]
-  const tags = useListTags()
+
+  const actions  = useListActions(defaultActionQueryParams)?.data ?? [defaultValue]
+  const tags     = useListTags()
   const projects = useListProjects()
   const contexts = useListContexts()
 
-  // const allActions = actions?.data ?? [defaultValue]
-
-  // only works when I do title then project
-  // NOT WHEN I FILTER BY PROJECT THEN TITLE
-  // in this case, the resulting query string had project_id, gets replaced with just the title
-
+  // should all of these be in a useeffect ?
   const actionTitleOptions = actions.map(action => action?.title)
   const projectOptions     = projects?.data ?? [defaultValue]
   const tagOptions         = tags?.data ?? [defaultValue]
   const contextOptions     = contexts?.data ?? [defaultValue]
-  // console.log("TAGS", {tags})
 
   const defaultTitle = initialFormValues?.title ?? ""
-  // const defaultTitle = ""
   let defaultEnergy = defaultValue
   if (initialFormValues?.energy !== null) {
     defaultEnergy = Number(initialFormValues.energy)
@@ -91,6 +88,17 @@ export default function ActionsFilterForm({
 
   // console.log({defaultTitle})
 
+  window.addEventListener("popstate", () => {
+    // todo: re-submit the form when this happens
+    console.log("BACK CLICKED")
+  })
+
+  // useBackListener(({ location }) => {
+  //   console.log("Navigated Back", { location })
+  //   navigate("-1", { replace: true })
+  // })
+
+
   const handleExpandClick = () => { setShowing(!showing) }
 
   const keyPrefix = "Action_Filter"
@@ -113,7 +121,6 @@ export default function ActionsFilterForm({
       <Collapse in={showing}>
 
         <Stack padding={2}>
-          {/* should I be always searching for all actions here or just ones that fit the existing filter criteria */}
           <ControlledAutoComplete
             placeholder="Name"
             control={control}
@@ -136,7 +143,6 @@ export default function ActionsFilterForm({
             label=""
             getOptionLabel={getOptionLabel}
             options={projectOptions}
-            // onChange={extractProjectId} // I dont think I need this since I have the transform in the zod schema: ListActionQuerySchema
             AutoCompleteProps={{
               sx:{ width: '60%', },
               value: defaultProject,
@@ -144,14 +150,8 @@ export default function ActionsFilterForm({
           />
           <br />
 
-          {/* todo: figure out how to reset this */}
-          {/* 1. could use -1 as proxy value but can only have slider display nums not null or clear*/}
-          {/* could just show an X button */}
-          {/* dont like having to just reload to reset since then we gotta re-apply the other queries */}
           <ControlledSlider
             control={control}
-            // clearButton={true}
-            // clearButtonClickCallback={} // passed from parents
             label="Energy"
             name="energy"
             SliderProps={{
@@ -165,7 +165,6 @@ export default function ActionsFilterForm({
           />
           <br />
 
-
           <ControlledAutoComplete
             placeholder="Tags"
             control={control}
@@ -177,12 +176,10 @@ export default function ActionsFilterForm({
             // multiple={true} // todo: make this work, will require some thought since need to change types to an array even [null] which is annoying
             AutoCompleteProps={{
               sx: { width: '60%', },
-              // TODO: CHANGE FROM RETURNING [0] -- currently dont support multiple tags
               value: defaultTags,
             }}
           />
           <br />
-
 
           <ControlledAutoComplete
             placeholder="Contexts"
@@ -198,14 +195,6 @@ export default function ActionsFilterForm({
               value: defaultContexts,
             }}
           />
-
-          {/* {/1* todo: make this work with date ranges *1/} */}
-          {/* <ControlledDatePicker */}
-          {/*   control={control} */}
-          {/*   label="Date" */}
-          {/*   name="date" */}
-          {/*   sx={{ width: "60%" }} */}
-          {/* /> */}
 
       </Stack>
 
