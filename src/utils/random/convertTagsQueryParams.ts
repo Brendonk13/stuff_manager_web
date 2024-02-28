@@ -1,3 +1,4 @@
+import { type Tag } from "@/types/Action"
 
 export default function convertTagsQueryParamsToString(tags: any): string {
   // I know whats happening
@@ -25,4 +26,20 @@ export default function convertTagsQueryParamsToString(tags: any): string {
 
   // console.log("used tagString", tagsString)
   return tagsString
+}
+
+export function tagsStringToArray(allTags: [Tag] | null, tagsString?: string): Array<string> {
+  if (!allTags || !tagsString || !tagsString.length) return [""]
+
+  // remove surrounding brackets: '[', ']'
+  let formattedTags = tagsString.substring(1, tagsString.length - 1).split(",")
+
+  const foundTags = formattedTags.map((tag: string) => {
+    const tagObject = allTags.filter((tagObject: Tag) =>
+      tagObject && tagObject.value === tag.substring(1, tag.length - 1)
+    )
+    // return the match if we found it
+    return tagObject.length ? tagObject[0] : ""
+  })
+  return (foundTags && foundTags.length) ? foundTags : []
 }

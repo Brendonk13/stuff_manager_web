@@ -15,12 +15,6 @@ next:
 
 
     CURRENT:
-        - energy form not autofilling
-            http://localhost:4000/actions?energy=3&title=attach+project&project_id=7
-            - defaultValue not working
-            - value does but cant change the value when set
-
-            - value not set in query param when I set it to -1
 
         -- doesnt work with the back arrow correctly
             -- can fix this after releasing

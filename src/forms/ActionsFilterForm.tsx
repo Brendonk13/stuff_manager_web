@@ -13,6 +13,7 @@ import useListActions from "@/hooks/api/useListActions"
 import useListTags from "@/hooks/api/useListTags"
 import useListContexts from "@/hooks/api/useListContexts"
 import { addUid } from "@/utils/uID"
+import { tagsStringToArray } from "@/utils/random/convertTagsQueryParams"
 
 function getOptionLabel(option: string | Project | Action | Tag){
   // console.log("============================================================getoptionlabel", {option}, "name", option?.name)
@@ -71,13 +72,24 @@ export default function ActionsFilterForm({
   let defaultProject = _defaultProject
   if (initialFormValues?.project_id !== null){
     const tmp = projectOptions.filter(project =>  project?.id == initialFormValues.project_id)
+    // if we find a project with the id from the URL (initialFormValues), then set it as the default form value
     if (tmp.length > 0){
       defaultProject = tmp[0]
     }
   }
 
+  // returning an array of arrays
+  let defaultTags = tagsStringToArray(tagOptions, initialFormValues?.tags)
+  // console.log("returned defaultTags: ", {defaultTags})
+  defaultTags = (!defaultTags || !defaultTags.length) ? defaultValue : defaultTags[0]
+  // console.log("defaultTags", defaultTags)
+
+  let defaultContexts = tagsStringToArray(contextOptions, initialFormValues?.required_context)
+  // console.log("returned defaultContexts: ", {defaultContexts})
+  defaultContexts = (!defaultContexts || !defaultContexts.length) ? defaultValue : defaultContexts[0]
+  // console.log("defaultContexts", defaultContexts)
+
   // console.log({defaultTitle})
-  console.log({defaultEnergy})
 
   const handleExpandClick = () => { setShowing(!showing) }
 
@@ -143,30 +155,16 @@ export default function ActionsFilterForm({
             label="Energy"
             name="energy"
             SliderProps={{
-              // defaultValue:null, // null values not used in query string
-              // defaultValue: defaultEnergy,
               value: defaultEnergy,
               min: -1,
               step: 1,
               max: 10,
               sx: { width: '60%', },
-              // valueLabelFormat: (value: number, index: number) => "hello",
               marks: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => ({label: i, value: i, }))
             }}
           />
           <br />
 
-
-          {/* {/1* todo: maybe make this a slider *1/} */}
-          {/* <ControlledSelect */}
-          {/*   name="energy" */}
-          {/*   control={control} */}
-          {/*   label="Energy" */}
-          {/*   // fixme: this has a default value of null and its giving a small error */}
-          {/*   options={[1,2,3,4,5,6,7,8,9,10].map(num => { return {label: String(num) ?? 0, value: num ?? 0}})} */}
-          {/*   sx={{ width: "60%" }} */}
-          {/* /> */}
-          {/* <br/> */}
 
           <ControlledAutoComplete
             placeholder="Tags"
@@ -177,7 +175,11 @@ export default function ActionsFilterForm({
             options={tagOptions}
             getOptionKey={option => `${keyPrefix}_tags_${addUid(option.value)}`}
             // multiple={true} // todo: make this work, will require some thought since need to change types to an array even [null] which is annoying
-            AutoCompleteProps={{ sx:{ width: '60%', } }}
+            AutoCompleteProps={{
+              sx: { width: '60%', },
+              // TODO: CHANGE FROM RETURNING [0] -- currently dont support multiple tags
+              value: defaultTags,
+            }}
           />
           <br />
 
@@ -191,7 +193,10 @@ export default function ActionsFilterForm({
             options={contextOptions}
             getOptionKey={option => `${keyPrefix}_contexts_${addUid(option.value)}`}
             //multiple={true}  // todo: change
-            AutoCompleteProps={{ sx:{ width: '60%', } }}
+            AutoCompleteProps={{
+              sx: { width: '60%', },
+              value: defaultContexts,
+            }}
           />
 
           {/* {/1* todo: make this work with date ranges *1/} */}

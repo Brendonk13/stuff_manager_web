@@ -49,8 +49,11 @@ export default function ActionsPage(){
   // todo: check if there are existing query strings, if so then automatically submit form
   const [searchParams, setSearchParams] = useSearchParams()
   const initialFormValues = {...defaultActionQueryParams, ...extractSearchParamsFromURL(searchParams)}
+  // console.log({initialFormValues})
 
   const [actionQueryParams, setActionQueryParams] = useState(initialFormValues)
+  // do I need to setActionQueryParams here? why is it working for other things
+  console.log({actionQueryParams})
   // the issue is that its not re-rendering upon getting the hook data and for some reason the hook is then called again
   const actions = useListActions(actionQueryParams)
   // console.log("actions, query filters", actions, { actionQueryParams })
@@ -91,15 +94,23 @@ export default function ActionsPage(){
         {...initialFormValues, ...extractSearchParamsFromForm(data)}
       )
 
+      // todo: clearing form values which were previously in the searchParams gets overwritten
+      // idea: can I make it so that purposely set null values are undefined and then I check for undefined and remove them from dataCombinedWithSearchParams
+
       if (dataCombinedWithSearchParams?.energy && dataCombinedWithSearchParams.energy === -1){
         delete dataCombinedWithSearchParams.energy
       }
+      console.log({dataCombinedWithSearchParams})
 
+      // todo: do I need to set both of these or can I just do the searchParams
       // console.log({dataCombinedWithSearchParams}, {data})
       // set query string so that the form is filled with correct inital values
       setSearchParams(dataCombinedWithSearchParams)
       // trigger a re-render with new actions
+
+      // todo: for some reason must set below for tags to work
       setActionQueryParams(dataCombinedWithSearchParams)
+
       // console.log("new query parameters: ", {actionQueryParams})
     } catch (err) {
       const error = err as AxiosError<{ message: string }>
