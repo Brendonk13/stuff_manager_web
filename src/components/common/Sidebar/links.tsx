@@ -1,12 +1,13 @@
 import { DateRange } from '@mui/icons-material'
 import { type ReactNode } from 'react'
 
-import barChart from '@/assets/bar_chart.svg'
-import currencyIcon from '@/assets/currency-dollar-circle.svg'
-// import nuHome from '@/assets/home.svg'
 import nuHome from '@/assets/home.svg'
-import shareIcon from '@/assets/share.svg'
-import usersIcon from '@/assets/users.svg'
+import StarIcon from '@mui/icons-material/Star'
+import SummarizeIcon from '@mui/icons-material/Summarize'
+import List from '@mui/icons-material/List'
+import Task from '@mui/icons-material/Task'
+import Assignment from '@mui/icons-material/Assignment'
+// import ViewModuleIcon from '@muui/icons-material/ViewModule'
 
 export interface ISidebarLink {
   text: string
@@ -17,34 +18,24 @@ export interface ISidebarLink {
 
 const sidebarLinks: ISidebarLink[] = [
   {
-    text: 'Dashboard',
-    icon: <img src={nuHome} alt="dashboard" />,
-    path: '/',
+    text: 'Actions',
+    icon: <Task />,
+    path: '/actions',
   },
   {
-    text: 'Schedule',
-    icon: <DateRange />,
-    path: '/schedule',
+    text: 'Projects',
+    icon: <Assignment />,
+    path: '/projects',
   },
   {
-    text: 'Channels',
-    icon: <img src={shareIcon} alt="channels" />,
-    path: '/channels',
+    text: 'Favorites',
+    icon: <StarIcon />,
+    path: '/favorites',
   },
-  {
-    text: 'Contacts',
-    icon: <img src={usersIcon} alt="contacts" />,
-    path: '/contacts',
-  },
-  {
-    text: 'Performance',
-    icon: <img src={barChart} alt="performance" />,
-    path: '/performance',
-  },
-  {
-    text: 'Credits',
-    icon: <img src={currencyIcon} alt="credits" />,
-    path: '/credits',
-  },
+  // {
+  //   text: 'Calendar',
+  //   icon: <DateRange />,
+  //   path: '/calendar',
+  // },
 ]
 export default sidebarLinks

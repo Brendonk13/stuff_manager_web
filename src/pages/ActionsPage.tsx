@@ -72,7 +72,6 @@ export default function ActionsPage(){
   const defaultValues = defaultActionQueryParams
 
   window.addEventListener("popstate", () => {
-    // todo: re-submit the form when this happens
     console.log("BACK CLICKED")
     setActionQueryParams(extractSearchParamsFromURL(searchParams))
   })

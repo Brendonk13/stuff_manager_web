@@ -14,10 +14,6 @@ next:
             -- maybe too complicated, this should be figured out after the fact
 
 
-    CURRENT:
-
-        -- doesnt work with the back arrow correctly
-            -- can fix this after releasing
 
     SideBar
         - add query params to work via url and functionality to save queries and show these dynamically in the sidebar

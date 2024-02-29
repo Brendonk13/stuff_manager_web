@@ -3,8 +3,10 @@ import SidebarLayout from "@/layouts/SidebarLayout"
 import HomePage from "@/pages/HomePage"
 import ProcessItemPage from "@/pages/ProcessItemPage"
 import ProjectsPage from "@/pages/ProjectsPage"
-import ProjectDetailPage from "@/pages/ProjectsDetailPage"
+import ProjectDetailPage from "@/pages/ProjectDetailPage"
 import ActionsPage from "@/pages/ActionsPage"
+import FavoritesPage from "@/pages/FavoritesPage"
+import SettingsPage from "@/pages/SettingsPage"
 
 export default function Router(){
   return (
@@ -20,6 +22,8 @@ export default function Router(){
           <Route path="projects" element={<ProjectsPage />} />
           <Route path="projects/:projectId" element={<ProjectDetailPage />} />
           <Route path="actions" element={<ActionsPage />} />
+          <Route path="favorites" element={<FavoritesPage />} />
+          <Route path="settings" element={<SettingsPage />} />
           {/* <Route path="actions/:actionId" element={<ActionsPage />} /> */}
         </Route>
         {/* <Route path="/sign-in" element={<SignInPage />} /> */}

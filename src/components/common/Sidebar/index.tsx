@@ -1,15 +1,19 @@
-import * as React from 'react';
-import { ListItemText, ListItemIcon, ListItemButton, ListItem, Divider, List, Box, Drawer, Button } from '@mui/material';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import * as React from 'react'
+import { Link, ListItemText, ListItemIcon, ListItemButton, ListItem, Divider, List, Box, Drawer, Button } from '@mui/material'
+import SettingsIcon from '@mui/icons-material/Settings'
+import InboxIcon from '@mui/icons-material/MoveToInbox'
+import sideBarLinks from "./links"
+import MenuIcon from '@mui/icons-material/Menu'
+// import { Link, useNavigate } from "react-router-dom"
+import { Link as RouterLink, useNavigate } from "react-router-dom"
 
 type Anchor =  'left'
-// type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 export default function TemporaryDrawer() {
+  const navigate = useNavigate()
   const [state, setState] = React.useState({
     left: false,
-  });
+  })
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -19,11 +23,11 @@ export default function TemporaryDrawer() {
         ((event as React.KeyboardEvent).key === 'Tab' ||
           (event as React.KeyboardEvent).key === 'Shift')
       ) {
-        return;
+        return
       }
 
-      setState({ ...state, [anchor]: open });
-    };
+      setState({ ...state, [anchor]: open })
+    }
 
   const anchor = 'left'
 
@@ -35,29 +39,53 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+        {sideBarLinks.map(link => (
+          <Link component={RouterLink} to={link.path} key={link.text} underline="none" color="grey.700" >
+            <ListItem
+              sx={{
+                '&:hover': {
+                  backgroundColor: "rgba(0, 0, 0, 0.04)",
+                },
+              }}
+              key={link.text}
+            >
+              <ListItemIcon>{link.icon}</ListItemIcon>
+              <ListItemText primary={link.text}/>
+            </ListItem>
+          </Link>
         ))}
       </List>
+
+      {/* todo: add custom things here from favorites ? */}
+      {/* or maybe favorites folds down when you click it like a menu */}
+      {/* or maybe favorites always shows your top 5 */}
+
+
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
+        <Link component={RouterLink} to="/settings" key="settings" underline="none" color="grey.700" >
+          <ListItem
+            sx={{
+              '&:hover': {
+                backgroundColor: "rgba(0, 0, 0, 0.04)",
+              },
+            }}
+            key="settings"
+          >
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Settings"/>
           </ListItem>
-        ))}
+        </Link>
+        {/* <ListItem key="Settings" disablePadding> */}
+        {/*   <ListItemButton> */}
+        {/*     <ListItemIcon> */}
+        {/*       <SettingsIcon /> */}
+        {/*     </ListItemIcon> */}
+        {/*     <ListItemText primary="Settings" /> */}
+        {/*   </ListItemButton> */}
+        {/* </ListItem> */}
       </List>
     </Box>
   )
@@ -66,7 +94,7 @@ export default function TemporaryDrawer() {
     <div>
       {
       <React.Fragment key={anchor}>
-        <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+        <Button onClick={toggleDrawer(anchor, true)}> <MenuIcon/> </Button>
         <Drawer
           anchor={anchor}
           open={state[anchor]}
@@ -77,5 +105,5 @@ export default function TemporaryDrawer() {
       </React.Fragment>
       }
     </div>
-  );
+  )
 }
