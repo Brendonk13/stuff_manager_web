@@ -20,12 +20,13 @@ export type ListContextResponse = ListTagResponse
 
 
 // todo: cleanup project
-export const ProjectSchema = z.object({
+const projectSchemaObject = {
   name: z.string(),
   notes: z.string().optional(),
   // id: z.number().optional(),
   id: z.number(),
-})
+}
+export const ProjectSchema = z.object(projectSchemaObject)
 
 export type Project = z.infer<typeof ProjectSchema>
 
@@ -126,6 +127,12 @@ export const ListActionQuerySchema = z.object({
 })
 export type ListActionQueryParams = z.infer<typeof ListActionQuerySchema>
 
+export const EditProjectSchema = z.object({
+  name: projectSchemaObject.name.optional(),
+  notes: projectSchemaObject.notes,
+  id: projectSchemaObject.id,
+})
+export type EditProjectBody = z.infer<typeof EditProjectSchema>
 
 // =============================== defaults ===============================
 

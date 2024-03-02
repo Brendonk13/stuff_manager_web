@@ -27,6 +27,17 @@ export default function ControlledTextField<FieldValueProps extends FieldValues>
   onChange = () => {},
   ...props
 }: ControlledTextFieldProps<FieldValueProps>) {
+
+  const getValue = (value: string | undefined) => {
+    // on pageload, the value passed in from the controller is null
+    // if TextFieldProps.value was set, then we set it to this value obtained from URL query string
+    // console.log("getValue ==", value, typeof value, "==", TextFieldProps?.value, typeof TextFieldProps?.value)
+    if (value == "" && TextFieldProps?.value)
+      return TextFieldProps.value
+    return value
+  }
+
+
   return (
     <Controller
       control={control}
@@ -59,11 +70,12 @@ export default function ControlledTextField<FieldValueProps extends FieldValues>
             }}
             onBlur={onBlur}
             ref={ref}
-            value={value}
             helperText={error?.message}
-            {...TextFieldProps}
             {...props}
+            {...TextFieldProps}
+            fullWidth={true}
             InputLabelProps={{ shrink: true }}
+            value={getValue(value)}
           />
         </Box>
       )}
