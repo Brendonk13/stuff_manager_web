@@ -2,7 +2,7 @@ import { createFilterOptions, Typography, Button, Box, Stack, Divider, IconButto
 import { useFormContext, useFieldArray } from "react-hook-form"
 // import { useSnackbarContext } from '@/contexts/SnackbarContext'
 import ControlledTextField from "@/components/controlled/ControlledTextField"
-import NestedTagsArray from "@/forms/NestedTagsArray"
+import NestedTagsArray from "@/components/forms/NestedTagsArray"
 import ControlledCheckBox from "@/components/controlled/ControlledCheckBox"
 import ControlledDatePicker from "@/components/controlled/ControlledDatePicker"
 import AddIcon from '@mui/icons-material/Add';

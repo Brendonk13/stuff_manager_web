@@ -16,6 +16,9 @@ next:
     ADD A PAGE TO VIEW ALL UNPROCESSED "THINGS"
     - be able to add notes to new projects in projectsDetails
 
+    next:
+        - add form to edit notes for a project in the project details page
+
     fix list actions:
         added a tag to search by
         - then removed it and searched via context

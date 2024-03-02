@@ -10,7 +10,7 @@ import { type ListActionQueryParams } from "@/types/Action"
 import PageLayout from "@/layouts/Page"
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
 import useListActions from "@/hooks/api/useListActions"
-import ActionsFilterForm from "@/forms/ActionsFilterForm"
+import ActionsFilterForm from "@/components/forms/ActionsFilterForm"
 import convertTags from "@/utils/random/convertTagsQueryParams"
 
 import { defaultActionQueryParams, ListActionQuerySchema } from "@/types/Action"
