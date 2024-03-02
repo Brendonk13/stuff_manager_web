@@ -13,6 +13,21 @@ next:
             -- no but maybe I do need to have the concept of hierarchies
             -- maybe too complicated, this should be figured out after the fact
 
+    ADD A PAGE TO VIEW ALL UNPROCESSED "THINGS"
+    - be able to add notes to new projects in projectsDetails
+
+    fix list actions:
+        added a tag to search by
+        - then removed it and searched via context
+        - the tag thing was still in the query param
+
+
+    - maybe add copy buttons next to titles when processing an action
+
+    Current:
+        - finish list projects page
+        - Finish the favorites page
+        - settings page after release
 
 
     SideBar

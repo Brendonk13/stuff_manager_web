@@ -197,7 +197,7 @@ export default function ActionableForm(){
                 <NestedTagsArray
                   parentName="actions"
                   nestIndex={index}
-                  name="requiredContext"
+                  name="required_context"
                   label="Required context"
                 />
               </Box>

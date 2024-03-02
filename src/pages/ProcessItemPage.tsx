@@ -47,8 +47,13 @@ export default function ProcessItemPage() {
   const {
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors, },
   } = methods
+
+  if (Object.keys(errors).length > 0){
+    console.log("PROCESS ITEM PAGE QUERY FILTER ERRORS, VALUES", {errors}, {values: getValues()})
+  }
 
   // when we get the unprocessedId from the query param, convert to Number and add to form
   React.useEffect(

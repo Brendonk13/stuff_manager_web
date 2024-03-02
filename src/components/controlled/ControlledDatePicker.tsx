@@ -1,4 +1,5 @@
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { type Dayjs } from "dayjs"
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { DateField } from '@mui/x-date-pickers/DateField'
 import dayjs from 'dayjs'
 import { Controller, type FieldValues, type UseControllerProps } from 'react-hook-form'
@@ -6,6 +7,11 @@ import { Controller, type FieldValues, type UseControllerProps } from 'react-hoo
 export interface ControlledDatePickerProps<FieldValueProps extends FieldValues>
   extends UseControllerProps<FieldValueProps> {
   label: string
+}
+
+function transformDate(date: Date | Dayjs | null){
+  const formattedDate = date ? new Date(dayjs(date).toISOString()) : null
+  return formattedDate
 }
 
 export default function ControlledDatePicker<FieldValueProps extends FieldValues>({
@@ -18,14 +24,15 @@ export default function ControlledDatePicker<FieldValueProps extends FieldValues
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange, value, ref }, fieldState: { error } }) => (
+      render={({ field: { onChange, value, ref }, fieldState: { error } }) => {
+        return (
         <DatePicker
           aria-labelledby={name}
           label={label}
-          value={value ? dayjs(value) : null}
-          onChange={(e) => {
+          value={transformDate(value)}
+          onChange={newDate => {
             try {
-              onChange(e)
+              onChange(transformDate(newDate))
             } catch (error) {
               console.error(error)
             }
@@ -34,7 +41,7 @@ export default function ControlledDatePicker<FieldValueProps extends FieldValues
           inputRef={ref}
           {...props}
         />
-      )}
+      )}}
     />
   )
 }

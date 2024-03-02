@@ -1,5 +1,6 @@
 import PageLayout from "@/layouts/Page"
 import useListProjects from "@/hooks/api/useListProjects"
+import Project from "@/components/common/Project"
 
 export default function ProjectsPage(){
 
@@ -12,15 +13,12 @@ export default function ProjectsPage(){
   // THE ANSWER is dependant on what data we care about for projects
   return (
     <PageLayout>
-      {projects?.data && projects?.data?.map(project => {
-        console.log("hello", project.name)
-        return (
-          <span>
-            {project.name}
-            <br/>
-          </span>
-        )
-      })}
+      {projects?.data && projects?.data?.map(project => (
+        <Project
+          key={project.id}
+          project={project}
+        />
+      ))}
     </PageLayout>
   )
 }
