@@ -71,6 +71,8 @@ export default function ControlledTextField<FieldValueProps extends FieldValues>
             onBlur={onBlur}
             ref={ref}
             helperText={error?.message}
+            // width={`${getValue(value).length}ch`}
+            // inputProps={{size: Math.max(getValue(value).length, 6)}}
             {...props}
             {...TextFieldProps}
             fullWidth={true}

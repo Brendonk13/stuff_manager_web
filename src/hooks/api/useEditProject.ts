@@ -4,7 +4,6 @@ import { editProject } from '@/api/ProjectsService'
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
 
 export default function useEditProject(){
-  const queryClient = useQueryClient()
   const { openSnackbar } = useSnackbarContext()
 
   return useMutation({
@@ -14,7 +13,6 @@ export default function useEditProject(){
         message: 'Project saved',
         type: 'success',
       })
-      // queryClient.invalidateQueries({ queryKey: contactQueryKeys.my._def })
 
     },
     onError: () => {
