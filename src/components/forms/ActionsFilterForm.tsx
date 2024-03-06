@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { Stack, Typography, Collapse, Button, Box, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, ListItemButton } from "@mui/material"
 import { useContext, type SyntheticEvent } from 'react'
 import ControlledAutoComplete from "@/components/controlled/ControlledAutoComplete"
@@ -44,7 +45,7 @@ export default function ActionsFilterForm({
     initialFormValues,
   }: ActionsFilterFormProps){
   const navigate = useNavigate();
-  const { control } = useFormContext()
+  const { control, setValue } = useFormContext()
   // defaultValue is null so that its not in the query string
   const defaultValue = null
 
@@ -84,6 +85,15 @@ export default function ActionsFilterForm({
   // console.log("returned defaultContexts: ", {defaultContexts})
   defaultContexts = (!defaultContexts || !defaultContexts.length) ? defaultValue : defaultContexts[0]
   // console.log("defaultContexts", defaultContexts)
+
+  useEffect(() => { setValue("title", defaultTitle) }, [setValue, defaultTitle])
+  useEffect(() => { setValue("project_id", defaultProject) }, [setValue, defaultProject])
+  useEffect(() => { setValue("energy", defaultEnergy) }, [setValue, defaultEnergy])
+  useEffect(() => { setValue("tags", defaultTags) }, [setValue, defaultTags])
+  useEffect(() => {
+    setValue("required_context", defaultContexts)
+    console.log("set contexts", {defaultContexts})
+  }, [setValue, defaultContexts])
 
   // console.log({defaultTitle})
 
@@ -131,7 +141,7 @@ export default function ActionsFilterForm({
             options={actionTitleOptions}
             AutoCompleteProps={{
               sx: { width: '60%', },
-              value: defaultTitle,
+              // value: defaultTitle,
             }}
           />
           <br/>
@@ -145,7 +155,7 @@ export default function ActionsFilterForm({
             options={projectOptions}
             AutoCompleteProps={{
               sx:{ width: '60%', },
-              value: defaultProject,
+              // value: defaultProject,
             }}
           />
           <br />
@@ -155,7 +165,7 @@ export default function ActionsFilterForm({
             label="Energy"
             name="energy"
             SliderProps={{
-              value: defaultEnergy,
+              // value: defaultEnergy,
               min: -1,
               step: 1,
               max: 10,
@@ -176,7 +186,8 @@ export default function ActionsFilterForm({
             // multiple={true} // todo: make this work, will require some thought since need to change types to an array even [null] which is annoying
             AutoCompleteProps={{
               sx: { width: '60%', },
-              value: defaultTags,
+              defaultValue: null,
+              // value: defaultTags,
             }}
           />
           <br />
@@ -192,7 +203,8 @@ export default function ActionsFilterForm({
             //multiple={true}  // todo: change
             AutoCompleteProps={{
               sx: { width: '60%', },
-              value: defaultContexts,
+              // value: defaultContexts,
+              defaultValue: null,
             }}
           />
 

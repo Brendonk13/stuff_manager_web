@@ -16,10 +16,12 @@ next:
     ADD A PAGE TO VIEW ALL UNPROCESSED "THINGS"
     - be able to add notes to new projects in projectsDetails
 
-    next:
-        - add form to edit notes for a project in the project details page
 
-    fix list actions:
+    FIX LIST ACTIONS:
+        - When click back button it sometimes re-renders parts hundreds of times
+
+        - when clear contexts/ tags it returns an empty string rather than the null value needed
+
         added a tag to search by
         - then removed it and searched via context
         - the tag thing was still in the query param

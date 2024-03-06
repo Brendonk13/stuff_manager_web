@@ -8,7 +8,7 @@ import {
   // Typography,
 } from '@mui/material'
 import type { Dispatch, SetStateAction, SyntheticEvent } from 'react'
-import { Controller, type FieldValues, type UseControllerProps, type AutocompleteProps } from 'react-hook-form'
+import { Controller, type FieldValues, type UseControllerProps, type AutocompleteProps as AutocompletePropsType } from 'react-hook-form'
 import { type Option } from "@/types/Common"
 
 
@@ -21,7 +21,7 @@ export interface ControlledAutocompleteProps<
   multiple?: boolean
   TextFieldProps?: TextFieldProps
   //AutoCompleteProps?: any // AutocompleteProps
-  AutoCompleteProps?: AutocompleteProps // AutocompleteProps
+  AutoCompleteProps?: AutocompletePropsType // AutocompleteProps
   // createFilterOptions: () => typeof createFilterOptions,
   placeholder?: string
   getOptionKey?: (option: string | object) => string | number,
@@ -34,6 +34,7 @@ export interface ControlledAutocompleteProps<
   textFieldValue?: string
   setTextFieldValue?: Dispatch<SetStateAction<string>>
 }
+
 
 export default function ControlledAutocomplete<FieldValueProps extends FieldValues>({
   control,
@@ -54,6 +55,13 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
   // setTextFieldValue,
 }: ControlledAutocompleteProps<FieldValueProps>) {
 
+  const getValue = (value: any) => {
+    if (value == null && AutoCompleteProps?.value != null){
+      return AutoCompleteProps.value
+    }
+    return value
+  }
+
   return (
     <Controller
       control={control}
@@ -64,10 +72,17 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
           {...field}
           {...AutoCompleteProps}
           multiple={multiple}
+          // value={getValue(AutoCompleteProps?.value)}
           onChange={(_e, values) => {
+            // how about I do the following: if values == null, then set AutocompleteProps.value = null
             // do things like transform input from filterOptions producing a new option such as when creating new projects
-            onChange(_e, values)
-            return field.onChange( values)
+            if (values == null){
+              AutoCompleteProps.value = null
+            }
+            const value = getValue(values)
+            console.log(_e, {values}, "new", {value})
+            onChange(_e, value)
+            return field.onChange(value)
           }}
           filterOptions={filterOptions}
           selectOnFocus

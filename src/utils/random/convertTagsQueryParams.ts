@@ -28,8 +28,9 @@ export default function convertTagsQueryParamsToString(tags: any): string {
   return tagsString
 }
 
-export function tagsStringToArray(allTags: [Tag] | null, tagsString?: string): Array<string> {
-  if (!allTags || !tagsString || !tagsString.length) return [""]
+export function tagsStringToArray(allTags: [Tag] | null, tagsString?: string): Array<string> | null {
+  // if (!allTags || !tagsString || !tagsString.length) return [""]
+  if (!allTags || !tagsString || !tagsString.length) return null
 
   // remove surrounding brackets: '[', ']'
   let formattedTags = tagsString.substring(1, tagsString.length - 1).split(",")
@@ -39,7 +40,8 @@ export function tagsStringToArray(allTags: [Tag] | null, tagsString?: string): A
       tagObject && tagObject.value === tag.substring(1, tag.length - 1)
     )
     // return the match if we found it
-    return tagObject.length ? tagObject[0] : ""
+    // return tagObject.length ? tagObject[0] : ""
+    return tagObject.length ? tagObject[0] : null
   })
-  return (foundTags && foundTags.length) ? foundTags : []
+  return (foundTags && foundTags.length) ? foundTags : null
 }

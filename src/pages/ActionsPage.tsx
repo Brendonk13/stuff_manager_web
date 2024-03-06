@@ -84,37 +84,43 @@ export default function ActionsPage(){
 
   const {
     handleSubmit,
+    getValues,
     formState: { errors, },
   } = methods
 
   if (Object.keys(errors).length > 0){
-    console.log("ACTIONS PAGE QUERY FILTER ERRORS", {errors})
+    console.log("ACTIONS PAGE QUERY FILTER ERRORS", {errors}, {values: getValues()})
   }
 
-  const onSubmit = async (data: typeof defaultActionQueryParams) => {
+  const onSubmit = async (_data: typeof defaultActionQueryParams) => {
     try {
-      console.log("========================= SUBMIT ============================= ", {data})
+      console.log("========================= SUBMIT ============================= ", {_data})
+      // best solution is to just have the form be the source of truth
+      // but currently the form sends null values insetad of the autofilled values
+      // console.log({initialFormValues})
+      // console.log({searchParamss: extractSearchParamsFromForm(data)})
       // this function mostly just removes the nulls from appearing in the data so we get clean URLs (no null query string)
-      const dataCombinedWithSearchParams = extractSearchParamsFromForm(
-        {...initialFormValues, ...extractSearchParamsFromForm(data)}
-      )
+      // const dataCombinedWithSearchParams = extractSearchParamsFromForm(
+      //   {...initialFormValues, ...extractSearchParamsFromForm(data)}
+      // )
+      const data = extractSearchParamsFromForm(_data)
 
       // todo: clearing form values which were previously in the searchParams gets overwritten
       // idea: can I make it so that purposely set null values are undefined and then I check for undefined and remove them from dataCombinedWithSearchParams
 
-      if (dataCombinedWithSearchParams?.energy && dataCombinedWithSearchParams.energy === -1){
-        delete dataCombinedWithSearchParams.energy
+      if (data?.energy && data.energy === -1){
+        delete data.energy
       }
-      console.log({dataCombinedWithSearchParams})
+      console.log({data})
 
       // todo: do I need to set both of these or can I just do the searchParams
-      // console.log({dataCombinedWithSearchParams}, {data})
+      // console.log({data}, {data})
       // set query string so that the form is filled with correct inital values
-      setSearchParams(dataCombinedWithSearchParams)
+      setSearchParams(data)
       // trigger a re-render with new actions
 
       // todo: for some reason must set below for tags to work
-      setActionQueryParams(dataCombinedWithSearchParams)
+      setActionQueryParams(data)
 
       // console.log("new query parameters: ", {actionQueryParams})
     } catch (err) {
