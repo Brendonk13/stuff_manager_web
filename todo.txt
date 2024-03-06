@@ -17,16 +17,6 @@ next:
     - be able to add notes to new projects in projectsDetails
 
 
-    FIX LIST ACTIONS:
-        - When click back button it sometimes re-renders parts hundreds of times
-
-        - when clear contexts/ tags it returns an empty string rather than the null value needed
-
-        added a tag to search by
-        - then removed it and searched via context
-        - the tag thing was still in the query param
-
-
     - maybe add copy buttons next to titles when processing an action
 
     Current:

@@ -97,11 +97,6 @@ export default function ActionsFilterForm({
 
   // console.log({defaultTitle})
 
-  window.addEventListener("popstate", () => {
-    // todo: re-submit the form when this happens
-    console.log("BACK CLICKED")
-  })
-
   // useBackListener(({ location }) => {
   //   console.log("Navigated Back", { location })
   //   navigate("-1", { replace: true })

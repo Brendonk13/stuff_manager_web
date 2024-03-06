@@ -92,7 +92,7 @@ export const ListActionSchema = z.array(z.object(
 
 export type ListActionResponse = z.infer<typeof ListActionSchema>
 
-const tagQueryParamSchemaObject = {
+export const tagQueryParamSchemaObject = {
   tags: TagSchema.optional().nullable().transform(tag => {
       if (!tag){ return null } // must return null to not use this query param
 

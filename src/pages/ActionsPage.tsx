@@ -6,14 +6,12 @@ import { FormProvider, useForm } from "react-hook-form"
 import { useSearchParams, type URLSearchParamsInit } from "react-router-dom"
 
 import Action from "@/components/common/Action"
-import { type ListActionQueryParams } from "@/types/Action"
 import PageLayout from "@/layouts/Page"
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
 import useListActions from "@/hooks/api/useListActions"
 import ActionsFilterForm from "@/components/forms/ActionsFilterForm"
 import convertTags from "@/utils/random/convertTagsQueryParams"
-
-import { defaultActionQueryParams, ListActionQuerySchema } from "@/types/Action"
+import { defaultActionQueryParams, ListActionQuerySchema, type ListActionQueryParams } from "@/types/Action"
 
 function extractSearchParamsFromForm(formData){
   const params: ListActionQueryParams = {}
@@ -71,10 +69,6 @@ export default function ActionsPage(){
 
   const defaultValues = defaultActionQueryParams
 
-  window.addEventListener("popstate", () => {
-    console.log("BACK CLICKED")
-    setActionQueryParams(extractSearchParamsFromURL(searchParams))
-  })
 
 
   const methods = useForm({
@@ -91,6 +85,26 @@ export default function ActionsPage(){
   if (Object.keys(errors).length > 0){
     console.log("ACTIONS PAGE QUERY FILTER ERRORS", {errors}, {values: getValues()})
   }
+
+  const setQueryParamsFromUrl = () => {
+    const data = getValues()
+    if (data?.tags){
+      data.tags = convertTags([data.tags])
+    } if (data?.required_context){
+      data.required_context = convertTags([data.required_context])
+    } if (data?.project_id){ // todo: make this just run the normal transform project in zod
+      // console.log("parsed zod", ListActionQuerySchema.project_id.parse(data.project_id))
+      data.project_id = data.project_id.id
+    }
+    // console.log("BACK CLICKED", {searchParams: extractSearchParamsFromURL(searchParams)}, {values: getValues()}, {data})
+    setActionQueryParams(data)
+  }
+
+  useEffect(() => {
+    window.removeEventListener("popstate", setQueryParamsFromUrl)
+    window.addEventListener("popstate", setQueryParamsFromUrl)
+    return () => window.removeEventListener("popstate", setQueryParamsFromUrl)
+  }, [])
 
   const onSubmit = async (_data: typeof defaultActionQueryParams) => {
     try {
