@@ -55,13 +55,6 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
   // setTextFieldValue,
 }: ControlledAutocompleteProps<FieldValueProps>) {
 
-  const getValue = (value: any) => {
-    if (value == null && AutoCompleteProps?.value != null){
-      return AutoCompleteProps.value
-    }
-    return value
-  }
-
   return (
     <Controller
       control={control}
@@ -74,15 +67,9 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
           multiple={multiple}
           // value={getValue(AutoCompleteProps?.value)}
           onChange={(_e, values) => {
-            // how about I do the following: if values == null, then set AutocompleteProps.value = null
             // do things like transform input from filterOptions producing a new option such as when creating new projects
-            if (values == null){
-              AutoCompleteProps.value = null
-            }
-            const value = getValue(values)
-            console.log(_e, {values}, "new", {value})
-            onChange(_e, value)
-            return field.onChange(value)
+            onChange(_e, values)
+            return field.onChange(values)
           }}
           filterOptions={filterOptions}
           selectOnFocus

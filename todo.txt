@@ -21,6 +21,7 @@ next:
 
     Current:
         - finish list projects page
+            - make it clickable
         - Finish the favorites page
         - settings page after release
 
