@@ -1,14 +1,15 @@
 /* import { UserButton, useUser } from '@clerk/clerk-react' */
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { KeyboardArrowLeft, Search } from "@mui/icons-material";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import sidebarLinks from './Sidebar/links'
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+// import sidebarLinks from './Sidebar/links'
 import NewItemDialog from "@/dialogs/NewItemDialog"
 
 export default function Topbar(){
   const navigate = useNavigate()
   // const [pageTitle, setPageTitle] = useState('Stuff')
+  // const [showBackButton, setShowBackButton] = useState(false)
   const [showBackButton, setShowBackButton] = useState(false)
   // const user = useUser()
   // todo: add search filters

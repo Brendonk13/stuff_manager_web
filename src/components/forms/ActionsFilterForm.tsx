@@ -1,15 +1,15 @@
 import { useEffect } from "react"
-import { Stack, Typography, Collapse, Button, Box, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, ListItemButton } from "@mui/material"
-import { useContext, type SyntheticEvent } from 'react'
+import { Stack, Typography, Collapse, Button } from "@mui/material"
+// import { type SyntheticEvent } from 'react'
 import ControlledAutoComplete from "@/components/controlled/ControlledAutoComplete"
-import ControlledSelect from "@/components/controlled/ControlledSelect"
+// import ControlledSelect from "@/components/controlled/ControlledSelect"
 import ControlledSlider from "@/components/controlled/ControlledSlider"
 import ExpandMore from "@/components/common/ExpandMore"
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
-import useBackListener from "@/hooks/useBackListener"
+// import useBackListener from "@/hooks/useBackListener"
 import { useFormContext } from "react-hook-form"
-import { defaultActionQueryParams, defaultAction, type Action, type ListActionQueryParams } from "@/types/Action"
+import { defaultActionQueryParams, type Action, type ListActionQueryParams } from "@/types/Action"
 import { type Tag } from "@/types/Tag"
 import { defaultProject as _defaultProject, type Project } from "@/types/Project"
 import useListProjects from "@/hooks/api/useListProjects"
@@ -35,18 +35,18 @@ type ActionsFilterFormProps = {
   // actions: any[] // Note: can pass in actions from parent to only search thru actions meeting current filter criteria and not all actions every time
 }
 
-function extractProjectId(e: SyntheticEvent, option: string | object) {
-    console.log("==============================", {option})
-    option = option.id
-    return option?.id
-}
+// function extractProjectId(e: SyntheticEvent, option: string | object) {
+//     console.log("==============================", {option})
+//     option = option.id
+//     return option?.id
+// }
 
 export default function ActionsFilterForm({
     showing,
     setShowing,
     initialFormValues,
   }: ActionsFilterFormProps){
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { control, setValue } = useFormContext()
   // defaultValue is null so that its not in the query string
   const defaultValue = null

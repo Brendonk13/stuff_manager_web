@@ -1,4 +1,4 @@
-import { createFilterOptions, Typography, Button, Box, Stack, Divider, IconButton, Paper, InputLabel } from '@mui/material'
+import { createFilterOptions, Typography, Button, Box, Stack, Divider, IconButton, Paper } from '@mui/material'
 import { useFormContext, useFieldArray } from "react-hook-form"
 // import { useSnackbarContext } from '@/contexts/SnackbarContext'
 import ControlledTextField from "@/components/controlled/ControlledTextField"
@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ControlledAutoComplete from "@/components/controlled/ControlledAutoComplete"
 import ControlledSlider from "@/components/controlled/ControlledSlider"
 import useListProjects from "@/hooks/api/useListProjects"
-import { defaultAction } from "@/types/Action"
+import { defaultCreateItemAction } from "@/types/Action"
 import { type Project, defaultProject} from "@/types/Project"
 import { type Option } from "@/types/Common"
 
@@ -89,7 +89,7 @@ export default function ActionableForm(){
           <Typography variant="h3">Actions</Typography>
           <IconButton
             color="primary"
-            onClick={() => append(defaultAction)}
+            onClick={() => append(defaultCreateItemAction)}
           >
             <AddIcon />
           </IconButton>
@@ -173,19 +173,19 @@ export default function ActionableForm(){
                   <ControlledCheckBox
                     control={control}
                     label="Someday/Maybe ?"
-                    defaultValue={defaultAction.somedayMaybe}
+                    defaultValue={defaultCreateItemAction.somedayMaybe}
                     name={`actions[${index}].somedayMaybe`}
                   />
                   <ControlledCheckBox
                     control={control}
                     label="Cannot be done yet ?"
-                    defaultValue={defaultAction.cannotBeDoneYet}
+                    defaultValue={defaultCreateItemAction.cannotBeDoneYet}
                     name={`actions[${index}].cannotBeDoneYet`}
                   />
                   <ControlledCheckBox
                     control={control}
                     label="Delegate ?"
-                    defaultValue={defaultAction.delegated}
+                    defaultValue={defaultCreateItemAction.delegated}
                     name={`actions[${index}].delegated`}
                   />
                 </Stack>
@@ -207,7 +207,7 @@ export default function ActionableForm(){
           })
           }
         </Stack>
-        <Button variant="contained" sx={{alignItems: "start", width: "25%" }} onClick={() => append(defaultAction) }>
+        <Button variant="contained" sx={{alignItems: "start", width: "25%" }} onClick={() => append(defaultCreateItemAction) }>
         Add Action
         </Button>
       </Paper>

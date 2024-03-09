@@ -1,19 +1,19 @@
-import React from "react";
+// import React from "react";
 import { useFieldArray } from "react-hook-form"
-import { Button, IconButton, Typography, InputLabel, Box, Grid, Paper, Stack, InputAdornment, Divider, styled } from "@mui/material"
+import { IconButton, InputLabel, Box, Grid, Stack, InputAdornment } from "@mui/material"
 import ControlledTextField from "@/components/controlled/ControlledTextField"
 import { useFormContext } from "react-hook-form"
 import AddIcon from '@mui/icons-material/Add';
 import CloseWindowImage from "@/assets/icons8-close-window-24.png"
 
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
+// const Item = styled(Paper)(({ theme }) => ({
+//   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+//   ...theme.typography.body2,
+//   padding: theme.spacing(1),
+//   textAlign: 'center',
+//   color: theme.palette.text.secondary,
+// }));
 
 
 export default function NestedTagsArray(
@@ -100,13 +100,3 @@ export default function NestedTagsArray(
   </>
   )
 }
-
-//           <div key={item.id} style={{ marginLeft: 20 }}>
-//             <label>Nested Array:</label>
-//             <input
-//               name={`${parentName}.${nestIndex}.tags.${index}.value`}
-//               ref={register({ required: true })}
-//               // defaultValue={item.value}
-//               style={{ marginRight: "25px" }}
-//             />
-//           </div>

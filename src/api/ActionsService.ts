@@ -1,6 +1,6 @@
 // import { type CreateUnprocessedRequestBody, type CreateUnprocessedResponse, type GetUnprocessedResponse } from "@/types/Common"
 // TODO: CHANGE THIS FROM CREATEITEM to action
-import { type ListActionResponse, type ListActionQueryParams, type GetActionResponse, type EditActionResponse} from "@/types/Action"
+import { type ListActionResponse, type ListActionQueryParams, type GetActionResponse, type EditActionResponse, type EditActionBody} from "@/types/Action"
 import { type CreateItemResponse, type CreateItem } from "@/types/CreateItem"
 
 import { CreateApiService } from './Service'
@@ -24,5 +24,7 @@ export const listActions = async (queryParams?: ListActionQueryParams) => {
 export const getAction = (actionId: number) =>
     ActionsService.get<GetActionResponse>(`/${actionId}`).then(res => res.data)
 
-export const editAction = (actionId: number) =>
-    ActionsService.put<EditActionResponse>(`/${actionId}`).then(res => res.data)
+export const editAction = (data: EditActionBody) => {
+  console.log("edit action data", {data})
+  return ActionsService.put<EditActionResponse>(`/${data.id}`, data).then(res => res.data)
+}

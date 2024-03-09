@@ -1,14 +1,14 @@
 // import { CloseRounded } from '@mui/icons-material'
 import {
   Autocomplete,
-  createFilterOptions,
+  // createFilterOptions,
   TextField,
   type TextFieldProps,
   // type AutocompleteProps,
   // Typography,
 } from '@mui/material'
 import type { Dispatch, SetStateAction, SyntheticEvent } from 'react'
-import { Controller, type FieldValues, type UseControllerProps, type AutocompleteProps as AutocompletePropsType } from 'react-hook-form'
+import { Controller, type FieldValues, type UseControllerProps } from 'react-hook-form'
 import { type Option } from "@/types/Common"
 
 
@@ -21,7 +21,8 @@ export interface ControlledAutocompleteProps<
   multiple?: boolean
   TextFieldProps?: TextFieldProps
   //AutoCompleteProps?: any // AutocompleteProps
-  AutoCompleteProps?: AutocompletePropsType // AutocompleteProps
+  // AutoCompleteProps?: AutocompletePropsType // AutocompleteProps
+  AutoCompleteProps?: any // AutocompleteProps
   // createFilterOptions: () => typeof createFilterOptions,
   placeholder?: string
   getOptionKey?: (option: string | object) => string | number,

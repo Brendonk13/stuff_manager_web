@@ -14,6 +14,7 @@ export default function useDeleteUnprocessed() {
       await queryClient.invalidateQueries({
         queryKey: ["ListUnprocessed"],
       })
+
       openSnackbar({
         message: 'Unprocessed item was deleted successfully',
         type: 'success',

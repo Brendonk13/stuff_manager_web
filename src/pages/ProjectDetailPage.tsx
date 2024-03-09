@@ -2,7 +2,6 @@ import { Button, Box, Stack, Collapse, Typography, IconButton } from '@mui/mater
 import { useState } from "react"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from "react-hook-form"
-import { useQueryClient } from '@tanstack/react-query'
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 
 import ControlledTextField from "@/components/controlled/ControlledTextField"
@@ -21,7 +20,7 @@ export default function ProjectDetailsPage(){
   const { mutateAsync: editProject } = useEditProject()
   const [expanded, setExpanded] = useState(true)
   const [showEditProjectForm, setShowEditProjectForm] = useState(false)
-  const queryClient = useQueryClient()
+  // const queryClient = useQueryClient()
 
   const { projectId } = useParams()
   const { data: project } = useGetProject(Number(projectId))
@@ -56,7 +55,7 @@ export default function ProjectDetailsPage(){
       console.log("========================= SUBMIT ============================= ", {formattedData})
 
       await editProject(formattedData)
-      queryClient.invalidateQueries({ queryKey: ["getProject", Number(formattedData.id)] })
+      // queryClient.invalidateQueries({ queryKey: ["getProject", Number(formattedData.id)] })
     } catch (e) {
       console.error(e)
     }

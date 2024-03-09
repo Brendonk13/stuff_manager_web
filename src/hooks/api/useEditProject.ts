@@ -5,10 +5,14 @@ import { useSnackbarContext } from '@/contexts/SnackbarContext'
 
 export default function useEditProject(){
   const { openSnackbar } = useSnackbarContext()
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: editProject,
-    onSuccess: () => {
+    onSuccess: async () => {
+      // invalidate all getProject calls
+      await queryClient.invalidateQueries({ queryKey: ["getProject"] })
+
       openSnackbar({
         message: 'Project saved',
         type: 'success',

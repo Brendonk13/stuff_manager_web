@@ -2,32 +2,14 @@ import z from "zod"
 import { ProjectSchema } from "./Project"
 import { TagSchema } from "./Tag"
 
-// const TagObject = {
-//   id: z.number().optional(), // list_actions returns tags without id's, todo: should I return those Id's?
-//   value: z.string().min(1, "Please enter a value"),
-// }
-
-// export const TagSchema = z.object(TagObject)
-// export type Tag = z.infer<typeof TagSchema>
-
-// // export const ListTagSchema = z.object({
-// //   message: z.string(),
-// //   data: z.array(TagSchema),
-// // })
-
-// export const ListTagSchema = z.array(TagSchema)
-
-// export type ListTagResponse = z.infer<typeof ListTagSchema>
-// export type ListContextResponse = ListTagResponse
-
 
 
 // todo: how to enforce only having one of somedayMaybe, delegate, cannotBeDoneYet to true
 // or maybe is it best to allow things to be someday/maybe as well as cannotBeDoneYet
 // no, cannotBeDoneYet should be kept clutter free
 
-// this is here so I can reuse these values
 const actionSchemaAll = {
+  id: z.number(),
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "No 1 letter descriptions").optional(),
   date: z.date().optional(),
@@ -39,18 +21,25 @@ const actionSchemaAll = {
   tags: z.array(TagSchema).optional(),
 }
 
-export const ActionSchema = z.object(actionSchemaAll)
+export const CreateItemActionSchema = z.object(actionSchemaAll).omit({ id: true })
+export type CreateItemAction = z.infer<typeof CreateItemActionSchema>
+
+export const ActionSchema = z.object(actionSchemaAll).omit({
+  somedayMaybe: true,
+  delegated: true,
+  cannotBeDoneYet: true,
+})
+
 export type Action = z.infer<typeof ActionSchema>
 
-export const CreateActionSchema = {
-  body : ActionSchema,
-}
+// export const CreateActionSchema = {
+//   body : ActionSchema,
+// }
 
 
 export const GetActionSchema = z.object(
 {
   ...actionSchemaAll,
-  id: z.number(),
   project: ProjectSchema.optional(),
 }).omit({
     somedayMaybe: true,
@@ -98,20 +87,23 @@ export const ListActionQuerySchema = z.object({
 })
 export type ListActionQueryParams = z.infer<typeof ListActionQuerySchema>
 
-export const EditActionSchema = z.object(
-{
-  ...actionSchemaAll,
-  id: z.number(),
-}).omit({
-    somedayMaybe: true,
-    delegated: true,
-    cannotBeDoneYet: true
+export const EditActionSchema = z.object(actionSchemaAll).omit({
+  somedayMaybe: true,
+  delegated: true,
+  cannotBeDoneYet: true
 })
 export type EditActionBody = z.infer<typeof EditActionSchema>
 
 // =============================== defaults ===============================
 
 export const defaultAction: Action = {
+  id: 0,
+  title: "",
+  description: "",
+  energy: 0,
+}
+
+export const defaultCreateItemAction: CreateItemAction = {
   title: "",
   description: "",
   somedayMaybe: false,
@@ -119,6 +111,7 @@ export const defaultAction: Action = {
   delegated: false,
   energy: 0,
 }
+
 
 export const defaultActionQueryParams: ListActionQueryParams = {
   title: null,

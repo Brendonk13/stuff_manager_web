@@ -1,6 +1,6 @@
 import { type Dayjs } from "dayjs"
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { DateField } from '@mui/x-date-pickers/DateField'
+// import { DateField } from '@mui/x-date-pickers/DateField'
 import dayjs from 'dayjs'
 import { Controller, type FieldValues, type UseControllerProps } from 'react-hook-form'
 
@@ -24,7 +24,8 @@ export default function ControlledDatePicker<FieldValueProps extends FieldValues
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange, value, ref }, fieldState: { error } }) => {
+      // render={({ field: { onChange, value, ref }, fieldState: { error } }) => {
+      render={({ field: { onChange, value, ref }}) => {
         return (
         <DatePicker
           aria-labelledby={name}

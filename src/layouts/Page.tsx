@@ -1,8 +1,7 @@
 import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react'
 import { Box } from '@mui/material'
-import { type ReactNode, useEffect } from 'react'
+import { type ReactNode } from 'react'
 // import { Navigate } from 'react-router-dom'
-import getCookie from "@/utils/getCookie"
 import useWriteBearer from "@/hooks/useWriteBearer"
 
 

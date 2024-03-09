@@ -1,6 +1,6 @@
 // import React, { useState } from "react";
 // import { makeStyles } from "@material-ui/core/styles";
-import { Button, Stack, Box, InputLabel, Slider, type SliderProps } from "@mui/material"
+import { Box, InputLabel, Slider, type SliderProps } from "@mui/material"
 // import React from "react"
 import { type ReactElement } from 'react';
 import { Controller, type FieldValues, type UseControllerProps } from "react-hook-form"

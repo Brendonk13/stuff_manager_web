@@ -17,7 +17,8 @@ export default function ControlledDateField<FieldValueProps extends FieldValues>
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange, value, ref }, fieldState: { error } }) => (
+      // render={({ field: { onChange, value, ref }, fieldState: { error } }) => (
+      render={({ field: { onChange, value, ref } }) => (
         <DateField
           aria-labelledby={name}
           label={label}

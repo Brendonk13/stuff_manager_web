@@ -1,3 +1,7 @@
+cleanup:
+    - change action title to name everywhere
+    - change context from required_cotnext to context
+
 next:
     List Actions:
         - Figure out why filtering tags has so many renders and times the hook is called

@@ -1,6 +1,6 @@
 import { Checkbox, type CheckboxProps, FormControlLabel, InputLabel } from "@mui/material"
 // import React from "react"
-import React, { type FC, type ReactElement } from 'react';
+import { type ReactElement } from 'react';
 import { Controller, type FieldValues, type UseControllerProps } from "react-hook-form"
 
 interface ControlledCheckboxProps<FieldValueProps extends FieldValues>
@@ -13,15 +13,15 @@ const ControlledCheckbox = <FieldValueProps extends FieldValues>({
   control,
   name,
   label,
-  defaultValue,
-  CheckboxProps,
-  ...props
+  // defaultValue,
+  // CheckboxProps,
+  // ...props
 }: ControlledCheckboxProps<FieldValueProps>) => (
   <Controller
     control={control}
     name={name}
     render={({
-      fieldState: { error },
+      // fieldState: { error },
       field: { onChange, onBlur, value, ref },
     }) => (
       <FormControlLabel

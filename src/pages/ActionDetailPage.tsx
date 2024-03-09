@@ -8,7 +8,7 @@ import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 import ControlledTextField from "@/components/controlled/ControlledTextField"
 // import useEditProject from "@/hooks/api/useEditProject"
 // import { defaultProject, type Project, EditProjectSchema } from "@/types/Project"
-import { defaultAction, EditActionSchema } from "@/types/Action"
+import { defaultAction, EditActionSchema, type Action } from "@/types/Action"
 import ExpandMore from "@/components/common/ExpandMore"
 import PageLayout from "@/layouts/Page"
 import { useParams } from 'react-router-dom'
@@ -16,17 +16,17 @@ import { useParams } from 'react-router-dom'
 import useGetAction from "@/hooks/api/useGetAction"
 import useEditAction from "@/hooks/api/useEditAction"
 // import useListActions from "@/hooks/api/useListActions"
-import Action from "@/components/common/Action"
 
 
-export default function ActionDetailsPage(){
+export default function ActionDetailsPage({action}: Action){
   const { mutateAsync: editAction } = useEditAction()
   const [expanded, setExpanded] = useState(true)
   const [showEditAction, setShowEditAction] = useState(false)
   const queryClient = useQueryClient()
 
-  const { actionId } = useParams()
-  const { data: action } = useGetAction(Number(actionId))
+  // let { actionId } = useParams()
+  // actionId = Number(actionId)
+  // const { data: action } = useGetAction(actionId)
   // console.log({project})
 
   // const listActionQueryParams = defaultActionQueryParams
@@ -48,16 +48,20 @@ export default function ActionDetailsPage(){
     console.log("EDIT ACTION FORM ERRORS", {errors})
   }
 
-  const onSubmit = async (data: Project) => {
+  const onSubmit = async (data: Action) => {
     try {
-      const formattedData = {
-        id: Number(projectId),
-        // name: data.name ? data.name : project.name,
-        // notes: data.notes ? data.notes : project.notes,
+      const formattedData: Action = {
+        id: action.id,
+        title: data?.title ? data.title : action.title,
+        description: data?.description ? data.description : action.description,
+        date: data?.date ? data.date : action.date,
+        energy: data?.energy ? data.energy : action.energy,
+        tags: data?.tags ? data.tags : action.tags,
+        required_context: data?.required_context ? data.required_context : action.required_context,
       }
-      console.log("========================= SUBMIT ============================= ", {formattedData})
+      console.log("========================= SUBMIT ============================= ", {data}, {formattedData})
 
-      await editAction(formattedData)
+      await editAction(action.id, formattedData)
       queryClient.invalidateQueries({ queryKey: ["getAction", Number(formattedData.id)] })
     } catch (e) {
       console.error(e)
@@ -147,10 +151,6 @@ export default function ActionDetailsPage(){
           </>
         )}
 
-          {/* list of actions in the project */}
-        {actions?.data?.map(action => (
-          <Action key={`Action_${action.id}`} action={action} />
-        ))}
         </FormProvider>
       </Box>
     </PageLayout>

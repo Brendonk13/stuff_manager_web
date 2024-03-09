@@ -6,10 +6,10 @@ import { useParams } from 'react-router-dom'
 import PageLayout from "@/layouts/Page"
 import * as React from 'react'
 //import Box from '@mui/material/Box'
-import { InputLabel, Switch, Typography, Button, Box, Stack, Divider, TextField } from '@mui/material'
-import { FormProvider, useForm, useFieldArray, type FieldArrayWithId } from "react-hook-form"
+import { Switch, Typography, Button, Box, Stack, Divider } from '@mui/material'
+import { FormProvider, useForm } from "react-hook-form"
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
-import { defaultAction } from "@/types/Action"
+import { defaultCreateItemAction } from "@/types/Action"
 import { CreateItemSchema, type CreateItem } from "@/types/CreateItem"
 import { defaultProject } from "@/types/Project"
 import ActionableForm from "@/components/processItem/ActionableStepsForm"
@@ -37,7 +37,7 @@ export default function ProcessItemPage() {
   const defaultValues: CreateItem = {
     unprocessedId: 0,
     project: defaultProject,
-    actions: [defaultAction],
+    actions: [defaultCreateItemAction],
   }
 
 

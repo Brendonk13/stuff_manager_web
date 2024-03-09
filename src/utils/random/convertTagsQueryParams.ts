@@ -33,7 +33,7 @@ export function tagsStringToArray(allTags: [Tag] | null, tagsString?: string): A
   if (!allTags || !tagsString || !tagsString.length) return null
 
   // remove surrounding brackets: '[', ']'
-  let formattedTags = tagsString.substring(1, tagsString.length - 1).split(",")
+  const formattedTags = tagsString.substring(1, tagsString.length - 1).split(",")
 
   const foundTags = formattedTags.map((tag: string) => {
     const tagObject = allTags.filter((tagObject: Tag) =>
