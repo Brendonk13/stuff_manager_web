@@ -11,8 +11,9 @@ export default function UnprocessedPage() {
   const navigate = useNavigate()
   const unprocessed = useListUnprocessed()
   const { mutateAsync: deleteUnprocessed } = useDeleteUnprocessed()
-  const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false)
   const [deletedUnprocessedId, setDeletedUnprocessedId] = useState(0)
+
+  console.log({unprocessed})
 
   const deleteUnprocessedItem = async () => {
     if (deletedUnprocessedId === 0){
@@ -21,18 +22,11 @@ export default function UnprocessedPage() {
     }
     const result = await deleteUnprocessed(deletedUnprocessedId)
     console.log("DELETE UNPROCESSED", {result})
-    setConfirmDeleteDialogOpen(false)
     setDeletedUnprocessedId(0)
   }
 
-  const deleteClicked = (unprocessedId: number) => {
-    setDeletedUnprocessedId(unprocessedId)
-    setConfirmDeleteDialogOpen(true)
-  }
-
-  console.log({unprocessed})
   return (
-    <div>
+    <PageLayout>
       <Typography variant="h2">Unprocessed Items</Typography>
       <br/>
       {unprocessed?.data?.map(unprocessed => {
@@ -41,16 +35,16 @@ export default function UnprocessedPage() {
           {/* <Paper elevation={2} sx={{  padding: 1 }}> */}
           <Paper elevation={2} sx={{   padding: 1 }}>
             <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-              {/* left side */}
+              {/* LEFT SIDE */}
               <Stack>
                 <Typography variant="h3">{unprocessed?.title ?? ""}</Typography>
                 <Typography variant="body1">{unprocessed?.description ?? ""}</Typography>
               </Stack>
 
-              {/* right side */}
+              {/* RIGHT SIDE */}
                 {/* note: can make them go in the top right by removing alignItems and setting sx=height="60%" */}
               <Stack direction="row" spacing={1} sx={{alignItems: "center"}}>
-                <Button size="small" variant="contained" color="error" onClick={() => deleteClicked(unprocessed.id)}>
+                <Button size="small" variant="contained" color="error" onClick={() => setDeletedUnprocessedId(unprocessed.id)}>
                     {/* <Typography><strong>Delete</strong></Typography> */}
                     {/* <Typography>Delete</Typography> */}
                     Delete
@@ -64,16 +58,16 @@ export default function UnprocessedPage() {
               </Stack>
             </Stack>
           </Paper>
-            {/* todo: is it better to have this ConfirmationDialog in every loop or to set the state of the id we want to delete */}
-          <ConfirmationDialog
-            open={confirmDeleteDialogOpen}
-            onConfirm={deleteUnprocessedItem}
-            onCancel={() => setConfirmDeleteDialogOpen(false)}
-            title="Delete Unprocessed Item?"
-          />
           </Stack>
         )
       })}
-    </div>
+      <ConfirmationDialog
+        open={deletedUnprocessedId !== 0}
+        onConfirm={deleteUnprocessedItem}
+        // onCancel={() => setConfirmDeleteDialogOpen(false)}
+        onCancel={() => setDeletedUnprocessedId(0)}
+        title="Delete Unprocessed Item?"
+      />
+    </PageLayout>
   )
 }

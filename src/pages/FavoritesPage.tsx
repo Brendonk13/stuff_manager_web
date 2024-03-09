@@ -4,8 +4,8 @@ import PageLayout from "@/layouts/Page"
 
 export default function FavoritesPage() {
   return (
-    <div>
+    <PageLayout>
         <Typography variant="h2">Favorites</Typography>
-    </div>
+    </PageLayout>
   )
 }

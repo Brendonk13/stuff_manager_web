@@ -4,15 +4,11 @@ import {
   Button,
   Dialog,
   DialogActions,
-  DialogContent,
   DialogTitle,
   IconButton,
   Stack,
-  // Typography,
   useMediaQuery,
 } from '@mui/material'
-// import { useForm } from 'react-hook-form'
-// import { useNavigate } from 'react-router-dom'
 
 interface ConfirmationDialogProps {
   open: boolean
@@ -22,12 +18,9 @@ interface ConfirmationDialogProps {
 }
 
 export default function ConfirmationDialog({ open, title, onCancel, onConfirm }: ConfirmationDialogProps){
-  // const duplicateMutation = useCreateDuplicate()
-  // const navigate = useNavigate()
   const isMobile = useMediaQuery('(max-width: 460px)')
 
   const handleConfirm = () => {
-    // will this work on non-async ?
     onConfirm()
   }
 
@@ -37,7 +30,7 @@ export default function ConfirmationDialog({ open, title, onCancel, onConfirm }:
 
   return (
     <Dialog open={open} onClose={handleCancel} fullScreen={isMobile}>
-      <Stack justifyContent={'center'} p={2}>
+      <Stack justifyContent="center" p={2}>
         <DialogTitle
           color="primary"
           fontSize={24}
@@ -51,16 +44,9 @@ export default function ConfirmationDialog({ open, title, onCancel, onConfirm }:
             <Close />
           </IconButton>
         </DialogTitle>
-        <DialogContent>
-          {/* <Stack justifyContent={'center'} alignItems={'flex-start'}> */}
-          {/*   <Typography fontSize={'20px'} fontWeight={600}> */}
-          {/*     Title: */}
-          {/*   </Typography> */}
-          {/*   <ControlledTextField fullWidth name="title" control={control} /> */}
-          {/* </Stack> */}
-        </DialogContent>
+
         <DialogActions>
-          <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
+          <Stack direction="row" justifyContent="flex-end" gap={1}>
             <Button
               onClick={handleCancel}
               color="secondary"

@@ -3,8 +3,8 @@ import PageLayout from "@/layouts/Page"
 
 export default function SettingsPage() {
   return (
-    <div>
-        <Typography variant="h2">Settings</Typography>
-    </div>
+    <PageLayout>
+      <Typography variant="h2">Settings</Typography>
+    </PageLayout>
   )
 }
