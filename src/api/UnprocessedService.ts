@@ -20,4 +20,4 @@ export const listUnprocessed = () =>
   UnprocessedService.get<ListUnprocessedResponse>(``).then(res => res.data)
 
 export const deleteUnprocessed = (unprocessedId: number) =>
-  UnprocessedService.get<DeleteUnprocessedResponse>(`/${unprocessedId}`).then(res => res.data)
+  UnprocessedService.delete<DeleteUnprocessedResponse>(`/${unprocessedId}`).then(res => res.data)
