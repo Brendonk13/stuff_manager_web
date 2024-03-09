@@ -1,4 +1,4 @@
-import { type EditProjectBody, type ListProjectsResponse, type GetProjectResponse } from "@/types/Project"
+import { type EditProjectBody, type ListProjectsResponse, type GetProjectResponse, type EditProjectResponse } from "@/types/Project"
 
 import { CreateApiService } from './Service'
 
@@ -14,7 +14,5 @@ export const getProject = (projectId: number) =>
 
 export const editProject = (data: EditProjectBody) => {
     console.log({data})
-  // todo: clear query keys for getting project
-    return ProjectsService.put<GetProjectResponse>(`/${data.id}`, data).then(res => res.data)
-    // return ProjectsService.put<GetProjectResponse>(``).then(res => res.data)
+    return ProjectsService.put<EditProjectResponse>(`/${data.id}`, data).then(res => res.data)
 }

@@ -9,7 +9,9 @@ import * as React from 'react'
 import { InputLabel, Switch, Typography, Button, Box, Stack, Divider, TextField } from '@mui/material'
 import { FormProvider, useForm, useFieldArray, type FieldArrayWithId } from "react-hook-form"
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
-import { CreateItemSchema, type CreateItem, defaultProject, defaultAction } from "@/types/Action"
+import { defaultAction } from "@/types/Action"
+import { CreateItemSchema, type CreateItem } from "@/types/CreateItem"
+import { defaultProject } from "@/types/Project"
 import ActionableForm from "@/components/processItem/ActionableStepsForm"
 import useWriteBearer from "@/hooks/useWriteBearer"
 import useGetUnprocessed from "@/hooks/api/useGetUnprocessed"

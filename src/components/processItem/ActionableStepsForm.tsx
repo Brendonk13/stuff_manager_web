@@ -10,7 +10,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ControlledAutoComplete from "@/components/controlled/ControlledAutoComplete"
 import ControlledSlider from "@/components/controlled/ControlledSlider"
 import useListProjects from "@/hooks/api/useListProjects"
-import { type Project, defaultAction, defaultProject} from "@/types/Action"
+import { defaultAction } from "@/types/Action"
+import { type Project, defaultProject} from "@/types/Project"
 import { type Option } from "@/types/Common"
 
 

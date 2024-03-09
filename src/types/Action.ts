@@ -1,34 +1,26 @@
 import z from "zod"
+import { ProjectSchema } from "./Project"
+import { TagSchema } from "./Tag"
 
-const TagObject = {
-  id: z.number().optional(), // list_actions returns tags without id's, todo: should I return those Id's?
-  value: z.string().min(1, "Please enter a value"),
-}
+// const TagObject = {
+//   id: z.number().optional(), // list_actions returns tags without id's, todo: should I return those Id's?
+//   value: z.string().min(1, "Please enter a value"),
+// }
 
-export const TagSchema = z.object(TagObject)
-export type Tag = z.infer<typeof TagSchema>
+// export const TagSchema = z.object(TagObject)
+// export type Tag = z.infer<typeof TagSchema>
 
-// export const ListTagSchema = z.object({
-//   message: z.string(),
-//   data: z.array(TagSchema),
-// })
+// // export const ListTagSchema = z.object({
+// //   message: z.string(),
+// //   data: z.array(TagSchema),
+// // })
 
-export const ListTagSchema = z.array(TagSchema)
+// export const ListTagSchema = z.array(TagSchema)
 
-export type ListTagResponse = z.infer<typeof ListTagSchema>
-export type ListContextResponse = ListTagResponse
+// export type ListTagResponse = z.infer<typeof ListTagSchema>
+// export type ListContextResponse = ListTagResponse
 
 
-// todo: cleanup project
-const projectSchemaObject = {
-  name: z.string(),
-  notes: z.string().optional(),
-  // id: z.number().optional(),
-  id: z.number(),
-}
-export const ProjectSchema = z.object(projectSchemaObject)
-
-export type Project = z.infer<typeof ProjectSchema>
 
 // todo: how to enforce only having one of somedayMaybe, delegate, cannotBeDoneYet to true
 // or maybe is it best to allow things to be someday/maybe as well as cannotBeDoneYet
@@ -48,38 +40,14 @@ const actionSchemaAll = {
 }
 
 export const ActionSchema = z.object(actionSchemaAll)
+export type Action = z.infer<typeof ActionSchema>
 
 export const CreateActionSchema = {
   body : ActionSchema,
 }
 
-export type Action = z.infer<typeof ActionSchema>
 
-// todo: delete lol and just have steps
-// todo: change from create item to createActionable!!!!
-export const CreateItemSchema = z.object({
-    // todo: delete title, description since those will be in the steps
-  // currently using this as "project" name, maybe I should make this field required when have multiple steps
-  unprocessedId: z.number(),
-  project: ProjectSchema,
-  actions: z.array(ActionSchema).optional(),
-  // todo: add notes here
-})
-
-// todo: delete lol and just have steps
-export const CreateItemRequestSchema = z.object({
-    // todo: delete title, description since those will be in the steps
-  // currently using this as "project" name, maybe I should make this field required when have multiple steps
-  body: CreateItemSchema,
-})
-
-export const CreateItemResponseSchema = z.object({ message: z.string() })
-export type CreateItemResponse = z.infer<typeof CreateItemResponseSchema>
-
-export type CreateItem = z.infer<typeof CreateItemSchema>
-// export type CreateItemRequest = z.infer<typeof Crea>
-
-export const ListActionSchema = z.array(z.object(
+export const GetActionSchema = z.object(
 {
   ...actionSchemaAll,
   id: z.number(),
@@ -88,8 +56,11 @@ export const ListActionSchema = z.array(z.object(
     somedayMaybe: true,
     delegated: true,
     cannotBeDoneYet: true
-}))
+})
+export type GetActionResponse = z.infer<typeof GetActionSchema>
+export type EditActionResponse = GetActionResponse
 
+export const ListActionSchema = z.array(GetActionSchema)
 export type ListActionResponse = z.infer<typeof ListActionSchema>
 
 export const tagQueryParamSchemaObject = {
@@ -127,12 +98,16 @@ export const ListActionQuerySchema = z.object({
 })
 export type ListActionQueryParams = z.infer<typeof ListActionQuerySchema>
 
-export const EditProjectSchema = z.object({
-  name: projectSchemaObject.name.optional(),
-  notes: projectSchemaObject.notes,
-  id: projectSchemaObject.id,
+export const EditActionSchema = z.object(
+{
+  ...actionSchemaAll,
+  id: z.number(),
+}).omit({
+    somedayMaybe: true,
+    delegated: true,
+    cannotBeDoneYet: true
 })
-export type EditProjectBody = z.infer<typeof EditProjectSchema>
+export type EditActionBody = z.infer<typeof EditActionSchema>
 
 // =============================== defaults ===============================
 
@@ -153,11 +128,3 @@ export const defaultActionQueryParams: ListActionQueryParams = {
   tags: null,
   required_context: null,
 }
-
-
-export const defaultProject: Project = {
-  name: "",
-  notes: "",
-  id: 0,
-}
-

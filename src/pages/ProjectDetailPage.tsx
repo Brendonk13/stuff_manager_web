@@ -7,7 +7,7 @@ import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 
 import ControlledTextField from "@/components/controlled/ControlledTextField"
 import useEditProject from "@/hooks/api/useEditProject"
-import { defaultProject, type Project, EditProjectSchema } from "@/types/Action"
+import { defaultProject, type Project, EditProjectSchema } from "@/types/Project"
 import ExpandMore from "@/components/common/ExpandMore"
 import PageLayout from "@/layouts/Page"
 import { useParams } from 'react-router-dom'

@@ -1,5 +1,5 @@
 import { Link, Paper, Typography, Button, Box, Stack, Divider } from '@mui/material'
-import { type Project } from "@/types/Action"
+import { type Project } from "@/types/Project"
 import { Link as RouterLink, useNavigate } from "react-router-dom"
 
 interface ProjectProps {

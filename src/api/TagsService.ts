@@ -1,4 +1,4 @@
-import { type ListTagResponse } from "@/types/Action"
+import { type ListTagResponse } from "@/types/Tag"
 
 import { CreateApiService } from './Service'
 

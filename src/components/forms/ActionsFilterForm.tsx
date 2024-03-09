@@ -9,7 +9,9 @@ import { useNavigate } from 'react-router-dom'
 
 import useBackListener from "@/hooks/useBackListener"
 import { useFormContext } from "react-hook-form"
-import { defaultActionQueryParams, defaultAction, defaultProject as _defaultProject, type Project, type Action, type Tag, type ListActionQueryParams } from "@/types/Action"
+import { defaultActionQueryParams, defaultAction, type Action, type ListActionQueryParams } from "@/types/Action"
+import { type Tag } from "@/types/Tag"
+import { defaultProject as _defaultProject, type Project } from "@/types/Project"
 import useListProjects from "@/hooks/api/useListProjects"
 import useListActions from "@/hooks/api/useListActions"
 import useListTags from "@/hooks/api/useListTags"

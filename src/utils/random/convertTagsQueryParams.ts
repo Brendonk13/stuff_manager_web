@@ -1,4 +1,4 @@
-import { type Tag } from "@/types/Action"
+import { type Tag } from "@/types/Tag"
 
 export default function convertTagsQueryParamsToString(tags: any): string {
   // I know whats happening
