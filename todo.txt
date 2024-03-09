@@ -16,6 +16,8 @@ next:
     ADD A PAGE TO VIEW ALL UNPROCESSED "THINGS"
     - be able to add notes to new projects in projectsDetails
 
+    - think I just need to use textBoxes for actionsdetails page
+        - then set them to disabled if edit has not been clicked
 
     - maybe add copy buttons next to titles when processing an action
 

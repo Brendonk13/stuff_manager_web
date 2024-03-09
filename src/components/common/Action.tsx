@@ -59,7 +59,9 @@ export default function Action({action, showProjectName}: ActionProps){
             {/* I have this stack so that the link above will appear in the top left without padding but below stack is padded */}
             {/* todo: figure out what padding looks good */}
             <Stack sx={{paddingX: 1}}>
-              <Typography variant="h3">{action?.title || ""}</Typography>
+              <Link href={`/actions/${action.id}`} color="text.primary">
+                <Typography variant="h3">{action?.title || ""}</Typography>
+              </Link>
               <Typography variant="body1">{action?.description || ""}</Typography>
             </Stack>
           </Stack>
