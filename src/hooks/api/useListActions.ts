@@ -21,7 +21,5 @@ export default function useListActions(queryParams?: ListActionQueryParams){
       // console.log("========= HOOK", {data})
       return data
     },
-    // ...postQueryKeys.detail(unprocessedId),
-    // select: (res) => res.data,
   })
 }

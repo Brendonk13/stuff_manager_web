@@ -1,4 +1,5 @@
-import { type CreateUnprocessedRequestBody, type CreateUnprocessedResponse, type GetUnprocessedResponse } from "@/types/Unprocessed"
+import { type CreateUnprocessedRequestBody, type CreateUnprocessedResponse, type GetUnprocessedResponse, type ListUnprocessedResponse, type DeleteUnprocessedResponse } from "@/types/Unprocessed"
+// todo: change capitalization of Unprocessed file
 
 
 import { CreateApiService } from './Service'
@@ -15,31 +16,8 @@ export const createUnprocessed = (body: CreateUnprocessedRequestBody) =>
 export const getUnprocessed = (unprocessedId: number) =>
   UnprocessedService.get<GetUnprocessedResponse>(`/${unprocessedId}`).then(res => res.data)
 
+export const listUnprocessed = () =>
+  UnprocessedService.get<ListUnprocessedResponse>(``).then(res => res.data)
 
-// export const postQueryKeys = createQueryKeys('posts', {
-//   all: null,
-//   my: {
-//     queryKey: ['my-posts'],
-//     queryFn: getMyPosts,
-//   },
-//   detail: (postId?: number) => ({
-//     queryKey: ['detail', postId],
-//     queryFn: () => getPostDetailsById(postId || 0),
-//   }),
-//   publicPostDetails: (postId?: string) => ({
-//     queryKey: ['public-post-details', postId],
-//     queryFn: () => getPublicPostDetailsById(postId || ''),
-//   }),
-//   recentHashtags: {
-//     queryKey: ['recent-hashtags'],
-//     queryFn: listRecentHashtags,
-//   },
-//   myHashtagCollections: {
-//     queryKey: ['collection'],
-//     queryFn: getMyHashtagCollections,
-//   },
-//   date: (dateRange, data: ListPostsByDateRequestQuery) => ({
-//     queryKey: ['date', dateRange, data],
-//     queryFn: () => listPostsByDate(data),
-//   }),
-// })
+export const deleteUnprocessed = (unprocessedId: number) =>
+  UnprocessedService.get<DeleteUnprocessedResponse>(`/${unprocessedId}`).then(res => res.data)

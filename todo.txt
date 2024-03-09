@@ -19,11 +19,27 @@ next:
 
     - maybe add copy buttons next to titles when processing an action
 
+    - need an action detail page ...
+    -- need a form for editing the action from here as well
+
+    unprocessed page:
+        - need to add a form for submitting the button to remove things
+        - MAYBE ADD A MODAL TO CONFIRM DELETING ?
+
     Current:
-        - finish list projects page
-            - make it clickable
+        - add unprocessed page
+            - add this to the sidebar
         - Finish the favorites page
         - settings page after release
+        - make sidebar have justifycontent: space-between
+
+        - test get unprocessed with ID
+        - need the processitem page to mark unprocessed things as processed OR just delete them maybe
+
+    mark unprocessed in backend:
+        - need to add the field: unprocessedId to schemas
+
+    maybe redirect the user when they successfully complete the process item form
 
 
     SideBar

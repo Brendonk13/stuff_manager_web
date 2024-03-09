@@ -7,6 +7,7 @@ import ProjectDetailPage from "@/pages/ProjectDetailPage"
 import ActionsPage from "@/pages/ActionsPage"
 import FavoritesPage from "@/pages/FavoritesPage"
 import SettingsPage from "@/pages/SettingsPage"
+import UnprocessedPage from "@/pages/UnprocessedPage"
 
 export default function Router(){
   return (
@@ -24,6 +25,7 @@ export default function Router(){
           <Route path="actions" element={<ActionsPage />} />
           <Route path="favorites" element={<FavoritesPage />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="unprocessed" element={<UnprocessedPage />} />
           {/* <Route path="actions/:actionId" element={<ActionsPage />} /> */}
         </Route>
         {/* <Route path="/sign-in" element={<SignInPage />} /> */}

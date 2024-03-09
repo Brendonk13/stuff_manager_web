@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Link, ListItemText, ListItemIcon, ListItemButton, ListItem, Divider, List, Box, Drawer, Button } from '@mui/material'
+import { Stack, Link, ListItemText, ListItemIcon, ListItemButton, ListItem, Divider, List, Box, Drawer, Button } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
 import InboxIcon from '@mui/icons-material/MoveToInbox'
 import sideBarLinks from "./links"
@@ -62,7 +62,8 @@ export default function TemporaryDrawer() {
 
 
       <Divider />
-      <List>
+      {/* <List sx={{display: "flex", flexDirection: "column", justifyContent: "flex-end"}}> */}
+      <List >
         <Link component={RouterLink} to="/settings" key="settings" underline="none" color="grey.700" >
           <ListItem
             sx={{
@@ -78,14 +79,6 @@ export default function TemporaryDrawer() {
             <ListItemText primary="Settings"/>
           </ListItem>
         </Link>
-        {/* <ListItem key="Settings" disablePadding> */}
-        {/*   <ListItemButton> */}
-        {/*     <ListItemIcon> */}
-        {/*       <SettingsIcon /> */}
-        {/*     </ListItemIcon> */}
-        {/*     <ListItemText primary="Settings" /> */}
-        {/*   </ListItemButton> */}
-        {/* </ListItem> */}
       </List>
     </Box>
   )
@@ -94,6 +87,7 @@ export default function TemporaryDrawer() {
     <div>
       {
       <React.Fragment key={anchor}>
+      {/* <React.Fragment key={anchor} sx={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}> */}
         <Button onClick={toggleDrawer(anchor, true)}> <MenuIcon/> </Button>
         <Drawer
           anchor={anchor}

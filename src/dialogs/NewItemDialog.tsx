@@ -39,6 +39,7 @@ export default function NewItemDialog({
     description: "",
   }
 
+  // todo: import form values
   const formSchema = z.object({
     title: z.string().nullable(),
     description: z.string().min(1, { message: 'Description is required' }),

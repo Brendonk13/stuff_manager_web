@@ -52,7 +52,6 @@ export default function Action({action, showProjectName}: ActionProps){
           {/* ================== LEFT elements ================== */}
           <Stack>
             {showProjectName && action?.project?.name && (
-              // todo: make this not be super fucking weird with trying to use xdg-open
               <Link href={`/projects/${action.project.project_id}`} color="secondary" underline="always">
                 {action.project.name}
               </Link>

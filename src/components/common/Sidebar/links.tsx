@@ -8,6 +8,10 @@ import List from '@mui/icons-material/List'
 import Task from '@mui/icons-material/Task'
 import Assignment from '@mui/icons-material/Assignment'
 // import ViewModuleIcon from '@muui/icons-material/ViewModule'
+// import NewReleasesIcon from '@mui/icons-material/NewReleases'; // nope
+// import AddTaskIcon from '@mui/icons-material/AddTask'; // nope: this is not filled icon
+// import PendingActionsIcon from '@mui/icons-material/PendingActions';  // nope: this is not filled icon
+import FiberNewIcon from '@mui/icons-material/FiberNew'
 
 export interface ISidebarLink {
   text: string
@@ -17,6 +21,13 @@ export interface ISidebarLink {
 }
 
 const sidebarLinks: ISidebarLink[] = [
+  {
+    text: "Unprocessed",
+    icon: <FiberNewIcon />,
+    path: "/unprocessed",
+  },
+  // Actions:
+  // import FeedIcon from '@mui/icons-material/Feed';
   {
     text: 'Actions',
     icon: <Task />,

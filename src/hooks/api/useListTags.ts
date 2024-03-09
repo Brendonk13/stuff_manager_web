@@ -5,8 +5,6 @@ const useListTags = () => {
   return useQuery({
     queryKey: ["ListTags"],
     queryFn: async () => await listTags(),
-    // ...postQueryKeys.detail(unprocessedId),
-    // select: (res) => res.data,
   })
 }
 

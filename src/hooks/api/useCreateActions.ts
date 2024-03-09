@@ -6,7 +6,6 @@ import { useSnackbarContext } from '@/contexts/SnackbarContext'
 
 // TODO: add query keys caching
 export default function useCreateActions(){
-// const useCreateUnprocessed = () => {
   const { openSnackbar } = useSnackbarContext()
   return useMutation({
     mutationFn: createActions,

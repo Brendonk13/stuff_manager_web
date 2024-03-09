@@ -5,7 +5,6 @@ const useListProjects = () => {
   return useQuery({
     queryKey: ["ListProjects"],
     queryFn: async () => await listProjects(),
-    // ...postQueryKeys.detail(unprocessedId),
     select: (res) => res.data,
   })
 }
