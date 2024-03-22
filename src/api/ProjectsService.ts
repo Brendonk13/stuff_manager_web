@@ -19,7 +19,7 @@ export const editProject = (data: EditProjectBody) => {
 
 export const createProject = (data: CreateProjectRequestBody) => {
     console.log({data})
-    return ProjectsService.put<CreateProjectResponse>(``, data).then(res => res.data)
+    return ProjectsService.post<CreateProjectResponse>(``, data).then(res => res.data)
 }
 
 
