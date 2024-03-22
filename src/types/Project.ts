@@ -7,20 +7,24 @@ const projectSchemaObject = {
   id: z.number(),
 }
 
+export const UnrestrictedProjectSchema = z.object(
+  {...projectSchemaObject, name: z.string()}
+)
+
 export const ProjectSchema = z.object(projectSchemaObject)
 export type Project = z.infer<typeof ProjectSchema>
 
 // ========================= CREATE =========================
-export const CreateProjectRequestSchema = {
-  body: ProjectSchema,
-}
+// export const CreateProjectRequestSchema = {
+//   body: ProjectSchema,
+// }
 
 export const CreateProjectResponseSchema = z.object({
-  message: z.string(),
+  // message: z.string(),
   data: ProjectSchema,
 })
 
-export type CreateProjectRequestBody = z.infer<typeof CreateProjectRequestSchema.body>
+export type CreateProjectRequestBody = z.infer<typeof ProjectSchema>
 export type CreateProjectResponse = z.infer<typeof CreateProjectResponseSchema>
 
 

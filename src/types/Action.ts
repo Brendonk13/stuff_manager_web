@@ -1,5 +1,5 @@
 import z from "zod"
-import { ProjectSchema } from "./Project"
+import { ProjectSchema, UnrestrictedProjectSchema } from "./Project"
 import { TagSchema } from "./Tag"
 
 
@@ -66,10 +66,12 @@ export const tagQueryParamSchemaObject = {
 
 // need optional and nullable since the default value needs to be null NOT undefined (form values cannot have initial value undefined then change)
 export const ListActionQuerySchema = z.object({
-  title: actionSchemaAll.title.optional().nullable(),
+  // title: actionSchemaAll.title.optional().nullable(),
+  title: z.string().optional().nullable(),
+  // title: actionSchemaAll.title.optional().nullable(),
   // project_id: z.number().optional().nullable(),
   // does this mean we want a project to transform it
-  project_id: ProjectSchema.optional().nullable().transform(project => project?.id ?? null),
+  project_id: UnrestrictedProjectSchema.optional().nullable().transform(project => project?.id ?? null),
   energy: actionSchemaAll.energy.nullable(),
   date: actionSchemaAll.date.nullable(),
   // tags: z.array(TagSchema).optional().nullable().transform(tag => [tag] ),
