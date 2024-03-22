@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import { listProjects } from "@/api/ProjectsService"
+import { listProjects, projectQueryKeys } from "@/api/ProjectsService"
 
 const useListProjects = () => {
   return useQuery({
-    queryKey: ["ListProjects"],
+    queryKey: [projectQueryKeys.LIST],
     queryFn: async () => await listProjects(),
     select: (res) => res.data,
   })

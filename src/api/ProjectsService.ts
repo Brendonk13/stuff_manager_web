@@ -1,4 +1,4 @@
-import { type EditProjectBody, type ListProjectsResponse, type GetProjectResponse, type EditProjectResponse } from "@/types/Project"
+import { type EditProjectBody, type ListProjectsResponse, type GetProjectResponse, type EditProjectResponse, type CreateProjectRequestBody, type CreateProjectResponse } from "@/types/Project"
 
 import { CreateApiService } from './Service'
 
@@ -15,4 +15,15 @@ export const getProject = (projectId: number) =>
 export const editProject = (data: EditProjectBody) => {
     console.log({data})
     return ProjectsService.put<EditProjectResponse>(`/${data.id}`, data).then(res => res.data)
+}
+
+export const createProject = (data: CreateProjectRequestBody) => {
+    console.log({data})
+    return ProjectsService.put<CreateProjectResponse>(``, data).then(res => res.data)
+}
+
+
+export const projectQueryKeys = {
+  LIST: "ListProjects",
+  GET: "GetProject"
 }

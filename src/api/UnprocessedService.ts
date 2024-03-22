@@ -21,3 +21,9 @@ export const listUnprocessed = () =>
 
 export const deleteUnprocessed = (unprocessedId: number) =>
   UnprocessedService.delete<DeleteUnprocessedResponse>(`/${unprocessedId}`).then(res => res.data)
+
+
+export const unprocessedQueryKeys = {
+  LIST: "ListUnprocessed",
+  GET: "GetUnprocessed"
+}

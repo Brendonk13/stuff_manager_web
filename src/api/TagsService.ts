@@ -8,3 +8,9 @@ export const TagsService = CreateApiService({
 
 export const listTags = () =>
   TagsService.get<ListTagResponse>(``).then(res => res.data)
+
+
+export const tagQueryKeys = {
+  LIST: "ListTags",
+  GET: "GetTag"
+}

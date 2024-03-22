@@ -28,3 +28,8 @@ export const editAction = (data: EditActionBody) => {
   console.log("edit action data", {data})
   return ActionsService.put<EditActionResponse>(`/${data.id}`, data).then(res => res.data)
 }
+
+export const actionQueryKeys = {
+  LIST: "ListActions",
+  GET: "GetAction"
+}

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { listActions } from "@/api/ActionsService"
+import { listActions, actionQueryKeys } from "@/api/ActionsService"
 import { type ListActionQueryParams} from "@/types/Action"
 import convertTags from "@/utils/random/convertTagsQueryParams"
 
@@ -14,7 +14,7 @@ export default function useListActions(queryParams?: ListActionQueryParams){
   // console.log("outside usequery", {queryParams})
 
   return useQuery({
-    queryKey: ["ListActions", queryParams],
+    queryKey: [actionQueryKeys.LIST, queryParams],
     queryFn: async () => {
       // console.log("useListActions", {queryParams})
       const data = await listActions(queryParams)

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import { listTags } from "@/api/TagsService"
+import { listTags, tagQueryKeys } from "@/api/TagsService"
 
 const useListTags = () => {
   return useQuery({
-    queryKey: ["ListTags"],
+    queryKey: [tagQueryKeys.LIST],
     queryFn: async () => await listTags(),
   })
 }

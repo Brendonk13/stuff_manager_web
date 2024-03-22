@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import { getAction } from "@/api/ActionsService"
+import { getAction, actionQueryKeys } from "@/api/ActionsService"
 
 export default function useGetAction(actionId: number){
   return useQuery({
-    queryKey: ["getAction", actionId],
+    queryKey: [actionQueryKeys.GET, actionId],
     queryFn: async () => await getAction(actionId),
   })
 }

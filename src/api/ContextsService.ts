@@ -8,3 +8,9 @@ export const ContextsService = CreateApiService({
 
 export const listContexts = () =>
   ContextsService.get<ListContextResponse>(``).then(res => res.data)
+
+
+export const contextQueryKeys = {
+  LIST: "ListContexts",
+  GET: "GetContext"
+}

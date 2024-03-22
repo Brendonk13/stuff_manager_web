@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { editProject } from '@/api/ProjectsService'
+import { editProject, projectQueryKeys } from '@/api/ProjectsService'
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
 
 export default function useEditProject(){
@@ -11,7 +11,8 @@ export default function useEditProject(){
     mutationFn: editProject,
     onSuccess: async () => {
       // invalidate all getProject calls
-      await queryClient.invalidateQueries({ queryKey: ["getProject"] })
+      await queryClient.invalidateQueries({ queryKey: [projectQueryKeys.GET] })
+      await queryClient.invalidateQueries({ queryKey: [projectQueryKeys.LIST] })
 
       openSnackbar({
         message: 'Project saved',

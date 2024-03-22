@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
-import { deleteUnprocessed } from "@/api/UnprocessedService"
+import { deleteUnprocessed, unprocessedQueryKeys } from "@/api/UnprocessedService"
 
 export default function useDeleteUnprocessed() {
   const { openSnackbar } = useSnackbarContext()
@@ -11,9 +11,7 @@ export default function useDeleteUnprocessed() {
     mutationFn: deleteUnprocessed,
 
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["ListUnprocessed"],
-      })
+      await queryClient.invalidateQueries({ queryKey: [unprocessedQueryKeys.LIST], })
 
       openSnackbar({
         message: 'Unprocessed item was deleted successfully',

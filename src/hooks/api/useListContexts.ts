@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import { listContexts } from "@/api/ContextsService"
+import { listContexts, contextQueryKeys } from "@/api/ContextsService"
 
 const useListContexts = () => {
   return useQuery({
-    queryKey: ["ListContexts"],
+    queryKey: [contextQueryKeys.LIST],
     queryFn: async () => await listContexts(),
   })
 }

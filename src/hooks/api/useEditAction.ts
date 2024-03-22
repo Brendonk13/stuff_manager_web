@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { editAction } from '@/api/ActionsService'
+import { editAction, actionQueryKeys } from '@/api/ActionsService'
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
 
 export default function useEditAction(){
@@ -11,7 +11,8 @@ export default function useEditAction(){
     mutationFn: editAction,
     onSuccess: async () => {
       // invalidate all getAction calls
-      await queryClient.invalidateQueries({ queryKey: ["getAction"] })
+      await queryClient.invalidateQueries({ queryKey: [actionQueryKeys.GET] })
+      await queryClient.invalidateQueries({ queryKey: [actionQueryKeys.LIST] })
 
       openSnackbar({
         message: 'Action saved',
