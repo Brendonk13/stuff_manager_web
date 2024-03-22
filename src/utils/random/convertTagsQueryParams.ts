@@ -15,7 +15,7 @@ export default function convertTagsQueryParamsToString(tags: any): string {
     // console.log("not array")
     // console.log("typeof tags", typeof tags, tags, typeof [{h: "l"}], {hello: "world"}, Array.isArray([{h: "l"}]), Array.isArray(tags) )
     // console.log(tags, tags[0], queryParams
-    tagsString = `["${queryParams?.tags.value}"]`
+    tagsString = `["${tags.value}"]`
 
   } else if (typeof tags == "string"){
     tagsString = tags

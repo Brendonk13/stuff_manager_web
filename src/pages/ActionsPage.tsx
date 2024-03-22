@@ -13,6 +13,22 @@ import ActionsFilterForm from "@/components/forms/ActionsFilterForm"
 import convertTags from "@/utils/random/convertTagsQueryParams"
 import { defaultActionQueryParams, ListActionQuerySchema, type ListActionQueryParams } from "@/types/Action"
 
+function cleanupFormData(data) {
+  if (data?.title === ""){
+    data.title = null
+  }
+  if (data?.project_id === 0){
+    data.project_id = null
+  }
+
+  if (data?.tags){
+    data.tags = convertTags(data.tags)
+  } if (data?.required_context){
+    data.required_context = convertTags(data.required_context)
+  }
+
+}
+
 function extractSearchParamsFromForm(formData){
   const params: ListActionQueryParams = {}
   // need null comparison incase user selected energy == 0
@@ -47,6 +63,10 @@ export default function ActionsPage(){
   // todo: check if there are existing query strings, if so then automatically submit form
   const [searchParams, setSearchParams] = useSearchParams()
   const initialFormValues = {...defaultActionQueryParams, ...extractSearchParamsFromURL(searchParams)}
+
+  cleanupFormData(initialFormValues)
+
+
   // console.log({initialFormValues})
 
   const [actionQueryParams, setActionQueryParams] = useState(initialFormValues)
@@ -61,15 +81,7 @@ export default function ActionsPage(){
   const [showingFilterMenu, setShowingFilterMenu] = useState(false);
   const { openSnackbar } = useSnackbarContext()
 
-
-
-  // just have autocomplete for: tags, required_context, project_id
-  // slider for energy
-  // calendar for date ?
-
-  const defaultValues = defaultActionQueryParams
-
-
+  const defaultValues = initialFormValues
 
   const methods = useForm({
     defaultValues,
@@ -88,15 +100,17 @@ export default function ActionsPage(){
 
   const setQueryParamsFromUrl = () => {
     const data = getValues()
-    if (data?.tags){
-      data.tags = convertTags([data.tags])
-    } if (data?.required_context){
-      data.required_context = convertTags([data.required_context])
-    } if (data?.project_id){ // todo: make this just run the normal transform project in zod
+    cleanupFormData(data)
+    if (data?.project_id){ // todo: make this just run the normal transform project in zod
       // console.log("parsed zod", ListActionQuerySchema.project_id.parse(data.project_id))
       data.project_id = data.project_id.id
+      if (data.project_id === 0){
+        data.project_id = null
+      }
     }
+
     // console.log("BACK CLICKED", {searchParams: extractSearchParamsFromURL(searchParams)}, {values: getValues()}, {data})
+    console.log("setQueryParamsFromUrl", {data})
     setActionQueryParams(data)
   }
 
@@ -109,26 +123,14 @@ export default function ActionsPage(){
   const onSubmit = async (_data: typeof defaultActionQueryParams) => {
     try {
       console.log("========================= SUBMIT ============================= ", {_data})
-      // best solution is to just have the form be the source of truth
-      // but currently the form sends null values insetad of the autofilled values
-      // console.log({initialFormValues})
-      // console.log({searchParamss: extractSearchParamsFromForm(data)})
-      // this function mostly just removes the nulls from appearing in the data so we get clean URLs (no null query string)
-      // const dataCombinedWithSearchParams = extractSearchParamsFromForm(
-      //   {...initialFormValues, ...extractSearchParamsFromForm(data)}
-      // )
       const data = extractSearchParamsFromForm(_data)
 
-      // todo: clearing form values which were previously in the searchParams gets overwritten
-      // idea: can I make it so that purposely set null values are undefined and then I check for undefined and remove them from dataCombinedWithSearchParams
-
       if (data?.energy && data.energy === -1){
+        // only want query params that are relevant for the query
         delete data.energy
       }
       console.log({data})
 
-      // todo: do I need to set both of these or can I just do the searchParams
-      // console.log({data}, {data})
       // set query string so that the form is filled with correct inital values
       setSearchParams(data)
       // trigger a re-render with new actions
@@ -136,7 +138,6 @@ export default function ActionsPage(){
       // todo: for some reason must set below for tags to work
       setActionQueryParams(data)
 
-      // console.log("new query parameters: ", {actionQueryParams})
     } catch (err) {
       const error = err as AxiosError<{ message: string }>
       console.log("form ERROR", err)
@@ -149,7 +150,6 @@ export default function ActionsPage(){
   }
 
 
-  // todo: have one component for filters, another for displaying actions
   return (
     <PageLayout>
       <Stack>
