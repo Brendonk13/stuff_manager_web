@@ -190,15 +190,17 @@ export default function ActionableForm(){
                   />
                 </Stack>
                 <NestedTagsArray
-                  parentName="actions"
-                  nestIndex={index}
+                  fieldArrayName={`actions[${index}].tags`}
+                  // parentName="actions"
+                  // nestIndex={index}
+                  // name="tags"
                   label="Tags"
-                  name="tags"
                 />
                 <NestedTagsArray
-                  parentName="actions"
-                  nestIndex={index}
-                  name="required_context"
+                  fieldArrayName={`actions[${index}].required_context`}
+                  // parentName="actions"
+                  // nestIndex={index}
+                  // name="required_context"
                   label="Required context"
                 />
               </Box>

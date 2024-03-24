@@ -97,18 +97,10 @@ export default function ActionsFilterForm({
     console.log("set contexts", {defaultContexts})
   }, [setValue, defaultContexts])
 
-  // console.log({defaultTitle})
-
-  // useBackListener(({ location }) => {
-  //   console.log("Navigated Back", { location })
-  //   navigate("-1", { replace: true })
-  // })
-
 
   const handleExpandClick = () => { setShowing(!showing) }
 
   const keyPrefix = "Action_Filter"
-  // console.log({initialFormValues})
 
   // todo: maybe have option to just view all actions in projects
   // todo: should someday_maybe, delegated be in tags or seperate (checkboxes)

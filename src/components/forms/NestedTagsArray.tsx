@@ -1,9 +1,11 @@
 // import React from "react";
 import { useFieldArray } from "react-hook-form"
 import { IconButton, InputLabel, Box, Grid, Stack, InputAdornment } from "@mui/material"
-import ControlledTextField from "@/components/controlled/ControlledTextField"
+import AddIcon from '@mui/icons-material/Add'
 import { useFormContext } from "react-hook-form"
-import AddIcon from '@mui/icons-material/Add';
+
+import { addUid } from "@/utils/uID"
+import ControlledTextField from "@/components/controlled/ControlledTextField"
 import CloseWindowImage from "@/assets/icons8-close-window-24.png"
 
 
@@ -15,18 +17,28 @@ import CloseWindowImage from "@/assets/icons8-close-window-24.png"
 //   color: theme.palette.text.secondary,
 // }));
 
+interface NestedTagsArrayProps {
+  // parentName: string, // only used for making fieldArrayName
+  // nestIndex: number, // only used for id
+  // name: string, // only used for id
+  fieldArrayName: string,
+  label: string,
+}
+
+// export default function NestedTagsArray(
+//   { parentName, nestIndex, name, label }
+//   : {
+//     parentName: string,
+//     nestIndex: number,
+//     name: string,
+//     label: string,
+// }) {
 
 export default function NestedTagsArray(
-  { parentName, nestIndex, name, label }
-  : {
-    parentName: string,
-    nestIndex: number,
-    name: string,
-    label: string,
-}) {
+  { fieldArrayName, label }
+  : NestedTagsArrayProps) {
   const { control, } = useFormContext()
-  // const fieldArrayName = `${parentName}.${nestIndex}.${name}`
-  const fieldArrayName = `${parentName}[${nestIndex}].${name}`
+  // const fieldArrayName = `${parentName}[${nestIndex}].${name}`
 
   const { fields, remove, append } = useFieldArray({
     control,
@@ -36,7 +48,8 @@ export default function NestedTagsArray(
   return (
     <>
       <Stack direction="row">
-        <InputLabel sx={{padding: 1, alignSelf: "center"}} id={`${name}_${nestIndex}`}>{label}</InputLabel>
+        {/* <InputLabel sx={{padding: 1, alignSelf: "center"}} id={`${name}_${nestIndex}`}>{label}</InputLabel> */}
+        <InputLabel sx={{padding: 1, alignSelf: "center"}} id={addUid(fieldArrayName)}>{label}</InputLabel>
         <IconButton
           color="primary"
           onClick={() =>
@@ -49,7 +62,8 @@ export default function NestedTagsArray(
           <AddIcon />
         </IconButton>
       </Stack>
-      <Box key={`${name}_${nestIndex}_box`} sx={{ flexDirection: "column", flexGrow: 1 }}>
+      {/* <Box key={`${name}_${nestIndex}_box`} sx={{ flexDirection: "column", flexGrow: 1 }}> */}
+      <Box key={addUid(fieldArrayName)} sx={{ flexDirection: "column", flexGrow: 1 }}>
         <Grid container>
           {/* Loop over tags */}
           {fields.map((item, index) => {

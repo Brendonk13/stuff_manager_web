@@ -8,7 +8,7 @@ import { TagSchema } from "./Tag"
 // or maybe is it best to allow things to be someday/maybe as well as cannotBeDoneYet
 // no, cannotBeDoneYet should be kept clutter free
 
-const actionSchemaAll = {
+const actionSchemaObject = {
   id: z.number(),
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "No 1 letter descriptions").optional(),
@@ -21,10 +21,15 @@ const actionSchemaAll = {
   tags: z.array(TagSchema).optional(),
 }
 
-export const CreateItemActionSchema = z.object(actionSchemaAll).omit({ id: true })
+const actionSchemaObjectWithProject = {
+  ...actionSchemaObject,
+  project: ProjectSchema.optional(),
+}
+
+export const CreateItemActionSchema = z.object(actionSchemaObject).omit({ id: true })
 export type CreateItemAction = z.infer<typeof CreateItemActionSchema>
 
-export const ActionSchema = z.object(actionSchemaAll).omit({
+export const ActionSchema = z.object(actionSchemaObject).omit({
   somedayMaybe: true,
   delegated: true,
   cannotBeDoneYet: true,
@@ -32,22 +37,24 @@ export const ActionSchema = z.object(actionSchemaAll).omit({
 
 export type Action = z.infer<typeof ActionSchema>
 
-// export const CreateActionSchema = {
-//   body : ActionSchema,
-// }
-
-
-export const GetActionSchema = z.object(
-{
-  ...actionSchemaAll,
-  project: ProjectSchema.optional(),
-}).omit({
+export const GetActionSchema = z.object(actionSchemaObjectWithProject).omit({
     somedayMaybe: true,
     delegated: true,
     cannotBeDoneYet: true
 })
 export type GetActionResponse = z.infer<typeof GetActionSchema>
-export type EditActionResponse = GetActionResponse
+
+
+// this request just returns the action
+const EditActionResponseSchema = z.object(actionSchemaObjectWithProject).omit({
+  somedayMaybe: true,
+  delegated: true,
+  cannotBeDoneYet: true,
+  tags: true,
+  required_context: true,
+})
+export type EditActionResponse = z.infer<typeof EditActionResponseSchema>
+
 
 export const ListActionSchema = z.array(GetActionSchema)
 export type ListActionResponse = z.infer<typeof ListActionSchema>
@@ -66,30 +73,30 @@ export const tagQueryParamSchemaObject = {
 
 // need optional and nullable since the default value needs to be null NOT undefined (form values cannot have initial value undefined then change)
 export const ListActionQuerySchema = z.object({
-  // title: actionSchemaAll.title.optional().nullable(),
+  // title: actionSchemaObject.title.optional().nullable(),
   title: z.string().optional().nullable(),
-  // title: actionSchemaAll.title.optional().nullable(),
+  // title: actionSchemaObject.title.optional().nullable(),
   // project_id: z.number().optional().nullable(),
   // does this mean we want a project to transform it
   project_id: UnrestrictedProjectSchema.optional().nullable().transform(project => project?.id ?? null),
-  energy: actionSchemaAll.energy.nullable(),
-  date: actionSchemaAll.date.nullable(),
+  energy: actionSchemaObject.energy.nullable(),
+  date: actionSchemaObject.date.nullable(),
   // tags: z.array(TagSchema).optional().nullable().transform(tag => [tag] ),
   // todo: why is the transform not running when I use z.array
   tags: tagQueryParamSchemaObject.tags,
 
-  // tags: actionSchemaAll.tags.nullable().transform(tag => [tag] ),
-  // tags: actionSchemaAll.tags.nullable().transform(tag => {
+  // tags: actionSchemaObject.tags.nullable().transform(tag => [tag] ),
+  // tags: actionSchemaObject.tags.nullable().transform(tag => {
   //     return Array.isArray(tag)
   //       ? tag
   //       : [tag]
   // }),
-  // required_context: actionSchemaAll.required_context.nullable(),
+  // required_context: actionSchemaObject.required_context.nullable(),
   required_context: tagQueryParamSchemaObject.tags,
 })
 export type ListActionQueryParams = z.infer<typeof ListActionQuerySchema>
 
-export const EditActionSchema = z.object(actionSchemaAll).omit({
+export const EditActionSchema = z.object(actionSchemaObjectWithProject).omit({
   somedayMaybe: true,
   delegated: true,
   cannotBeDoneYet: true
