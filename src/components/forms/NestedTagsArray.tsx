@@ -4,18 +4,12 @@ import { IconButton, InputLabel, Box, Grid, Stack, InputAdornment } from "@mui/m
 import AddIcon from '@mui/icons-material/Add'
 import { useFormContext } from "react-hook-form"
 
+import ControlledAutoComplete from "@/components/controlled/ControlledAutoComplete"
+import { defaultTag, type Tag } from "@/types/Tag"
 import { addUid } from "@/utils/uID"
 import ControlledTextField from "@/components/controlled/ControlledTextField"
 import CloseWindowImage from "@/assets/icons8-close-window-24.png"
 
-
-// const Item = styled(Paper)(({ theme }) => ({
-//   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-//   ...theme.typography.body2,
-//   padding: theme.spacing(1),
-//   textAlign: 'center',
-//   color: theme.palette.text.secondary,
-// }));
 
 interface NestedTagsArrayProps {
   // parentName: string, // only used for making fieldArrayName
@@ -23,6 +17,7 @@ interface NestedTagsArrayProps {
   // name: string, // only used for id
   fieldArrayName: string,
   label: string,
+  options: Tag[],
 }
 
 // export default function NestedTagsArray(
@@ -35,10 +30,16 @@ interface NestedTagsArrayProps {
 // }) {
 
 export default function NestedTagsArray(
-  { fieldArrayName, label }
-  : NestedTagsArrayProps) {
+  {
+    fieldArrayName,
+    label,
+    // options = [defaultTag],
+    options,
+  } : NestedTagsArrayProps) {
   const { control, } = useFormContext()
   // const fieldArrayName = `${parentName}[${nestIndex}].${name}`
+
+  // console.log({options})
 
   const { fields, remove, append } = useFieldArray({
     control,
@@ -48,64 +49,64 @@ export default function NestedTagsArray(
   return (
     <>
       <Stack direction="row">
-        {/* <InputLabel sx={{padding: 1, alignSelf: "center"}} id={`${name}_${nestIndex}`}>{label}</InputLabel> */}
+        {/* ====== ADD TAG BUTTON ====== */}
         <InputLabel sx={{padding: 1, alignSelf: "center"}} id={addUid(fieldArrayName)}>{label}</InputLabel>
-        <IconButton
-          color="primary"
-          onClick={() =>
-            append({
-              value: "",
-            })
-          }
-        >
-          {/* Add tag button */}
+        <IconButton color="primary" onClick={() => append(defaultTag)}>
           <AddIcon />
         </IconButton>
       </Stack>
-      {/* <Box key={`${name}_${nestIndex}_box`} sx={{ flexDirection: "column", flexGrow: 1 }}> */}
       <Box key={addUid(fieldArrayName)} sx={{ flexDirection: "column", flexGrow: 1 }}>
-        <Grid container>
+        <Grid container sx={{ flexGrow: 1}} spacing={2}>
           {/* Loop over tags */}
           {fields.map((item, index) => {
             // console.log("fieldname", `${fieldArrayName}[${index}].value`)
             return (
-            <Grid key={item.id}>
+              <Grid item key={item.id} xs={6} zeroMinWidth>
                 {/* useFieldArray needs something with this id for remove to work: https://github.com/react-hook-form/react-hook-form/issues/1571#issuecomment-690882455 */}
-              <ControlledTextField
-                control={control}
-                name={`${fieldArrayName}[${index}].value`}
-              // todo: make this a drop down
-                TextFieldProps={{
-                  sx: {
-                    width: '100%',
-                    padding: 1,
-                  },
-                  InputProps: {
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton size="small" onClick={() => remove(index)} color="secondary"
-                            sx={{
-                              // alignSelf: "flex-end",
-                              // justifySelf: "flex-end",
-                              float: "right",
-                              position: 'absolute',
-                              left: '89%',
-                              top: '-13%',
-                            }}
-                          >
-                            <Box
-                              component="img"
+                <ControlledAutoComplete
+                  // placeholder=
+                  control={control}
+                  name={`${fieldArrayName}[${index}]`}
+                  // getOptionLabel={(option: Tag) => {
+                  getOptionLabel={option => {
+                    console.log("getOptionLabel", {option}, {options})
+                    return option !== "" ? option.value : defaultTag.value
+                  }}
+                  label="Tag"
+                  options={options}
+                  AutoCompleteProps={{
+                    sx:{ width: '100%', },
+                  }}
+                  // TextFieldProps={{
+                  //   sx: {
+                  //     width: '100%',
+                  //     // padding: 1,
+                  //   },}}
+                  InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton size="small" onClick={() => remove(index)} color="secondary"
                               sx={{
-                                borderRadius: 5,
+                                // alignSelf: "flex-end",
+                                // justifySelf: "flex-end",
+                                float: "right",
+                                position: 'absolute',
+                                left: '91%',
+                                top: '-8%',
                               }}
-                              src={CloseWindowImage}
-                            />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
+                            >
+                              <Box
+                                component="img"
+                                sx={{
+                                  borderRadius: 10,
+                                }}
+                                src={CloseWindowImage}
+                              />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                  }}
+            />
           </Grid>
           )
         })}

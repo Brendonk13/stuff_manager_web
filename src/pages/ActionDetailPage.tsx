@@ -1,10 +1,14 @@
-import { Divider, Button, Box, Stack, Collapse, Typography, IconButton } from '@mui/material'
+import { Link, Divider, Button, Box, Stack, Collapse, Typography, IconButton } from '@mui/material'
 import { useState, useEffect } from "react"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from "react-hook-form"
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 import dayjs from "dayjs"
+import { Link as RouterLink } from "react-router-dom"
 
+import { defaultTag } from "@/types/Tag"
+import useListTags from "@/hooks/api/useListTags"
+import useListContexts from "@/hooks/api/useListContexts"
 import ControlledAutoComplete from "@/components/controlled/ControlledAutoComplete"
 import useListProjects from "@/hooks/api/useListProjects"
 import NestedTagsArray from "@/components/forms/NestedTagsArray"
@@ -37,6 +41,15 @@ export default function ActionDetailsPage(){
   const projects = useListProjects()
   const projectOptions = projects?.data ?? [defaultProject]
 
+  const tags = useListTags()
+  const tagOptions = tags?.data ?? [defaultTag]
+  // console.log({tagOptions})
+
+  const contexts = useListContexts()
+  const contextOptions = contexts?.data ?? [defaultTag]
+  // console.log({contextOptions})
+
+
   const methods = useForm({
     defaultValues: defaultAction,
     resolver: zodResolver(EditActionSchema),
@@ -68,7 +81,8 @@ export default function ActionDetailsPage(){
   useEffect(() => setValue('energy', action?.energy ?? -1),
     [setValue, action?.energy])
 
-  useEffect(() => setValue('project', action?.project ?? undefined),
+  // useEffect(() => setValue('project', action?.project ?? defaultProject),
+  useEffect(() => setValue('project', action?.project ?? null),
     [setValue, action?.project])
 
   // todo: is this correct default value ????
@@ -83,16 +97,6 @@ export default function ActionDetailsPage(){
 
   const onSubmit = async (data: Action) => {
     try {
-      // todo: need to send a seperate request for changing the tags
-      // const formattedData: Action = {
-      //   id: action.id,
-      //   title: data?.title ? data.title : action.title,
-      //   description: data?.description ? data.description : action.description,
-      //   date: data?.date ? data.date : action.date,
-      //   energy: data?.energy ? data.energy : action.energy,
-      //   tags: data?.tags ? data.tags : action.tags,
-      //   required_context: data?.required_context ? data.required_context : action.required_context,
-      // }
       console.log("========================= SUBMIT ============================= ", {data})
 
       const newAction = await editAction(data)
@@ -150,8 +154,8 @@ export default function ActionDetailsPage(){
         </Stack>
 
           <br />
-          <Divider sx={{borderBottomWidth: 2, mb: 2}}/>
             {showEditAction ?
+              <>
               <ControlledTextField
                 control={control}
                 name="description"
@@ -164,23 +168,17 @@ export default function ActionDetailsPage(){
                   }
                 }}
               />
-            : (
+            <br />
+            </>
+            :
               <>
                 <Typography variant="h4">{action?.description || ""}</Typography>
                 <br />
               </>
-            )}
-            <br />
+            }
 
-          {/* {showEditAction ? */}
 
-          {/*   && action?.project?.name && ( */}
-          {/*     <Link href={`/projects/${action.project.project_id}`} color="secondary" underline="always"> */}
-          {/*       {action.project.name} */}
-          {/*     </Link> */}
-          {/* : */}
-          {/* } */}
-
+          <Divider sx={{borderBottomWidth: 2, mb: 2}}/>
           {showEditAction &&
             <ControlledSlider
               control={control}
@@ -196,32 +194,39 @@ export default function ActionDetailsPage(){
             />
           }
 
+        {action?.project && <br />}
           { showEditAction ?
             <ControlledAutoComplete
-                placeholder="Project"
-                control={control}
-                name="project"
-                label="Project"
-                getOptionLabel={option => option.name}
-                options={projectOptions}
-                AutoCompleteProps={{
+              placeholder="Project"
+              control={control}
+              name="project"
+              label="Project"
+              getOptionLabel={option => option.name}
+              options={projectOptions}
+              AutoCompleteProps={{
                 sx:{ width: '60%', },
-                // value: defaultProject,
-                }}
+              }}
             />
-        : <Typography variant="h5">{action?.project && action.project.name}</Typography>
+        : <>
+            <Link href={`/projects/${action?.project?.id}`} underline="always" color="grey.700">
+              {/* todo: make the clickable bounds only the text and not the whole row !!!! */}
+              <Typography variant="h5">{action?.project && action.project.name}</Typography>
+            </Link>
+          </>
         }
+        {/* {action?.project && <br />} */}
 
+          {action?.tags?.length === 0 && <br />}
           { showEditAction ?
             <NestedTagsArray
               fieldArrayName="tags"
               label="Tags"
+              options={tagOptions}
             />
           : (
             <>
               <Typography variant="h5">Tags:</Typography>
               <Tags tags={action?.tags} />
-              {action?.tags?.length === 0 && <br />}
             </>
           )}
 
@@ -229,6 +234,7 @@ export default function ActionDetailsPage(){
             <NestedTagsArray
               fieldArrayName="required_context"
               label="Contexts"
+              options={contextOptions}
             />
           : (
             <>
@@ -237,7 +243,7 @@ export default function ActionDetailsPage(){
             </>
           )
           }
-
+          <br />
 
 
           <Typography><strong>Processed Date:</strong> {dayjs(action?.created).format('MMM D, YYYY')}</Typography>

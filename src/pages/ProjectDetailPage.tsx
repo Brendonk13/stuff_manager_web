@@ -64,7 +64,7 @@ export default function ProjectDetailsPage(){
 
   const getNameWidth = (name?: string) => {
     // makes sure that the textfield is big enough to show the name
-    return name ? `${name.length * 4}%` : "70%"
+    return name ? `${name.length}ch` : "70%"
   }
 
   return (

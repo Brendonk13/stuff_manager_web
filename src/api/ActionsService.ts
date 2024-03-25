@@ -24,10 +24,12 @@ export const listActions = async (queryParams?: ListActionQueryParams) => {
 export const getAction = (actionId: number) =>
     ActionsService.get<GetActionResponse>(`/${actionId}`).then(res => res.data)
 
-export const editAction = (data: EditActionBody) => {
-  console.log("edit action data", {data})
-  return ActionsService.put<EditActionResponse>(`/${data.id}`, data).then(res => res.data)
-}
+export const editAction = (data: EditActionBody) =>
+  ActionsService.put<EditActionResponse>(`/${data.id}`, data).then(res => res.data)
+
+  // console.log("edit action data", {data})
+  // return ActionsService.put<EditActionResponse>(`/${data.id}`, data).then(res => res.data)
+// }
 
 export const actionQueryKeys = {
   LIST: "ListActions",

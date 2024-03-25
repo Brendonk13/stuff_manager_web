@@ -8,8 +8,6 @@ interface TagProps {
 
 export default function Tags({tags}: TagProps){
 
-  console.log({tags})
-
   return (
     <Box sx={{ flexDirection: "column", flexGrow: 1 }}>
       <Grid container>

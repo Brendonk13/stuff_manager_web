@@ -1,12 +1,13 @@
 cleanup:
     - change action title to name everywhere
     - change context from required_cotnext to context
+    - add created to action type ?
+    - fix data shape for process items form
+    - fix backend process items form -- doesnt probably work for existing projects
 
 next:
     List Actions:
         - Figure out why filtering tags has so many renders and times the hook is called
-        - fix clearing energy setting
-        - add query params to work via url and functionality to save queries and show these dynamically in the sidebar
         - maybe just make someday_maybe, delegated, etc always show up first for tags
         ------^^ do this for now, can change l8r
             - maybe have checkboxes for filtering by these 3
@@ -16,6 +17,28 @@ next:
             -- do I need the concept of lists ie someday_maybe list, food lists
             -- no but maybe I do need to have the concept of hierarchies
             -- maybe too complicated, this should be figured out after the fact
+
+        # todo: be able to search by regex in descriptions for list actions
+
+    actions details:
+        │ - show processed (created) date
+        - show date
+        - show tags, contexts
+            -- need to transform someday_maybe to Someday Maybe -- maybe leave for now
+        - show project
+        - AND attach to different project
+
+        - THE ADD TAGS THING SHOULD BE A CONTROLLED AUTOCOMPLETE, NOT A TEXTFIELD
+            - PROCESS ITEMS TODO
+            ----- NEXT !!!!!!!
+
+        NEXT:
+            - fix backend so edit actions will create new tags/contexts at will
+            -- done !!
+            -- next is to test this from the frontend
+
+    - create a new project in projectsPage
+
 
     ADD A PAGE TO VIEW ALL UNPROCESSED "THINGS"
     - be able to add notes to new projects in projectsDetails
@@ -27,6 +50,9 @@ next:
 
     - need an action detail page ...
     -- need a form for editing the action from here as well
+
+    -- think I need to add a trash for actions
+    -- ALSO NEED TO BE ABLE TO MARK ACTIONS AS COMPLETED
 
     unprocessed page:
         - need to add a form for submitting the button to remove things

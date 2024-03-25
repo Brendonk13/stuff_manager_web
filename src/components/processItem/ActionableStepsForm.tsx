@@ -1,6 +1,7 @@
 import { createFilterOptions, Typography, Button, Box, Stack, Divider, IconButton, Paper } from '@mui/material'
 import { useFormContext, useFieldArray } from "react-hook-form"
 // import { useSnackbarContext } from '@/contexts/SnackbarContext'
+
 import ControlledTextField from "@/components/controlled/ControlledTextField"
 import NestedTagsArray from "@/components/forms/NestedTagsArray"
 import ControlledCheckBox from "@/components/controlled/ControlledCheckBox"
@@ -13,6 +14,9 @@ import useListProjects from "@/hooks/api/useListProjects"
 import { defaultCreateItemAction } from "@/types/Action"
 import { type Project, defaultProject} from "@/types/Project"
 import { type Option } from "@/types/Common"
+import { defaultTag } from "@/types/Tag"
+import useListTags from "@/hooks/api/useListTags"
+import useListContexts from "@/hooks/api/useListContexts"
 
 
 function getOptionLabel(option: string | Project){
@@ -56,6 +60,14 @@ export default function ActionableForm(){
   const { fields, remove, append } = useFieldArray({ control, name: "actions" })
   const projects = useListProjects()
   const options = projects?.data ?? [defaultProject]
+
+  const tags = useListTags()
+  const tagOptions = tags?.data ?? [defaultTag]
+  // console.log({tagOptions})
+
+  const contexts = useListContexts()
+  const contextOptions = contexts?.data ?? [defaultTag]
+
   return (
       <>
         {/* <Box sx={{ display: "flex", flexDirection: "column" }}> */}
@@ -191,16 +203,12 @@ export default function ActionableForm(){
                 </Stack>
                 <NestedTagsArray
                   fieldArrayName={`actions[${index}].tags`}
-                  // parentName="actions"
-                  // nestIndex={index}
-                  // name="tags"
+                  options={tagOptions}
                   label="Tags"
                 />
                 <NestedTagsArray
                   fieldArrayName={`actions[${index}].required_context`}
-                  // parentName="actions"
-                  // nestIndex={index}
-                  // name="required_context"
+                  options={contextOptions}
                   label="Required context"
                 />
               </Box>

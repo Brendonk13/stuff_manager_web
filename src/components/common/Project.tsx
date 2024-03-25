@@ -1,21 +1,16 @@
 import { Link, Paper, Typography, Stack } from '@mui/material'
 import { type Project } from "@/types/Project"
-import { Link as RouterLink, useNavigate } from "react-router-dom"
+import { Link as RouterLink } from "react-router-dom"
 
 interface ProjectProps {
   project: Project
 }
 
 export default function Project({project}: ProjectProps){
-  const navigate = useNavigate()
 
   let notes = ""
   if (project?.notes){
     notes = project.notes.substring(0, 256)
-  }
-
-  const onNameClick = () => {
-    navigate(`${project.id}`)
   }
 
   return (
@@ -29,7 +24,7 @@ export default function Project({project}: ProjectProps){
           <Stack>
             <Stack sx={{paddingX: 1}}>
               <Link component={RouterLink} to={`/projects/${project.id}`} underline="none" color="grey.700">
-                <Typography onClick={onNameClick} variant="h3">{project?.name || ""}</Typography>
+                <Typography variant="h3">{project?.name || ""}</Typography>
               </Link>
               <Typography variant="body1">{notes || ""}</Typography>
             </Stack>

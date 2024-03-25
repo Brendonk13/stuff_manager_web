@@ -24,7 +24,7 @@ export default function Router(){
           <Route path="projects" element={<ProjectsPage />} />
           <Route path="projects/:projectId" element={<ProjectDetailPage />} />
           <Route path="actions" element={<ActionsPage />} />
-          <Route path="actions/:actionid" element={<ActionDetailPage />} />
+          <Route path="actions/:actionId" element={<ActionDetailPage />} />
           <Route path="favorites" element={<FavoritesPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="unprocessed" element={<UnprocessedPage />} />

@@ -11,3 +11,7 @@ export const ListTagSchema = z.array(TagSchema)
 export type ListTagResponse = z.infer<typeof ListTagSchema>
 
 export type ListContextResponse = ListTagResponse
+
+export const defaultTag = {
+  value: "",
+}

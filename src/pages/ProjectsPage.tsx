@@ -31,7 +31,6 @@ export default function ProjectsPage(){
     control,
     handleSubmit,
     getValues,
-    setValue,
     formState: { errors, },
   } = methods
 
@@ -42,7 +41,7 @@ export default function ProjectsPage(){
   const onSubmit = async (data: ProjectType) => {
     try {
       console.log({data})
-      const newProject = await createProject(data)
+      await createProject(data)
     } catch (e) {
       console.error(e)
     }

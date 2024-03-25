@@ -8,6 +8,7 @@ import { TagSchema } from "./Tag"
 // or maybe is it best to allow things to be someday/maybe as well as cannotBeDoneYet
 // no, cannotBeDoneYet should be kept clutter free
 
+// todo: add created field
 const actionSchemaObject = {
   id: z.number(),
   title: z.string().min(1, "Title is required"),
@@ -96,7 +97,9 @@ export const ListActionQuerySchema = z.object({
 })
 export type ListActionQueryParams = z.infer<typeof ListActionQuerySchema>
 
-export const EditActionSchema = z.object(actionSchemaObjectWithProject).omit({
+export const EditActionSchema = z.object(
+  {...actionSchemaObjectWithProject, project: ProjectSchema.optional().nullable(), }
+).omit({
   somedayMaybe: true,
   delegated: true,
   cannotBeDoneYet: true

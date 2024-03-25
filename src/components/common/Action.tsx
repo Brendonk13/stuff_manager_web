@@ -1,39 +1,13 @@
 import { Link, Paper, Typography, Stack } from '@mui/material'
 // import AssignmentIcon from '@mui/icons-material/Assignment';
 // import lightning from "@/assets/lightning_bolt_yellow.svg"
-import lightning0 from "@/assets/lightning_bolt_yellow.png"
-import lightning1 from "@/assets/lightning_bolt_yellow_1.png"
-import lightning2 from "@/assets/lightning_bolt_yellow_2.png"
-import lightning3 from "@/assets/lightning_bolt_yellow_3.png"
-import lightning4 from "@/assets/lightning_bolt_yellow_4.png"
-import lightning5 from "@/assets/lightning_bolt_yellow_5.png"
-import lightning6 from "@/assets/lightning_bolt_yellow_6.png"
-import lightning7 from "@/assets/lightning_bolt_yellow_7.png"
-import lightning8 from "@/assets/lightning_bolt_yellow_8.png"
-import lightning9 from "@/assets/lightning_bolt_yellow_9.png"
-import lightning10 from "@/assets/lightning_bolt_yellow_rocket.png"
 //import {  } from '@mui/icons-material'
+import getEnergySymbol from "@/utils/random/getEnergySymbol"
+import Tags from "@/components/common/Tags"
 
 interface ActionProps {
   action: any
   showProjectName?: boolean
-}
-
-function getEnergySymbol(energy: number){
-  switch (energy) {
-    case null : return lightning0
-    case 0    : return lightning0
-    case 1    : return lightning1
-    case 2    : return lightning2
-    case 3    : return lightning3
-    case 4    : return lightning4
-    case 5    : return lightning5
-    case 6    : return lightning6
-    case 7    : return lightning7
-    case 8    : return lightning8
-    case 9    : return lightning9
-    case 10   : return lightning10
-  }
 }
 
 export default function Action({action, showProjectName}: ActionProps){
@@ -67,7 +41,11 @@ export default function Action({action, showProjectName}: ActionProps){
           </Stack>
 
           {/* ================== RIGHT elements ================== */}
-          <Stack sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end"}}>
+          <Stack sx={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", alignItems: "center"}}>
+          {/* <Stack direction="row"> */}
+            {/* todo: make this be optional to show and also make it a grid, not a row */}
+            {/* make it expandable but also show in a grid with contexts appearing underneath maybe */}
+            <Tags tags={action?.tags ?? []} />
             <img src={getEnergySymbol(action.energy)} alt="energy" style={{ height: 35, width: 24 }} />
           </Stack>
         </Stack>
