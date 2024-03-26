@@ -110,7 +110,7 @@ export default function ActionsPage(){
     }
 
     // console.log("BACK CLICKED", {searchParams: extractSearchParamsFromURL(searchParams)}, {values: getValues()}, {data})
-    console.log("setQueryParamsFromUrl", {data})
+    // console.log("setQueryParamsFromUrl", {data})
     setActionQueryParams(data)
   }
 
@@ -133,9 +133,8 @@ export default function ActionsPage(){
 
       // set query string so that the form is filled with correct inital values
       setSearchParams(data)
-      // trigger a re-render with new actions
 
-      // todo: for some reason must set below for tags to work
+      // trigger a re-render with new actions
       setActionQueryParams(data)
 
     } catch (err) {

@@ -5,9 +5,7 @@ import ControlledAutoComplete from "@/components/controlled/ControlledAutoComple
 // import ControlledSelect from "@/components/controlled/ControlledSelect"
 import ControlledSlider from "@/components/controlled/ControlledSlider"
 import ExpandMore from "@/components/common/ExpandMore"
-// import { useNavigate } from 'react-router-dom'
 
-// import useBackListener from "@/hooks/useBackListener"
 import { useFormContext } from "react-hook-form"
 import { defaultActionQueryParams, type Action, type ListActionQueryParams } from "@/types/Action"
 import { type Tag } from "@/types/Tag"
@@ -20,7 +18,6 @@ import { addUid } from "@/utils/uID"
 import { tagsStringToArray } from "@/utils/random/convertTagsQueryParams"
 
 function getOptionLabel(option: string | Project | Action | Tag){
-  // console.log("============================================================getoptionlabel", {option}, "name", option?.name)
   if (typeof option === "string"){
     return option
   }
@@ -31,22 +28,14 @@ type ActionsFilterFormProps = {
   showing: boolean
   setShowing: React.Dispatch<React.SetStateAction<boolean>>
   initialFormValues: ListActionQueryParams
-  // filteredActions: any[] // tbh I should have each filter be independant as far as autocomplete goes
-  // actions: any[] // Note: can pass in actions from parent to only search thru actions meeting current filter criteria and not all actions every time
 }
-
-// function extractProjectId(e: SyntheticEvent, option: string | object) {
-//     console.log("==============================", {option})
-//     option = option.id
-//     return option?.id
-// }
 
 export default function ActionsFilterForm({
     showing,
     setShowing,
     initialFormValues,
   }: ActionsFilterFormProps){
-  // const navigate = useNavigate();
+
   const { control, setValue } = useFormContext()
   // defaultValue is null so that its not in the query string
   const defaultValue = null
@@ -88,14 +77,11 @@ export default function ActionsFilterForm({
   defaultContexts = (!defaultContexts || !defaultContexts.length) ? defaultValue : defaultContexts[0]
   // console.log("defaultContexts", defaultContexts)
 
-  useEffect(() => { setValue("title", defaultTitle) }, [setValue, defaultTitle])
-  useEffect(() => { setValue("project_id", defaultProject) }, [setValue, defaultProject])
-  useEffect(() => { setValue("energy", defaultEnergy) }, [setValue, defaultEnergy])
-  useEffect(() => { setValue("tags", defaultTags) }, [setValue, defaultTags])
-  useEffect(() => {
-    setValue("required_context", defaultContexts)
-    console.log("set contexts", {defaultContexts})
-  }, [setValue, defaultContexts])
+  useEffect(() => { setValue("title", defaultTitle)},               [ setValue, defaultTitle])
+  useEffect(() => { setValue("project_id", defaultProject)},        [ setValue, defaultProject])
+  useEffect(() => { setValue("energy", defaultEnergy)},             [ setValue, defaultEnergy])
+  useEffect(() => { setValue("tags", defaultTags)},                 [ setValue, defaultTags])
+  useEffect(() => { setValue("required_context", defaultContexts)}, [ setValue, defaultContexts])
 
 
   const handleExpandClick = () => { setShowing(!showing) }

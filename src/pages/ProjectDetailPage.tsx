@@ -145,8 +145,9 @@ export default function ProjectDetailsPage(){
         )}
 
           {/* list of actions in the project */}
+          {/* todo: be able to toggle showing tags */}
         {actions?.data?.map(action => (
-          <Action key={`Action_${action.id}`} action={action} />
+          <Action key={`Action_${action.id}`} action={action} showTags={false} showContexts={false}/>
         ))}
         </FormProvider>
       </Box>

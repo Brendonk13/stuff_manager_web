@@ -9,11 +9,13 @@ interface TagProps {
 export default function Tags({tags}: TagProps){
 
   return (
-    <Box sx={{ flexDirection: "column", flexGrow: 1 }}>
-      <Grid container>
+    <Box sx={{ flexDirection: "column", flexGrow: 1, justifyContent: "flex-end", alignItems: "flex-end" }}>
+      <Grid container sx={{ justifyContent: "flex-end", alignItems: "flex-end" }}>
+      {/* <Grid container columns={{ xs: 6, sm: 6, md: 6, lg: 6, xl: 6 }}> */}
         {tags && tags.map(tag => {
           return (
-            <Grid key={tag.id} padding={1}>
+            <Grid item key={tag.id} padding={1} >
+            {/* <Grid item key={tag.id} padding={1} xs={3} sm={3}> */}
               <Box
                 component="section"
                 sx={{
