@@ -27,6 +27,7 @@ export default function ControlledSlider<FieldValueProps extends FieldValues>({
   ...props
 }: ControlledSliderProps<FieldValueProps>){
 
+  // todo: think can delete this now
   const getValue = (value: number | null | undefined) => {
     // on pageload, the value passed in from the controller is null
     // if SliderProps.value was set, then we set it to this value obtained from URL query string

@@ -14,9 +14,11 @@ const ControlledCheckbox = <FieldValueProps extends FieldValues>({
   name,
   label,
   // defaultValue,
-  // CheckboxProps,
-  // ...props
-}: ControlledCheckboxProps<FieldValueProps>) => (
+  CheckboxProps,
+  ...props
+}: ControlledCheckboxProps<FieldValueProps>) => {
+    console.log({props})
+return (
   <Controller
     control={control}
     name={name}
@@ -29,13 +31,17 @@ const ControlledCheckbox = <FieldValueProps extends FieldValues>({
         onBlur={onBlur}
         onChange={onChange}
         checked={!!value}
-        control={<Checkbox />}
+        // color="#1677ff"
+        // control={<Checkbox {...CheckboxProps} sx={{color:"primary"}} />}
+        control={<Checkbox {...CheckboxProps} />}
         //label={label}
+        // label={<InputLabel sx={{color: "#1677ff"}} id={name}>{label ? label : ""}</InputLabel>}
         label={<InputLabel id={name}>{label ? label : ""}</InputLabel>}
         sx={{ cursor: "pointer" }}
+        {...props}
       />
     )}
   />
-)
+)}
 export default ControlledCheckbox
 

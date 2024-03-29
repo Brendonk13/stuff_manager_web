@@ -22,20 +22,23 @@ next:
 
     actions details:
         -- need to transform someday_maybe to Someday Maybe -- maybe leave for now
+        - mark them as completed
+        ability to delete
+        -- frontend is done for completed
 
-    - create a new project in projectsPage
+    completion notes dialog:
+        - make a custom controlled component with days, hours, mins for the duration field
+
+    list actions:
+        - swipe to delete or mark actions as completed
+        -- completed actions, unless filtered out, are shown with a darker background paper color
+        -- need a confirmation dialog for deletes and completions
+            -- completions dialog will have form for start/end time, duration, and notes
 
 
     ADD A PAGE TO VIEW ALL UNPROCESSED "THINGS"
-    - be able to add notes to new projects in projectsDetails
-
-    - think I just need to use textBoxes for actionsdetails page
-        - then set them to disabled if edit has not been clicked
 
     - maybe add copy buttons next to titles when processing an action
-
-    - need an action detail page ...
-    -- need a form for editing the action from here as well
 
     -- think I need to add a trash for actions
     -- ALSO NEED TO BE ABLE TO MARK ACTIONS AS COMPLETED

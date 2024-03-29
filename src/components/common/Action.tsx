@@ -28,7 +28,6 @@ export default function Action({action, showProjectName, showTags: showTagsProp,
     <Stack padding={1}>
       {/* <Paper sx={{ padding: 2, bgcolor: "action.disabled" }}> */}
       <Paper elevation={2} sx={{ padding: 1 }}>
-      {/* <Paper elevation={2}> */}
         <Stack direction="row" sx={{ justifyContent: "space-between" }}>
 
           {/* ================== LEFT elements ================== */}
@@ -50,14 +49,12 @@ export default function Action({action, showProjectName, showTags: showTagsProp,
 
           {/* ================== RIGHT elements ================== */}
           <Stack sx={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", alignItems: "center"}} spacing={1}>
-            {/* <Stack  sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end"}}> */}
+              {/* use stack so that expand is above the list of tags */}
             <Stack >
-            {/* <Stack sx={{justifyContent: "center", alignItems: "flex-end"}}> */}
               <Stack direction="row" sx={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", alignItems: "center"}}>
-              {/* <Stack direction="row"> */}
-                <Typography variant="h5">Tags</Typography>
+                <Typography onClick={() => setShowTags(!showTags)} sx={{cursor: 'pointer'}} variant="h5">Tags</Typography>
                 <ExpandMore
-                  expand={showTags}
+                  expand={showTags || showTagsProp}
                   onClick={() => setShowTags(!showTags)}
                   aria-expanded={showTags}
                   aria-label="Show tags"
@@ -66,17 +63,17 @@ export default function Action({action, showProjectName, showTags: showTagsProp,
               </Stack>
               {/* todo: make this be optional to show and also make it a grid, not a row */}
               {/* make it expandable but also show in a grid with contexts appearing underneath maybe */}
-              <Collapse in={showTags} sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end"}}>
-                <Tags tags={action?.tags ?? []} />
+              <Collapse in={showTags || showTagsProp}>
+                <Tags tags={action?.tags ?? []} displayOnRight={true}/>
               </Collapse>
             </Stack>
+
             <Stack>
-            {/* <Stack  sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end"}}> */}
+              {/* use stack so that expand is above the list of contexts */}
               <Stack direction="row" sx={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", alignItems: "center"}}>
-              {/* <Stack direction="row"> */}
-                <Typography variant="h5">Contexts</Typography>
+                <Typography onClick={() => setShowContexts(!showContexts)} sx={{cursor: 'pointer'}} variant="h5">Contexts</Typography>
                 <ExpandMore
-                  expand={showContexts}
+                  expand={showContexts || showContexts}
                   onClick={() => setShowContexts(!showContexts)}
                   aria-expanded={showContexts}
                   aria-label="Show contexts"
@@ -85,8 +82,8 @@ export default function Action({action, showProjectName, showTags: showTagsProp,
               </Stack>
               {/* todo: make this be optional to show and also make it a grid, not a row */}
               {/* make it expandable but also show in a grid with contexts appearing underneath maybe */}
-              <Collapse in={showContexts} sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center"}}>
-                <Tags tags={action?.required_context ?? []} />
+              <Collapse in={showContexts || showContextProp}>
+                <Tags tags={action?.required_context ?? []} displayOnRight={true}/>
               </Collapse>
             </Stack>
             <img src={getEnergySymbol(action.energy)} alt="energy" style={{ height: 35, width: 24 }} />

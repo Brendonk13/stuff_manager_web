@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 import { useState, useEffect } from "react"
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Divider, Box, Stack } from "@mui/material"
+import { Divider, Box, Stack, Button } from "@mui/material"
 import { FormProvider, useForm } from "react-hook-form"
 import { useSearchParams } from "react-router-dom"
 
@@ -60,7 +60,11 @@ function extractSearchParamsFromURL(searchParams){
 }
 
 export default function ActionsPage(){
-  // todo: check if there are existing query strings, if so then automatically submit form
+
+  const [expandTags, setExpandTags] = useState(false)
+  const [expandContexts, setExpandContexts] = useState(false)
+  console.log({expandTags})
+
   const [searchParams, setSearchParams] = useSearchParams()
   const initialFormValues = {...defaultActionQueryParams, ...extractSearchParamsFromURL(searchParams)}
 
@@ -153,13 +157,17 @@ export default function ActionsPage(){
     <PageLayout>
       <Stack>
         <Box sx={{ width: '100%', padding: 2, }} component="form" onSubmit={handleSubmit(onSubmit)}>
-          <FormProvider {...methods}>
-            <ActionsFilterForm
-              showing={showingFilterMenu}
-              setShowing={setShowingFilterMenu}
-              initialFormValues={initialFormValues}
-            />
-          </FormProvider>
+            <FormProvider {...methods}>
+              <ActionsFilterForm
+                showing={showingFilterMenu}
+                setShowing={setShowingFilterMenu}
+                initialFormValues={initialFormValues}
+              />
+            </FormProvider>
+            <Stack direction="row" spacing={1}>
+              <Button variant="outlined" onClick={() => setExpandTags(!expandTags)}>Expand Tags</Button>
+              <Button variant="outlined" onClick={() => setExpandContexts(!expandContexts)}>Expand Contexts</Button>
+            </Stack>
         </Box>
         {/* todo: decide if I want to keep this divider */}
         <Divider/>
@@ -168,6 +176,8 @@ export default function ActionsPage(){
             key={`Action_${action.id}`}
             action={action}
             showProjectName={true} // todo: should i always show this ?
+            showTags={expandTags}
+            showContexts={expandContexts}
           />
         ))}
       </Stack>

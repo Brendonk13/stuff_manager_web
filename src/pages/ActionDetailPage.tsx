@@ -1,4 +1,4 @@
-import { Link, Divider, Button, Box, Stack, Collapse, Typography, IconButton } from '@mui/material'
+import { FormControlLabel, Checkbox, Link, Divider, Button, Box, Stack, Collapse, Typography, IconButton } from '@mui/material'
 import { useState, useEffect } from "react"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from "react-hook-form"
@@ -6,6 +6,8 @@ import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 import dayjs from "dayjs"
 import { Link as RouterLink } from "react-router-dom"
 
+import ActionCompletedDialog from "@/dialogs/ActionCompletedDialog"
+import ControlledCheckbox from "@/components/controlled/ControlledCheckBox"
 import { defaultTag } from "@/types/Tag"
 import useListTags from "@/hooks/api/useListTags"
 import useListContexts from "@/hooks/api/useListContexts"
@@ -33,6 +35,7 @@ export default function ActionDetailsPage(){
   const { mutateAsync: editAction } = useEditAction()
   // const [expanded, setExpanded] = useState(true)
   const [showEditAction, setShowEditAction] = useState(false)
+  const [showActionCompletedDialog, setShowActionCompletedDialog] = useState(false)
 
   let { actionId } = useParams()
   actionId = Number(actionId)
@@ -78,6 +81,9 @@ export default function ActionDetailsPage(){
   useEffect(() => setValue('description', action?.description ?? ""),
     [setValue, action?.description])
 
+  useEffect(() => setValue('completed', action?.completed ?? false),
+    [setValue, action?.completed])
+
   useEffect(() => setValue('energy', action?.energy ?? -1),
     [setValue, action?.energy])
 
@@ -101,6 +107,13 @@ export default function ActionDetailsPage(){
 
       const newAction = await editAction(data)
       console.log({newAction})
+
+      // if was not completed, now is completed, prompt for notes
+      console.log(action?.completed, data.completed)
+      if (action?.completed === false && data.completed === true){
+        console.log("open comfirm dialog")
+        setShowActionCompletedDialog(true)
+      }
 
     } catch (e) {
       console.error(e)
@@ -179,6 +192,19 @@ export default function ActionDetailsPage(){
 
 
           <Divider sx={{borderBottomWidth: 2, mb: 2}}/>
+
+          <ControlledCheckbox
+            control={control}
+            name="completed"
+            label="Completed"
+            sx={{
+              transform: "scale(1.2)",
+              p: 1,
+              color: "#1677ff",
+            }}
+            CheckboxProps={{style: {color: "#1677ff"}}}
+          />
+
           {showEditAction &&
             <ControlledSlider
               control={control}
@@ -212,6 +238,7 @@ export default function ActionDetailsPage(){
               {/* todo: make the clickable bounds only the text and not the whole row !!!! */}
               <Typography variant="h5">{action?.project && action.project.name}</Typography>
             </Link>
+            <br />
           </>
         }
         {/* {action?.project && <br />} */}
@@ -249,6 +276,15 @@ export default function ActionDetailsPage(){
           <Typography><strong>Processed Date:</strong> {dayjs(action?.created).format('MMM D, YYYY')}</Typography>
         </FormProvider>
       </Box>
+      {action?.id &&
+        <ActionCompletedDialog
+          // open={showActionCompletedDialog}
+          open={true}
+          setOpen={setShowActionCompletedDialog}
+          actionId={action.id}
+          actionCompletion={action?.completion_notes}
+        />
+      }
     </PageLayout>
   )
 }

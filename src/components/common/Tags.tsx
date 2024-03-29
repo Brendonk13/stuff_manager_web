@@ -4,13 +4,14 @@ import { IconButton, TextField, InputLabel, Box, Grid, Stack, InputAdornment } f
 
 interface TagProps {
   tags?: Tag[]
+  displayOnRight: boolean
 }
 
-export default function Tags({tags}: TagProps){
-
+export default function Tags({tags, displayOnRight}: TagProps){
+  const gridContainerSx = displayOnRight ? { justifyContent: "flex-end", alignItems: "flex-end" } : {}
   return (
     <Box sx={{ flexDirection: "column", flexGrow: 1, justifyContent: "flex-end", alignItems: "flex-end" }}>
-      <Grid container sx={{ justifyContent: "flex-end", alignItems: "flex-end" }}>
+      <Grid container sx={gridContainerSx}>
       {/* <Grid container columns={{ xs: 6, sm: 6, md: 6, lg: 6, xl: 6 }}> */}
         {tags && tags.map(tag => {
           return (

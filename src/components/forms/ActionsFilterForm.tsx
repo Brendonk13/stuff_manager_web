@@ -94,7 +94,7 @@ export default function ActionsFilterForm({
   return (
     <>
       <Stack padding={0} direction="row" sx={{alignItems: "center"}}>
-        <Typography variant="h4">Filters</Typography>
+        <Typography sx={{cursor: 'pointer'}} onClick={handleExpandClick} variant="h4">Filters</Typography>
         <ExpandMore
           expand={showing}
           onClick={handleExpandClick}
@@ -103,9 +103,9 @@ export default function ActionsFilterForm({
         >
         </ExpandMore>
       </Stack>
-      <Collapse in={showing}>
+      <Stack>
+        <Collapse in={showing}>
 
-        <Stack padding={2}>
           <ControlledAutoComplete
             placeholder="Name"
             control={control}
@@ -116,7 +116,6 @@ export default function ActionsFilterForm({
             options={actionTitleOptions}
             AutoCompleteProps={{
               sx: { width: '60%', },
-              // value: defaultTitle,
             }}
           />
           <br/>
@@ -130,7 +129,6 @@ export default function ActionsFilterForm({
             options={projectOptions}
             AutoCompleteProps={{
               sx:{ width: '60%', },
-              // value: defaultProject,
             }}
           />
           <br />
@@ -140,7 +138,6 @@ export default function ActionsFilterForm({
             label="Energy"
             name="energy"
             SliderProps={{
-              // value: defaultEnergy,
               min: -1,
               step: 1,
               max: 10,
@@ -162,7 +159,6 @@ export default function ActionsFilterForm({
             AutoCompleteProps={{
               sx: { width: '60%', },
               defaultValue: null,
-              // value: defaultTags,
             }}
           />
           <br />
@@ -178,15 +174,16 @@ export default function ActionsFilterForm({
             //multiple={true}  // todo: change
             AutoCompleteProps={{
               sx: { width: '60%', },
-              // value: defaultContexts,
               defaultValue: null,
             }}
           />
 
-      </Stack>
 
-      <Button type="submit">Search</Button>
-      </Collapse>
+          <br />
+          <Button variant="contained" sx={{width:"60%"}} type="submit">Search</Button>
+        </Collapse>
+      </Stack>
+      {showing && <br />}
     </>
   )
 }
