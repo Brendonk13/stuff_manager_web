@@ -25,7 +25,7 @@ import ControlledDatePicker from "@/components/controlled/ControlledDatePicker"
 
 import { EditActionCompletionSchema, defaultActionCompletion } from "@/types/Action"
 import useEditActionCompletion from "@/hooks/api/useEditActionCompletion"
-import useGetActionCompletion from "@/hooks/api/useGetActionCompletion"
+// import useGetActionCompletion from "@/hooks/api/useGetActionCompletion"
 // this is used by: actionsPage, projectDetailsPage
 // -- anywhere that lists actions
 
@@ -38,9 +38,6 @@ interface ConfirmationDialogProps {
   setOpen: (value: boolean) => void
   actionId: number
   actionCompletion?: any
-  // title: string
-  // onCancel?: () => void
-  // onConfirm: () => void
 }
 
 // export default function ActionCompletedDialog({ open: openProp, title, onCancel, onConfirm }: ConfirmationDialogProps){

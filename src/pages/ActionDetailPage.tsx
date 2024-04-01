@@ -82,7 +82,8 @@ export default function ActionDetailsPage(){
     [setValue, action?.description])
 
   useEffect(() => setValue('completed', action?.completed ?? false),
-    [setValue, action?.completed])
+    [setValue, action?.completed, showEditAction])
+  // need to update when showEditAction is clicked to prevent changes from appearing to persist when save is not clicked
 
   useEffect(() => setValue('energy', action?.energy ?? -1),
     [setValue, action?.energy])
@@ -198,12 +199,13 @@ export default function ActionDetailsPage(){
             control={control}
             name="completed"
             label="Completed"
+            disabled={!showEditAction}
             sx={{
               transform: "scale(1.2)",
               p: 1,
               color: "#1677ff",
             }}
-            CheckboxProps={{style: {color: "#1677ff"}}}
+            CheckboxProps={{ style: {color: "#1677ff"}, }}
           />
 
           {showEditAction &&
@@ -279,8 +281,8 @@ export default function ActionDetailsPage(){
       </Box>
       {action?.id &&
         <ActionCompletedDialog
-          // open={showActionCompletedDialog}
-          open={true}
+          open={showActionCompletedDialog}
+          // open={true}
           setOpen={setShowActionCompletedDialog}
           actionId={action.id}
           actionCompletion={action?.completionNotes}
