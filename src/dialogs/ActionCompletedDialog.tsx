@@ -32,12 +32,13 @@ import useGetActionCompletion from "@/hooks/api/useGetActionCompletion"
 function transformDate(date: string) {
   // return date ? new Date(dayjs(date).toISOString()) : null
   // return date ? new Date(date) : null
-  return date ? dayjs(date).toISOString() : ""
+  // return date ?? ""
+  // return date ? dayjs(date).toISOString() : ""
   // return date ? "" : "" // works
   // return date ? new Date() : new Date()
   // return date ? "2020-01-01T00:00:00Z" : ""
   // return date ? dayjs(date) : dayjs()
-  // return date ? dayjs(date) : null
+  return date ? dayjs(date) : null
 }
 
 interface ConfirmationDialogProps {
