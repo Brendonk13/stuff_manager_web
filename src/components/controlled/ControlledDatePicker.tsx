@@ -12,7 +12,7 @@ export interface ControlledDatePickerProps<FieldValueProps extends FieldValues>
 function transformDate(date: Date | Dayjs | null){
   // const formattedDate = date ? new Date(dayjs(date).toISOString()) : null
   const formattedDate = date ? dayjs(date) : null
-  console.log({formattedDate})
+  // console.log({formattedDate})
   return formattedDate
 }
 
