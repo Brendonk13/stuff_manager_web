@@ -10,7 +10,9 @@ export interface ControlledDatePickerProps<FieldValueProps extends FieldValues>
 }
 
 function transformDate(date: Date | Dayjs | null){
-  const formattedDate = date ? new Date(dayjs(date).toISOString()) : null
+  // const formattedDate = date ? new Date(dayjs(date).toISOString()) : null
+  const formattedDate = date ? dayjs(date) : ""
+  console.log({formattedDate})
   return formattedDate
 }
 
@@ -33,6 +35,7 @@ export default function ControlledDatePicker<FieldValueProps extends FieldValues
           value={transformDate(value)}
           onChange={newDate => {
             try {
+                console.log({newDate})
               onChange(transformDate(newDate))
             } catch (error) {
               console.error(error)

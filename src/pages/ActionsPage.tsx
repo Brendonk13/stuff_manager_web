@@ -23,8 +23,8 @@ function cleanupFormData(data) {
 
   if (data?.tags){
     data.tags = convertTags(data.tags)
-  } if (data?.required_context){
-    data.required_context = convertTags(data.required_context)
+  } if (data?.requiredContext){
+    data.requiredContext = convertTags(data.requiredContext)
   }
 
 }
@@ -36,7 +36,7 @@ function extractSearchParamsFromForm(formData){
   if (formData?.title            ) params.title            = formData.title
   if (formData?.project_id       ) params.project_id       = formData.project_id
   if (formData?.tags             ) params.tags             = convertTags(formData.tags)
-  if (formData?.required_context ) params.required_context = convertTags(formData.required_context)
+  if (formData?.requiredContext ) params.requiredContext = convertTags(formData.requiredContext)
 
   // console.log("EBERGTY", formData?.energy)
   console.log("form params", {params}, "original data:", {formData})
@@ -49,12 +49,12 @@ function extractSearchParamsFromURL(searchParams){
   const title            = searchParams.get("title")
   const project_id       = searchParams.get("project_id")
   const tags             = searchParams.get("tags")
-  const required_context = searchParams.get("required_context")
+  const requiredContext = searchParams.get("requiredContext")
   if (energy           ) params.energy           = energy
   if (title            ) params.title            = title
   if (project_id       ) params.project_id       = project_id
   if (tags             ) params.tags             = tags
-  if (required_context ) params.required_context = required_context
+  if (requiredContext ) params.requiredContext = requiredContext
 
   return params
 }

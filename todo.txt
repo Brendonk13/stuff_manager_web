@@ -28,6 +28,8 @@ next:
 
     completion notes dialog:
         - make a custom controlled component with days, hours, mins for the duration field
+        or maybe just change to an object on frontend first !!!!
+        -- update backend to use an array // json
 
     list actions:
         - swipe to delete or mark actions as completed

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { editActionCompletion, actionQueryKeys } from '@/api/ActionsService'
+import { editActionCompletion, actionQueryKeys, actionCompletionQueryKeys } from '@/api/ActionsService'
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
 
 export default function useEditActionCompletion(){
@@ -12,7 +12,7 @@ export default function useEditActionCompletion(){
     onSuccess: async () => {
       // invalidate all getAction calls
       await queryClient.invalidateQueries({ queryKey: [actionQueryKeys.GET] })
-      await queryClient.invalidateQueries({ queryKey: [actionQueryKeys.LIST] })
+      await queryClient.invalidateQueries({ queryKey: [actionCompletionQueryKeys.GET] })
 
       openSnackbar({
         message: 'Action Completion saved',

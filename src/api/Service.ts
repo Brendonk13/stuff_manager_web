@@ -71,9 +71,14 @@ instance.interceptors.request.use(config => {
 instance.interceptors.response.use((response: AxiosResponse) => {
   if (
     response.data &&
-    response.headers['content-type'] === 'application/json'
-  ) {
+    (
+        response.headers['content-type'] === 'application/json'
+        || response.headers['content-type'] === 'application/json; charset=utf-8'
+    )) {
     response.data = camelizeKeys(response.data)
+  }
+  else {
+    console.log("CAMELIZE NOT CALLED", response.data, response.headers['content-type'])
   }
 
   return response

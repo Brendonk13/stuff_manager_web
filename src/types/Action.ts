@@ -1,6 +1,7 @@
 import z from "zod"
 import { ProjectSchema, UnrestrictedProjectSchema } from "./Project"
 import { TagSchema } from "./Tag"
+import dayjs, { type Dayjs } from 'dayjs'
 
 // todo: add completed field
 
@@ -11,8 +12,18 @@ import { TagSchema } from "./Tag"
 // does it make sense to have these as optional when I am always sending them....?????
 const actionCompletionObject = {
   actionId: z.number().optional(),
-  startTime: z.date().optional().nullable(),
-  endTime: z.date().optional().nullable(),
+  // startTime: z.coerce.date().optional().nullable(),
+  // endTime: z.coerce.date().optional().nullable(),
+  startTime: z.string().optional().nullable(),
+  endTime: z.string().optional().nullable(),
+  // startTime: z.date().optional().nullable(),
+  // endTime: z.date().optional().nullable(),
+  // startTime: z.custom<Dayjs>((val) => val instanceof dayjs, 'Invalid date').optional().nullable(),
+  // endTime: z.custom<Dayjs>((val) => val instanceof dayjs, 'Invalid date').optional().nullable(),
+  // startTime: z.string().datetime().optional().nullable(),
+  // endTime: z.string().datetime().optional().nullable(),
+  // startTime: z.instanceof(dayjs as unknown as typeof Dayjs),
+  // endTime: z.instanceof(dayjs as unknown as typeof Dayjs),
   // duration: z.number().optional(),
   duration: z.array(z.number()).optional(),
   notes: z.string().optional(),
@@ -24,13 +35,16 @@ const actionSchemaObject = {
   id: z.number(),
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "No 1 letter descriptions").optional(), // todo: dont require descriptions -- title only is sick
-  date: z.date().optional(),
+  // date: z.date().optional(),
+  date: z.string().optional(),
+  // date: z.string().datetime().optional(),
+  // date: z.string().datetime().optional(),
   energy: z.number().optional(),
   somedayMaybe: z.boolean(), // todo: decide if this should just be another tag -- nah then i gotta filter that out everywhere when showing tags
   delegated: z.boolean(),
   cannotBeDoneYet: z.boolean(),
   completed: z.boolean().optional(), // todo: make this non optional or idk
-  required_context: z.array(TagSchema).optional(),
+  requiredContext: z.array(TagSchema).optional(),
   tags: z.array(TagSchema).optional(),
 }
 
@@ -64,7 +78,7 @@ const EditActionResponseSchema = z.object(actionSchemaObjectWithProject).omit({
   delegated: true,
   cannotBeDoneYet: true,
   tags: true,
-  required_context: true,
+  requiredContext: true,
 })
 export type EditActionResponse = z.infer<typeof EditActionResponseSchema>
 
@@ -104,8 +118,8 @@ export const ListActionQuerySchema = z.object({
   //       ? tag
   //       : [tag]
   // }),
-  // required_context: actionSchemaObject.required_context.nullable(),
-  required_context: tagQueryParamSchemaObject.tags,
+  // requiredContext: actionSchemaObject.requiredContext.nullable(),
+  requiredContext: tagQueryParamSchemaObject.tags,
 })
 export type ListActionQueryParams = z.infer<typeof ListActionQuerySchema>
 
@@ -152,11 +166,13 @@ export const defaultActionQueryParams: ListActionQueryParams = {
   energy: null,
   date: null, // make this date ranges maybe one day idk
   tags: null,
-  required_context: null,
+  requiredContext: null,
 }
 
 export const defaultActionCompletion: EditActionCompletionBody = {
   actionId: 0,
+// startTime: null,
+// endTime: null,
 }
   // actionId: z.number().optional(),
   // startTime: z.date().optional(),

@@ -36,3 +36,8 @@ export const actionQueryKeys = {
   LIST: "ListActions",
   GET: "GetAction"
 }
+
+export const actionCompletionQueryKeys = {
+  // LIST: "ListActionCompletion",
+  GET: "GetActionCompletion"
+}

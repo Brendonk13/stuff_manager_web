@@ -95,8 +95,9 @@ export default function ActionDetailsPage(){
   useEffect(() => setValue('tags', action?.tags ?? []),
     [setValue, action?.tags])
 
-  useEffect(() => setValue('required_context', action?.required_context ?? []),
-    [setValue, action?.required_context])
+  // useEffect(() => setValue('required_context', action?.required_context ?? []),
+  useEffect(() => setValue('requiredContext', action?.requiredContext ?? []),
+    [setValue, action?.requiredContext])
 
 
 
@@ -259,14 +260,14 @@ export default function ActionDetailsPage(){
 
           { showEditAction ?
             <NestedTagsArray
-              fieldArrayName="required_context"
+              fieldArrayName="requiredContext"
               label="Contexts"
               options={contextOptions}
             />
           : (
             <>
               <Typography variant="h5">Contexts:</Typography>
-              <Tags tags={action?.required_context} />
+              <Tags tags={action?.requiredContext} />
             </>
           )
           }
@@ -282,7 +283,7 @@ export default function ActionDetailsPage(){
           open={true}
           setOpen={setShowActionCompletedDialog}
           actionId={action.id}
-          actionCompletion={action?.completion_notes}
+          actionCompletion={action?.completionNotes}
         />
       }
     </PageLayout>

@@ -13,12 +13,14 @@ import {
 // import { useFormContext } from "react-hook-form"
 import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod'
+import dayjs from "dayjs"
+// import { camelizeKeys, decamelizeKeys } from "humps"
 
 import ControlledDuration from "@/components/controlled/ControlledDuration"
-import Duration from "@/components/common/Duration"
+// import Duration from "@/components/common/Duration"
 import ControlledTextField from "@/components/controlled/ControlledTextField"
 import ControlledDatePicker from "@/components/controlled/ControlledDatePicker"
-import ControlledTimeField from "@/components/controlled/ControlledTimeField"
+// import ControlledTimeField from "@/components/controlled/ControlledTimeField"
 // also need something for numbers
 
 import { EditActionCompletionSchema, defaultActionCompletion } from "@/types/Action"
@@ -26,6 +28,17 @@ import useEditActionCompletion from "@/hooks/api/useEditActionCompletion"
 import useGetActionCompletion from "@/hooks/api/useGetActionCompletion"
 // this is used by: actionsPage, projectDetailsPage
 // -- anywhere that lists actions
+
+function transformDate(date: string) {
+  // return date ? new Date(dayjs(date).toISOString()) : null
+  // return date ? new Date(date) : null
+  return date ? dayjs(date).toISOString() : ""
+  // return date ? "" : "" // works
+  // return date ? new Date() : new Date()
+  // return date ? "2020-01-01T00:00:00Z" : ""
+  // return date ? dayjs(date) : dayjs()
+  // return date ? dayjs(date) : null
+}
 
 interface ConfirmationDialogProps {
   open: boolean
@@ -50,6 +63,9 @@ export default function ActionCompletedDialog({ open, setOpen, actionId, actionC
     resolver: zodResolver(EditActionCompletionSchema),
   })
 
+  // console.log(camelizeKeys({hello: "world", nested_object: {field_name: "field_name", nested_again: {fucking_thing: "yep"}}}))
+  // console.log(camelizeKeys(actionCompletion))
+
   const {
     control,
     handleSubmit,
@@ -63,13 +79,29 @@ export default function ActionCompletedDialog({ open, setOpen, actionId, actionC
   }
 
   // set default form values
-  useEffect(() => setValue('actionId', actionCompletion?.actionId ?? 0),
-    [setValue, actionCompletion?.actionId])
+  useEffect(() => setValue('actionId', actionId),
+    [setValue, actionId])
+    // [setValue, actionCompletion?.actionId])
 
-  useEffect(() => setValue('startTime', actionCompletion?.startTime ?? null),
+  // useEffect(() => setValue('startTime', actionCompletion?.startTime ?? null),
+  //   [setValue, actionCompletion?.startTime])
+
+  useEffect(() => {
+      // const newStart = actionCompletion?.startTime ? dayjs(actionCompletion.startTime) : null
+      const newStart = transformDate(actionCompletion?.startTime)
+      setValue('startTime', newStart)
+    },
     [setValue, actionCompletion?.startTime])
 
-  useEffect(() => setValue('endTime', actionCompletion?.endTime ?? null),
+  useEffect(() => {
+      // const newEnd = actionCompletion?.endTime ? new Date(actionCompletion.endTime) : null
+      // const newEnd = actionCompletion?.endTime ? dayjs(actionCompletion.endTime).toISOString() : null
+      // const newEnd = actionCompletion?.endTime ? dayjs(actionCompletion.endTime) : null
+      const newEnd = transformDate(actionCompletion?.endTime)
+      // const newEnd = actionCompletion?.endTime ? actionCompletion.endTime : null
+      console.log({newEnd}, actionCompletion?.endTime, {actionCompletion})
+      setValue('endTime', newEnd)
+    },
     [setValue, actionCompletion?.endTime])
 
   useEffect(() => setValue('duration', actionCompletion?.duration ?? [0,0,0]),
@@ -125,23 +157,19 @@ export default function ActionCompletedDialog({ open, setOpen, actionId, actionC
                 label="End time"
                 name="endTime"
               />
-              {/* <ControlledTimeField */}
-              {/*   control={control} */}
-              {/*   name="duration" */}
-              {/*   label="Duration" */}
-              {/* /> */}
               <ControlledTextField
                 control={control}
                 name="notes"
                 label="Notes"
               />
 
-              <ControlledDuration
-                // value="0,1,2"
-                name="duration"
-                // label="Duration"
-              />
+
               {/* <br /> */}
+              <ControlledDuration
+                control={control}
+                name="duration"
+              />
+
               <Stack direction="row" justifyContent="flex-end" gap={1}>
                 <Button
                   onClick={handleCancel}

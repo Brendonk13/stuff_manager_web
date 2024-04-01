@@ -207,7 +207,8 @@ export default function ActionableForm(){
                   label="Tags"
                 />
                 <NestedTagsArray
-                  fieldArrayName={`actions[${index}].required_context`}
+                  // fieldArrayName={`actions[${index}].required_context`}
+                  fieldArrayName={`actions[${index}].requiredContext`}
                   options={contextOptions}
                   label="Required context"
                 />

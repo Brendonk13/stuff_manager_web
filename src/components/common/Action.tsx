@@ -83,7 +83,8 @@ export default function Action({action, showProjectName, showTags: showTagsProp,
               {/* todo: make this be optional to show and also make it a grid, not a row */}
               {/* make it expandable but also show in a grid with contexts appearing underneath maybe */}
               <Collapse in={showContexts || showContextProp}>
-                <Tags tags={action?.required_context ?? []} displayOnRight={true}/>
+                {/* <Tags tags={action?.required_context ?? []} displayOnRight={true}/> */}
+                <Tags tags={action?.requiredContext ?? []} displayOnRight={true}/>
               </Collapse>
             </Stack>
             <img src={getEnergySymbol(action.energy)} alt="energy" style={{ height: 35, width: 24 }} />

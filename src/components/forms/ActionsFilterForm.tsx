@@ -72,7 +72,8 @@ export default function ActionsFilterForm({
   defaultTags = (!defaultTags || !defaultTags.length) ? defaultValue : defaultTags[0]
   // console.log("defaultTags", defaultTags)
 
-  let defaultContexts = tagsStringToArray(contextOptions, initialFormValues?.required_context)
+  // let defaultContexts = tagsStringToArray(contextOptions, initialFormValues?.required_context)
+  let defaultContexts = tagsStringToArray(contextOptions, initialFormValues?.requiredContext)
   // console.log("returned defaultContexts: ", {defaultContexts})
   defaultContexts = (!defaultContexts || !defaultContexts.length) ? defaultValue : defaultContexts[0]
   // console.log("defaultContexts", defaultContexts)
@@ -81,7 +82,8 @@ export default function ActionsFilterForm({
   useEffect(() => { setValue("project_id", defaultProject)},        [ setValue, defaultProject])
   useEffect(() => { setValue("energy", defaultEnergy)},             [ setValue, defaultEnergy])
   useEffect(() => { setValue("tags", defaultTags)},                 [ setValue, defaultTags])
-  useEffect(() => { setValue("required_context", defaultContexts)}, [ setValue, defaultContexts])
+  // useEffect(() => { setValue("required_context", defaultContexts)}, [ setValue, defaultContexts])
+  useEffect(() => { setValue("requiredContext", defaultContexts)}, [ setValue, defaultContexts])
 
 
   const handleExpandClick = () => { setShowing(!showing) }
@@ -166,7 +168,8 @@ export default function ActionsFilterForm({
           <ControlledAutoComplete
             placeholder="Contexts"
             control={control}
-            name="required_context"
+            // name="required_context"
+            name="requiredContext"
             label=""
             getOptionLabel={getOptionLabel}
             options={contextOptions}
