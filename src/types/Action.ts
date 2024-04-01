@@ -12,24 +12,8 @@ import dayjs, { type Dayjs } from 'dayjs'
 // does it make sense to have these as optional when I am always sending them....?????
 const actionCompletionObject = {
   actionId: z.number().optional(),
-  // startTime: z.coerce.date().optional().nullable(),
-  // endTime: z.coerce.date().optional().nullable(),
-  // startTime: z.string().optional().nullable().transform(time => {
-  //   const newDate = dayjs(time).toISOString()
-  //   console.log("TRANSFORM", {newDate}, typeof newDate)
-  //   return newDate
-  // }),
-
-  // endTime: z.string().optional().nullable().transform(time => dayjs(time).toISOString()),
-  // startTime: z.date().optional().nullable(),
-  // endTime: z.date().optional().nullable(),
   startTime: z.custom<Dayjs>((val) => val instanceof dayjs, 'Invalid date').optional().nullable().transform(date => date?.toISOString() ?? null),
   endTime: z.custom<Dayjs>((val) => val instanceof dayjs, 'Invalid date').optional().nullable().transform(date => date?.toISOString() ?? null),
-  // startTime: z.string().datetime().optional().nullable(),
-  // endTime: z.string().datetime().optional().nullable(),
-  // startTime: z.instanceof(dayjs as unknown as typeof Dayjs),
-  // endTime: z.instanceof(dayjs as unknown as typeof Dayjs),
-  // duration: z.number().optional(),
   duration: z.array(z.number()).optional(),
   notes: z.string().optional(),
   // completed: z.boolean(),
@@ -41,7 +25,8 @@ const actionSchemaObject = {
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "No 1 letter descriptions").optional(), // todo: dont require descriptions -- title only is sick
   // date: z.date().optional(),
-  date: z.string().optional(),
+  date: z.custom<Dayjs>((val) => val instanceof dayjs, 'Invalid date').optional().nullable().transform(date => date?.toISOString() ?? null),
+  // date: z.string().optional(),
   // date: z.string().datetime().optional(),
   // date: z.string().datetime().optional(),
   energy: z.number().optional(),
