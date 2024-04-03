@@ -34,7 +34,6 @@ import useEditAction from "@/hooks/api/useEditAction"
 
 export default function ActionDetailsPage(){
   const { mutateAsync: editAction } = useEditAction()
-  // const [expanded, setExpanded] = useState(true)
   const [showEditAction, setShowEditAction] = useState(false)
   const [showActionCompletedDialog, setShowActionCompletedDialog] = useState(false)
 
@@ -47,11 +46,9 @@ export default function ActionDetailsPage(){
 
   const tags = useListTags()
   const tagOptions = tags?.data ?? [defaultTag]
-  // console.log({tagOptions})
 
   const contexts = useListContexts()
   const contextOptions = contexts?.data ?? [defaultTag]
-  // console.log({contextOptions})
 
 
   const methods = useForm({
@@ -72,8 +69,6 @@ export default function ActionDetailsPage(){
     console.log("EDIT ACTION FORM ERRORS", {errors}, {values: getValues()})
   }
 
-  // const { fields: tagFields, remove: removeTag, append: appendTag } = useFieldArray({ control, name: "tags" })
-  // const { fields: contextFields, remove: removeContext, append: appendContext } = useFieldArray({ control, name: "required_context" })
   useEffect(() => setValue('id', action?.id ?? 0),
     [setValue, action?.id])
 
@@ -88,7 +83,6 @@ export default function ActionDetailsPage(){
 
   useEffect(() => setValue('completedDate', action?.completedDate ?? null),
     [setValue, action?.completedDate])
-  // need to update when showEditAction is clicked to prevent changes from appearing to persist when save is not clicked
 
   useEffect(() => setValue('completed', action?.completed ?? false),
     [setValue, action?.completed])
@@ -117,15 +111,10 @@ export default function ActionDetailsPage(){
       console.log("========================= SUBMIT ============================= ", {data}, {values: getValues()})
 
       const newlyMarkedCompleted = action?.completed === false && data.completed === true
-      // const newlyMarkedCompleted = action?.completedDate === null && data.completedDate !== null
-      // if (newlyMarkedCompleted){
-      //   data.completedDate = 
-      // }
       const newAction = await editAction(data)
       console.log({newAction})
 
       // if was not completed, now is completed, prompt for notes
-      console.log(action?.completedDate, data.completedDate)
       if (newlyMarkedCompleted){
         console.log("open comfirm dialog")
         setShowActionCompletedDialog(true)
@@ -216,8 +205,6 @@ export default function ActionDetailsPage(){
           <Divider sx={{borderBottomWidth: 2, mb: 2}}/>
 
           <ControlledCheckbox
-            // the new value should be obtained by the get request query being re-run
-            // todo: pass in on onchange which converts the date to a boolean
             control={control}
             name="completed"
             label="Completed"
