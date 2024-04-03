@@ -24,16 +24,16 @@ const actionSchemaObject = {
   id: z.number(),
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "No 1 letter descriptions").optional(), // todo: dont require descriptions -- title only is sick
-  // date: z.date().optional(),
   date: z.custom<Dayjs>((val) => val instanceof dayjs, 'Invalid date').optional().nullable().transform(date => date?.toISOString() ?? null),
-  // date: z.string().optional(),
-  // date: z.string().datetime().optional(),
-  // date: z.string().datetime().optional(),
+  // deletedDate: z.custom<Dayjs>((val) => val instanceof dayjs, 'Invalid date').optional().nullable().transform(date => date?.toISOString() ?? null),
+  // completedDate: z.custom<Dayjs>((val) => val instanceof dayjs, 'Invalid date').optional().nullable().transform(date => date?.toISOString() ?? null),
+  deletedDate: z.string().nullable(),
+  completedDate: z.string().nullable(),
+  completed: z.boolean(),
   energy: z.number().optional(),
   somedayMaybe: z.boolean(), // todo: decide if this should just be another tag -- nah then i gotta filter that out everywhere when showing tags
   delegated: z.boolean(),
   cannotBeDoneYet: z.boolean(),
-  completed: z.boolean().optional(), // todo: make this non optional or idk
   requiredContext: z.array(TagSchema).optional(),
   tags: z.array(TagSchema).optional(),
 }

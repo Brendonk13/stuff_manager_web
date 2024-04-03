@@ -27,7 +27,7 @@ export default function Action({action, showProjectName, showTags: showTagsProp,
   return (
     <Stack padding={1}>
       {/* <Paper sx={{ padding: 2, bgcolor: "action.disabled" }}> */}
-      <Paper elevation={2} sx={{ padding: 1 }}>
+      <Paper elevation={2} sx={{ padding: 1 }} id="swipeable_action" data-actionId={action?.id}>
         <Stack direction="row" sx={{ justifyContent: "space-between" }}>
 
           {/* ================== LEFT elements ================== */}

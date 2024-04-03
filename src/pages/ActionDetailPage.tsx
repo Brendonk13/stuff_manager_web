@@ -6,6 +6,7 @@ import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 import dayjs from "dayjs"
 import { Link as RouterLink } from "react-router-dom"
 
+// import transformDate from "@/utils/formatDateZod"
 import ActionCompletedDialog from "@/dialogs/ActionCompletedDialog"
 import ControlledCheckbox from "@/components/controlled/ControlledCheckBox"
 import { defaultTag } from "@/types/Tag"
@@ -64,6 +65,7 @@ export default function ActionDetailsPage(){
     getValues,
     setValue,
     formState: { errors, },
+    reset,
   } = methods
 
   if (Object.keys(errors).length > 0){
@@ -81,9 +83,16 @@ export default function ActionDetailsPage(){
   useEffect(() => setValue('description', action?.description ?? ""),
     [setValue, action?.description])
 
-  useEffect(() => setValue('completed', action?.completed ?? false),
-    [setValue, action?.completed, showEditAction])
+  useEffect(() => setValue('deletedDate', action?.deletedDate ?? null),
+    [setValue, action?.deletedDate])
+
+  useEffect(() => setValue('completedDate', action?.completedDate ?? null),
+    [setValue, action?.completedDate])
   // need to update when showEditAction is clicked to prevent changes from appearing to persist when save is not clicked
+
+  useEffect(() => setValue('completed', action?.completed ?? false),
+    [setValue, action?.completed])
+    // [setValue, action?.completed, showEditAction])
 
   useEffect(() => setValue('energy', action?.energy ?? -1),
     [setValue, action?.energy])
@@ -105,14 +114,19 @@ export default function ActionDetailsPage(){
 
   const onSubmit = async (data: Action) => {
     try {
-      console.log("========================= SUBMIT ============================= ", {data})
+      console.log("========================= SUBMIT ============================= ", {data}, {values: getValues()})
 
+      const newlyMarkedCompleted = action?.completed === false && data.completed === true
+      // const newlyMarkedCompleted = action?.completedDate === null && data.completedDate !== null
+      // if (newlyMarkedCompleted){
+      //   data.completedDate = 
+      // }
       const newAction = await editAction(data)
       console.log({newAction})
 
       // if was not completed, now is completed, prompt for notes
-      console.log(action?.completed, data.completed)
-      if (action?.completed === false && data.completed === true){
+      console.log(action?.completedDate, data.completedDate)
+      if (newlyMarkedCompleted){
         console.log("open comfirm dialog")
         setShowActionCompletedDialog(true)
       }
@@ -120,6 +134,11 @@ export default function ActionDetailsPage(){
     } catch (e) {
       console.error(e)
     }
+  }
+
+  const onCancel = () => {
+    setShowEditAction(!showEditAction)
+    reset(action)
   }
 
   const getNameWidth = (name?: string) => {
@@ -155,13 +174,14 @@ export default function ActionDetailsPage(){
             <Button
               type={showEditAction ? "button" : "submit"} // idk why reverse doesnt work
               variant="contained"
+              aria-label="Save"
               onClick={() => setShowEditAction(!showEditAction)}
             >
               {showEditAction ? "Save" : "Edit"}
             </Button>
             {/* cancel -- dont save changes */}
             { showEditAction && (
-              <IconButton onClick={() => setShowEditAction(!showEditAction)}>
+              <IconButton aria-label="Cancel" onClick={onCancel}>
                 <DoDisturbIcon sx={{color: 'error.main' }}/>
               </IconButton>
             )}
@@ -196,6 +216,8 @@ export default function ActionDetailsPage(){
           <Divider sx={{borderBottomWidth: 2, mb: 2}}/>
 
           <ControlledCheckbox
+            // the new value should be obtained by the get request query being re-run
+            // todo: pass in on onchange which converts the date to a boolean
             control={control}
             name="completed"
             label="Completed"

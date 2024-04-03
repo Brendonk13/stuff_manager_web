@@ -13,9 +13,9 @@ import {
 // import { useFormContext } from "react-hook-form"
 import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod'
-import dayjs from "dayjs"
 // import { camelizeKeys, decamelizeKeys } from "humps"
 
+import transformDate from "@/utils/formatDateZod"
 import ControlledDuration from "@/components/controlled/ControlledDuration"
 // import Duration from "@/components/common/Duration"
 import ControlledTextField from "@/components/controlled/ControlledTextField"
@@ -28,10 +28,6 @@ import useEditActionCompletion from "@/hooks/api/useEditActionCompletion"
 // import useGetActionCompletion from "@/hooks/api/useGetActionCompletion"
 // this is used by: actionsPage, projectDetailsPage
 // -- anywhere that lists actions
-
-function transformDate(date: string) {
-  return date ? dayjs(date) : null
-}
 
 interface ConfirmationDialogProps {
   open: boolean
@@ -89,7 +85,7 @@ export default function ActionCompletedDialog({ open, setOpen, actionId, actionC
       // const newEnd = actionCompletion?.endTime ? dayjs(actionCompletion.endTime) : null
       const newEnd = transformDate(actionCompletion?.endTime)
       // const newEnd = actionCompletion?.endTime ? actionCompletion.endTime : null
-      console.log({newEnd}, actionCompletion?.endTime, {actionCompletion})
+      // console.log({newEnd}, actionCompletion?.endTime, {actionCompletion})
       setValue('endTime', newEnd)
     },
     [setValue, actionCompletion?.endTime])
@@ -106,6 +102,7 @@ export default function ActionCompletedDialog({ open, setOpen, actionId, actionC
 
       const actionCompletion = await editActionCompletion(data)
       console.log({actionCompletion})
+      setOpen(false)
 
     } catch (e) {
       console.error(e)

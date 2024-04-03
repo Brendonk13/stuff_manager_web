@@ -47,6 +47,9 @@ dependencies:
   humps:
     specifier: ^2.0.1
     version: 2.0.1
+  interactjs:
+    specifier: ^1.10.27
+    version: 1.10.27
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -79,6 +82,9 @@ dependencies:
     version: 3.22.4
 
 devDependencies:
+  '@interactjs/types':
+    specifier: ^1.10.27
+    version: 1.10.27
   '@types/lodash':
     specifier: ^4.14.200
     version: 4.14.200
@@ -830,6 +836,9 @@ packages:
   /@humanwhocodes/object-schema@2.0.0:
     resolution: {integrity: sha512-9S9QrXY2K0L4AGDcSgTi9vgiCcG8VcBv4Mp7/1hDPYoswIy6Z6KO5blYto82BT8M0MZNRWmCFLpCs3HlpYGGdw==}
     dev: true
+
+  /@interactjs/types@1.10.27:
+    resolution: {integrity: sha512-BUdv0cvs4H5ODuwft2Xp4eL8Vmi3LcihK42z0Ft/FbVJZoRioBsxH+LlsBdK4tAie7PqlKGy+1oyOncu1nQ6eA==}
 
   /@jridgewell/gen-mapping@0.3.3:
     resolution: {integrity: sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==}
@@ -2087,6 +2096,12 @@ packages:
   /inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
     dev: true
+
+  /interactjs@1.10.27:
+    resolution: {integrity: sha512-y/8RcCftGAF24gSp76X2JS3XpHiUvDQyhF8i7ujemBz77hwiHDuJzftHx7thY8cxGogwGiPJ+o97kWB6eAXnsA==}
+    dependencies:
+      '@interactjs/types': 1.10.27
+    dev: false
 
   /is-arrayish@0.2.1:
     resolution: {integrity: sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg==}

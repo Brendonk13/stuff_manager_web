@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { InputLabel, Stack, TextField } from '@mui/material'
-import { SyntheticEvent } from 'react'
+import { type SyntheticEvent } from 'react'
 
 interface DurationProps {
   value: number[]

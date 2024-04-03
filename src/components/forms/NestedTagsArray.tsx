@@ -69,7 +69,7 @@ export default function NestedTagsArray(
                   name={`${fieldArrayName}[${index}]`}
                   // getOptionLabel={(option: Tag) => {
                   getOptionLabel={option => {
-                    console.log("getOptionLabel", {option}, {options})
+                    // console.log("getOptionLabel", {option}, {options})
                     return option !== "" ? option.value : defaultTag.value
                   }}
                   label="Tag"

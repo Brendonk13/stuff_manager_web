@@ -4,6 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from "react-hook-form"
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 
+import ConfirmationDialog from "@/dialogs/ConfirmationDialog"
+import useDraggableAction from "@/hooks/useDraggableAction"
 import ControlledTextField from "@/components/controlled/ControlledTextField"
 import useEditProject from "@/hooks/api/useEditProject"
 import { defaultProject, type Project, EditProjectSchema } from "@/types/Project"
@@ -12,15 +14,24 @@ import PageLayout from "@/layouts/Page"
 import { useParams } from 'react-router-dom'
 import useGetProject from "@/hooks/api/useGetProject"
 import useListActions from "@/hooks/api/useListActions"
+import useGetAction from "@/hooks/api/useGetAction"
 import { defaultActionQueryParams } from "@/types/Action"
 import Action from "@/components/common/Action"
 
 
 export default function ProjectDetailsPage(){
   const { mutateAsync: editProject } = useEditProject()
+
   const [expanded, setExpanded] = useState(true)
+
   const [showEditProjectForm, setShowEditProjectForm] = useState(false)
-  // const queryClient = useQueryClient()
+
+  const [completedActionId, setCompletedActionId] = useState(0)
+  const [deletedActionId,   setDeletedActionId] = useState(0)
+
+  useDraggableAction({setCompletedActionId, setDeletedActionId})
+
+  const {data: action} = useGetAction(deletedActionId)
 
   const { projectId } = useParams()
   const { data: project } = useGetProject(Number(projectId))
@@ -60,6 +71,18 @@ export default function ProjectDetailsPage(){
       console.error(e)
     }
   }
+
+  const deleteAction = async () => {
+    if (deletedActionId === 0){
+      console.log("deletedActionId is still zero for some reason")
+      return
+    }
+    // const result = await deleteAction(deletedActionId)
+    // console.log("DELETE UNPROCESSED", {result})
+    console.log("DELETE ACTION", {action})
+    setDeletedActionId(0)
+  }
+
 
 
   const getNameWidth = (name?: string) => {
@@ -151,6 +174,12 @@ export default function ProjectDetailsPage(){
         ))}
         </FormProvider>
       </Box>
+        <ConfirmationDialog
+          open={Boolean(deletedActionId)}
+          title={`Delete Action: ${action?.title}?`}
+          onConfirm={deleteAction}
+          onCancel={() => setDeletedActionId(0)}
+        />
     </PageLayout>
   )
 }

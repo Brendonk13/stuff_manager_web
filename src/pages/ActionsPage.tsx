@@ -5,10 +5,13 @@ import { Divider, Box, Stack, Button } from "@mui/material"
 import { FormProvider, useForm } from "react-hook-form"
 import { useSearchParams } from "react-router-dom"
 
+import ConfirmationDialog from "@/dialogs/ConfirmationDialog"
+import useDraggableAction from "@/hooks/useDraggableAction"
 import Action from "@/components/common/Action"
 import PageLayout from "@/layouts/Page"
 import { useSnackbarContext } from '@/contexts/SnackbarContext'
 import useListActions from "@/hooks/api/useListActions"
+import useGetAction from "@/hooks/api/useGetAction"
 import ActionsFilterForm from "@/components/forms/ActionsFilterForm"
 import convertTags from "@/utils/random/convertTagsQueryParams"
 import { defaultActionQueryParams, ListActionQuerySchema, type ListActionQueryParams } from "@/types/Action"
@@ -61,17 +64,22 @@ function extractSearchParamsFromURL(searchParams){
 
 export default function ActionsPage(){
 
+  const [completedActionId, setCompletedActionId] = useState(0)
+  const [deletedActionId, setDeletedActionId] = useState(0)
   const [expandTags, setExpandTags] = useState(false)
   const [expandContexts, setExpandContexts] = useState(false)
   console.log({expandTags})
 
+  const {data: action} = useGetAction(deletedActionId)
   const [searchParams, setSearchParams] = useSearchParams()
   const initialFormValues = {...defaultActionQueryParams, ...extractSearchParamsFromURL(searchParams)}
 
   cleanupFormData(initialFormValues)
 
-
+  useDraggableAction({setCompletedActionId, setDeletedActionId})
   // console.log({initialFormValues})
+
+
 
   const [actionQueryParams, setActionQueryParams] = useState(initialFormValues)
   // do I need to setActionQueryParams here? why is it working for other things
@@ -152,6 +160,16 @@ export default function ActionsPage(){
     }
   }
 
+  const deleteAction = async () => {
+    if (deletedActionId === 0){
+      console.log("deletedActionId is still zero for some reason")
+      return
+    }
+    // const result = await deleteAction(deletedActionId)
+    // console.log("DELETE UNPROCESSED", {result})
+    console.log("DELETE ACTION", {action})
+    setDeletedActionId(0)
+  }
 
   return (
     <PageLayout>
@@ -173,6 +191,7 @@ export default function ActionsPage(){
         <Divider/>
         {actions?.data?.map(action => (
           <Action
+            // id={`Action_${action.id}`}
             key={`Action_${action.id}`}
             action={action}
             showProjectName={true} // todo: should i always show this ?
@@ -181,6 +200,12 @@ export default function ActionsPage(){
           />
         ))}
       </Stack>
+      <ConfirmationDialog
+        open={Boolean(deletedActionId)}
+        title={`Delete Action: ${action?.title}?`}
+        onConfirm={deleteAction}
+        onCancel={() => setDeletedActionId(0)}
+      />
     </PageLayout>
   )
 }

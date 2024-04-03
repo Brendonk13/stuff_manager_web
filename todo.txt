@@ -4,6 +4,8 @@ cleanup:
     - add created to action type ?
     - fix data shape for process items form
     - fix backend process items form -- doesnt probably work for existing projects
+    - rename Action component to ActionList?
+    - make different confirmationdialog for deleting actions so that the title is different color for action name and maybe use 2 lines optionally
 
 next:
     List Actions:
@@ -25,6 +27,14 @@ next:
         - mark them as completed
         ability to delete
         -- frontend is done for completed
+
+    Swiping:
+        - edit onend for interact
+        - make it show dialog (for each?)
+        - maybe add a column in db for deleted actions ?
+        NEXT:
+            - show a dialog when something is completed or deleted based on the usestate
+            - make completedDate be string, we dont rlly need validation here
 
     completion notes dialog:
         - make a custom controlled component with days, hours, mins for the duration field
