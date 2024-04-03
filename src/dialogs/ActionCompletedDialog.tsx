@@ -67,25 +67,15 @@ export default function ActionCompletedDialog({ open, setOpen, actionId, actionC
   // set default form values
   useEffect(() => setValue('actionId', actionId),
     [setValue, actionId])
-    // [setValue, actionCompletion?.actionId])
-
-  // useEffect(() => setValue('startTime', actionCompletion?.startTime ?? null),
-  //   [setValue, actionCompletion?.startTime])
 
   useEffect(() => {
-      // const newStart = actionCompletion?.startTime ? dayjs(actionCompletion.startTime) : null
       const newStart = transformDate(actionCompletion?.startTime)
       setValue('startTime', newStart)
     },
     [setValue, actionCompletion?.startTime])
 
   useEffect(() => {
-      // const newEnd = actionCompletion?.endTime ? new Date(actionCompletion.endTime) : null
-      // const newEnd = actionCompletion?.endTime ? dayjs(actionCompletion.endTime).toISOString() : null
-      // const newEnd = actionCompletion?.endTime ? dayjs(actionCompletion.endTime) : null
       const newEnd = transformDate(actionCompletion?.endTime)
-      // const newEnd = actionCompletion?.endTime ? actionCompletion.endTime : null
-      // console.log({newEnd}, actionCompletion?.endTime, {actionCompletion})
       setValue('endTime', newEnd)
     },
     [setValue, actionCompletion?.endTime])
