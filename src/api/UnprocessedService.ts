@@ -1,5 +1,7 @@
-import { type CreateUnprocessedRequestBody, type CreateUnprocessedResponse, type GetUnprocessedResponse, type ListUnprocessedResponse, type DeleteUnprocessedResponse } from "@/types/Unprocessed"
-// todo: change capitalization of Unprocessed file
+import { type CreateUnprocessedRequestBody, type CreateUnprocessedResponse } from "@/types/Unprocessed/CreateUnprocessed"
+import { type GetUnprocessedResponse } from "@/types/Unprocessed/GetUnprocessed"
+import { type ListUnprocessedResponse } from "@/types/Unprocessed/ListUnprocessed"
+import { type DeleteUnprocessedResponse } from "@/types/Unprocessed/DeleteUnprocessed"
 
 
 import { CreateApiService } from './Service'

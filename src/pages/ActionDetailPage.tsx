@@ -6,7 +6,6 @@ import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 import dayjs from "dayjs"
 import { Link as RouterLink } from "react-router-dom"
 
-// import transformDate from "@/utils/formatDateZod"
 import ActionCompletedDialog from "@/dialogs/ActionCompletedDialog"
 import ControlledCheckbox from "@/components/controlled/ControlledCheckBox"
 import { defaultTag } from "@/types/Tag"
@@ -19,17 +18,14 @@ import Tags from "@/components/common/Tags"
 import getEnergySymbol from "@/utils/random/getEnergySymbol"
 import ControlledSlider from "@/components/controlled/ControlledSlider"
 import ControlledTextField from "@/components/controlled/ControlledTextField"
-// import useEditProject from "@/hooks/api/useEditProject"
-// import { defaultProject, type Project, EditProjectSchema } from "@/types/Project"
-import { defaultAction, EditActionSchema, type Action } from "@/types/Action"
-import { defaultProject } from "@/types/Project"
-import ExpandMore from "@/components/common/ExpandMore"
+import { defaultAction, type Action } from "@/types/Action/Action"
+import { EditActionSchema } from "@/types/Action/EditAction"
+import { defaultProject } from "@/types/Project/Project"
+// import ExpandMore from "@/components/common/ExpandMore"
 import PageLayout from "@/layouts/Page"
 import { useParams } from 'react-router-dom'
-// import useGetProject from "@/hooks/api/useGetProject"
 import useGetAction from "@/hooks/api/useGetAction"
 import useEditAction from "@/hooks/api/useEditAction"
-// import useListActions from "@/hooks/api/useListActions"
 
 
 export default function ActionDetailsPage(){
@@ -116,7 +112,6 @@ export default function ActionDetailsPage(){
 
       // if was not completed, now is completed, prompt for notes
       if (newlyMarkedCompleted){
-        console.log("open comfirm dialog")
         setShowActionCompletedDialog(true)
       }
 

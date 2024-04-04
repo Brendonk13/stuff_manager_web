@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getAction, actionQueryKeys } from "@/api/ActionsService"
-import { defaultAction } from "@/types/Action"
+// import { defaultAction } from "@/types/Action/Action"
 
 export default function useGetAction(actionId: number){
   // if (actionId === 0){

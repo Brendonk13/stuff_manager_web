@@ -14,7 +14,8 @@ import useListActions from "@/hooks/api/useListActions"
 import useGetAction from "@/hooks/api/useGetAction"
 import ActionsFilterForm from "@/components/forms/ActionsFilterForm"
 import convertTags from "@/utils/random/convertTagsQueryParams"
-import { defaultActionQueryParams, ListActionQuerySchema, type ListActionQueryParams } from "@/types/Action"
+import { defaultActionQueryParams, ListActionQuerySchema, type ListActionQueryParams } from "@/types/Action/ListAction"
+import useEditAction from "@/hooks/api/useEditAction"
 
 function cleanupFormData(data) {
   if (data?.title === ""){
@@ -89,6 +90,8 @@ export default function ActionsPage(){
   // console.log("actions, query filters", actions, { actionQueryParams })
   console.log({actions})
 
+  const { mutateAsync: editAction } = useEditAction()
+
   // todo: make it so changing this doesnt cause a complete re-render unless actionQueryParams changes
   const [showingFilterMenu, setShowingFilterMenu] = useState(false);
   const { openSnackbar } = useSnackbarContext()
@@ -160,6 +163,21 @@ export default function ActionsPage(){
     }
   }
 
+  const actionCompleted = async () => {
+    if (completedActionId === 0){
+      console.log("completedActionId is still zero for some reason")
+      return
+    }
+    const actionData = {
+      id: action.id,
+      title: action.title,
+    }
+    const editedAction = await editAction(deletedActionId)
+    console.log("DELETE UNPROCESSED", {result})
+    console.log("DELETE ACTION", {action})
+    setDeletedActionId(0)
+  }
+
   const deleteAction = async () => {
     if (deletedActionId === 0){
       console.log("deletedActionId is still zero for some reason")
@@ -202,6 +220,12 @@ export default function ActionsPage(){
       </Stack>
       <ConfirmationDialog
         open={Boolean(deletedActionId)}
+        title={`Delete Action: ${action?.title}?`}
+        onConfirm={deleteAction}
+        onCancel={() => setDeletedActionId(0)}
+      />
+      <ConfirmationDialog
+        open={Boolean(completedActionId)}
         title={`Delete Action: ${action?.title}?`}
         onConfirm={deleteAction}
         onCancel={() => setDeletedActionId(0)}

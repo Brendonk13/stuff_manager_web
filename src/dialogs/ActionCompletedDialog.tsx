@@ -23,7 +23,7 @@ import ControlledDatePicker from "@/components/controlled/ControlledDatePicker"
 // import ControlledTimeField from "@/components/controlled/ControlledTimeField"
 // also need something for numbers
 
-import { EditActionCompletionSchema, defaultActionCompletion } from "@/types/Action"
+import { EditActionCompletionSchema, defaultActionCompletion } from "@/types/Action/ActionCompletion"
 import useEditActionCompletion from "@/hooks/api/useEditActionCompletion"
 // import useGetActionCompletion from "@/hooks/api/useGetActionCompletion"
 // this is used by: actionsPage, projectDetailsPage

@@ -1,4 +1,4 @@
-import { type ListContextResponse } from "@/types/Action"
+import { type ListContextResponse } from "@/types/Tag"
 
 import { CreateApiService } from './Service'
 

@@ -1,5 +1,5 @@
 import { Link, Paper, Typography, Stack } from '@mui/material'
-import { type Project } from "@/types/Project"
+import { type Project } from "@/types/Project/Project"
 import { Link as RouterLink } from "react-router-dom"
 
 interface ProjectProps {

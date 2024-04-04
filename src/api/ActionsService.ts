@@ -1,6 +1,9 @@
 // import { type CreateUnprocessedRequestBody, type CreateUnprocessedResponse, type GetUnprocessedResponse } from "@/types/Common"
 // TODO: CHANGE THIS FROM CREATEITEM to action
-import { type ListActionResponse, type ListActionQueryParams, type GetActionResponse, type EditActionResponse, type EditActionBody, type EditActionCompletionBody, type EditActionCompletionResponse, type GetActionCompletionResponse} from "@/types/Action"
+import { type ListActionResponse, type ListActionQueryParams } from "@/types/Action/ListAction"
+import { type GetActionResponse } from "@/types/Action/GetAction"
+import { type EditActionResponse, type EditActionBody } from "@/types/Action/EditAction"
+import { type EditActionCompletionBody, type EditActionCompletionResponse, type GetActionCompletionResponse } from "@/types/Action/ActionCompletion"
 import { type CreateItemResponse, type CreateItem } from "@/types/CreateItem"
 
 import { CreateApiService } from './Service'

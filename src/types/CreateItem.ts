@@ -1,6 +1,6 @@
 import z from "zod"
-import { ProjectSchema } from "./Project"
-import { CreateItemActionSchema } from "./Action"
+import { ProjectSchema } from "./Project/Project"
+import { CreateItemActionSchema } from "./Action/CreateAction"
 
 // todo: delete lol and just have steps
 // todo: change from create item to createActionable!!!!

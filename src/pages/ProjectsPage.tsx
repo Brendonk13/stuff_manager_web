@@ -9,7 +9,7 @@ import PageLayout from "@/layouts/Page"
 import useListProjects from "@/hooks/api/useListProjects"
 import Project from "@/components/common/Project"
 import useCreateProject from "@/hooks/api/useCreateProject"
-import { defaultProject, ProjectSchema, type Project as ProjectType } from "@/types/Project"
+import { defaultProject, ProjectSchema, type Project as ProjectType } from "@/types/Project/Project"
 
 
 export default function ProjectsPage(){

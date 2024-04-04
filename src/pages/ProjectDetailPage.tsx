@@ -8,14 +8,15 @@ import ConfirmationDialog from "@/dialogs/ConfirmationDialog"
 import useDraggableAction from "@/hooks/useDraggableAction"
 import ControlledTextField from "@/components/controlled/ControlledTextField"
 import useEditProject from "@/hooks/api/useEditProject"
-import { defaultProject, type Project, EditProjectSchema } from "@/types/Project"
+import { EditProjectSchema } from "@/types/Project/EditProject"
+import { defaultProject, type Project } from "@/types/Project/Project"
 import ExpandMore from "@/components/common/ExpandMore"
 import PageLayout from "@/layouts/Page"
 import { useParams } from 'react-router-dom'
 import useGetProject from "@/hooks/api/useGetProject"
 import useListActions from "@/hooks/api/useListActions"
 import useGetAction from "@/hooks/api/useGetAction"
-import { defaultActionQueryParams } from "@/types/Action"
+import { defaultActionQueryParams } from "@/types/Action/ListAction"
 import Action from "@/components/common/Action"
 
 

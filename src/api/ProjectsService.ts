@@ -1,4 +1,8 @@
-import { type EditProjectBody, type ListProjectsResponse, type GetProjectResponse, type EditProjectResponse, type CreateProjectRequestBody, type CreateProjectResponse } from "@/types/Project"
+import { type EditProjectResponse, type EditProjectBody} from "@/types/Project/EditProject"
+import { type CreateProjectRequestBody, type CreateProjectResponse } from "@/types/Project/CreateProject"
+import { type ListProjectsResponse } from "@/types/Project/ListProject"
+import { type GetProjectResponse } from "@/types/Project/GetProject"
+// import { type EditProjectBody, type ListProjectsResponse, type GetProjectResponse, type EditProjectResponse, type CreateProjectRequestBody, type CreateProjectResponse } from "@/types/Project"
 
 import { CreateApiService } from './Service'
 
