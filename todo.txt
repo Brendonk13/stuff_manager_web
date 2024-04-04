@@ -33,8 +33,7 @@ next:
         - make it show dialog (for each?)
         - maybe add a column in db for deleted actions ?
         NEXT:
-            - show a dialog when something is completed or deleted based on the usestate
-            - make completedDate be string, we dont rlly need validation here
+            - make custom dialogs for actioncompleted and deleted
 
     completion notes dialog:
         - make a custom controlled component with days, hours, mins for the duration field

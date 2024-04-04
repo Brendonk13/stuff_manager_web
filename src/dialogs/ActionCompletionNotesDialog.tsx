@@ -37,7 +37,7 @@ interface ConfirmationDialogProps {
 }
 
 // export default function ActionCompletedDialog({ open: openProp, title, onCancel, onConfirm }: ConfirmationDialogProps){
-export default function ActionCompletedDialog({ open, setOpen, actionId, actionCompletion }: ConfirmationDialogProps){
+export default function ActionCompletionNotesDialog({ open, setOpen, actionId, actionCompletion }: ConfirmationDialogProps){
   const isMobile = useMediaQuery('(max-width: 460px)')
   const { mutateAsync: editActionCompletion } = useEditActionCompletion()
 

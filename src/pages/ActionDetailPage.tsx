@@ -6,7 +6,7 @@ import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 import dayjs from "dayjs"
 import { Link as RouterLink } from "react-router-dom"
 
-import ActionCompletedDialog from "@/dialogs/ActionCompletedDialog"
+import ActionCompletionNotesDialog from "@/dialogs/ActionCompletionNotesDialog"
 import ControlledCheckbox from "@/components/controlled/ControlledCheckBox"
 import { defaultTag } from "@/types/Tag"
 import useListTags from "@/hooks/api/useListTags"
@@ -284,7 +284,7 @@ export default function ActionDetailsPage(){
         </FormProvider>
       </Box>
       {action?.id &&
-        <ActionCompletedDialog
+        <ActionCompletionNotesDialog
           open={showActionCompletedDialog}
           // open={true}
           setOpen={setShowActionCompletedDialog}

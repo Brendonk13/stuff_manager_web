@@ -2,6 +2,7 @@ import z from "zod"
 import { ProjectSchema } from "@/types/Project/Project"
 import { TagSchema } from "../Tag"
 import dayjs, { type Dayjs } from 'dayjs'
+import { actionCompletionObject } from "./ActionCompletion"
 
 // todo: add completed field
 
@@ -20,6 +21,7 @@ export const actionSchemaObject = {
   deletedDate: z.string().nullable(),
   completedDate: z.string().nullable(),
   completed: z.boolean(),
+  completionNotes: z.object(actionCompletionObject).nullable(),
   energy: z.number().optional(),
   requiredContext: z.array(TagSchema).optional(),
   tags: z.array(TagSchema).optional(),
@@ -57,5 +59,6 @@ export const defaultAction: Action = {
   completedDate: null,
   completed: false,
   date: null,
+  completionNotes: null,
 }
 
