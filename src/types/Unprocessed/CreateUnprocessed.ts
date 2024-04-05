@@ -5,7 +5,7 @@ import { UnprocessedSchema } from "./Unprocessed"
 //   body: UnprocessedSchema.omit({id: true}),
 // }
 
-export const CreateUnprocessedRequestSchema = z.object({
+export const CreateUnprocessedSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().nullable(),
 })
@@ -17,7 +17,11 @@ export const CreateUnprocessedRequestSchema = z.object({
 
 export const CreateUnprocessedResponseSchema = UnprocessedSchema
 
-export type CreateUnprocessedRequestBody = z.infer<typeof CreateUnprocessedRequestSchema>
+export type CreateUnprocessedRequestBody = z.infer<typeof CreateUnprocessedSchema>
 export type CreateUnprocessedResponse = z.infer<typeof CreateUnprocessedResponseSchema>
 
 
+export const defaultCreateUnprocessed: CreateUnprocessedRequestBody = {
+  title: "",
+  description: "",
+}
