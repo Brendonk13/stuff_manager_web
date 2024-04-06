@@ -87,7 +87,7 @@ export default function Action({action, showProjectName, showTags: showTagsProp,
                 <Tags tags={action?.requiredContext ?? []} displayOnRight={true}/>
               </Collapse>
             </Stack>
-            <img src={getEnergySymbol(action.energy)} alt="energy" style={{ height: 35, width: 24 }} />
+            <img src={getEnergySymbol(action.energy)} alt="energy" style={{ height: 35, width: 24 }} loading="lazy"/>
           </Stack>
         </Stack>
       </Paper>
