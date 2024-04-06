@@ -3,8 +3,11 @@ import { useState } from "react"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from "react-hook-form"
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
+import dayjs from "dayjs"
 
-import ConfirmationDialog from "@/dialogs/ConfirmationDialog"
+import ActionCompletedDialog from "@/dialogs/ActionCompletedDialog"
+import ActionDeletedDialog from "@/dialogs/ActionDeletedDialog"
+// import ConfirmationDialog from "@/dialogs/ConfirmationDialog"
 import useDraggableAction from "@/hooks/useDraggableAction"
 import ControlledTextField from "@/components/controlled/ControlledTextField"
 import useEditProject from "@/hooks/api/useEditProject"
@@ -18,6 +21,8 @@ import useListActions from "@/hooks/api/useListActions"
 import useGetAction from "@/hooks/api/useGetAction"
 import { defaultActionQueryParams } from "@/types/Action/ListAction"
 import Action from "@/components/common/Action"
+import useEditAction from "@/hooks/api/useEditAction"
+import { type EditActionBody } from "@/types/Action/EditAction"
 
 
 export default function ProjectDetailsPage(){
@@ -30,9 +35,11 @@ export default function ProjectDetailsPage(){
   const [completedActionId, setCompletedActionId] = useState(0)
   const [deletedActionId,   setDeletedActionId] = useState(0)
 
-  useDraggableAction({setCompletedActionId, setDeletedActionId})
+  const { mutateAsync: editAction } = useEditAction()
+  const {data: deletedAction} = useGetAction(deletedActionId)
+  const {data: completedAction} = useGetAction(completedActionId)
 
-  const {data: action} = useGetAction(deletedActionId)
+  useDraggableAction({setCompletedActionId, setDeletedActionId})
 
   const { projectId } = useParams()
   const { data: project } = useGetProject(Number(projectId))
@@ -73,14 +80,32 @@ export default function ProjectDetailsPage(){
     }
   }
 
+  const actionCompleted = async () => {
+    if (completedActionId === 0){
+      console.log("completedActionId is still zero for some reason")
+      return
+    }
+    const actionData: EditActionBody = {
+      id: completedActionId,
+      completed: true,
+      // title: action.title,
+    }
+    const editedAction = await editAction(actionData)
+    console.log("COMPLETED ACTION", {editedAction})
+    setCompletedActionId(0)
+  }
+
   const deleteAction = async () => {
     if (deletedActionId === 0){
       console.log("deletedActionId is still zero for some reason")
       return
     }
-    // const result = await deleteAction(deletedActionId)
-    // console.log("DELETE UNPROCESSED", {result})
-    console.log("DELETE ACTION", {action})
+    const actionData: EditActionBody = {
+      deletedDate: dayjs().toISOString(),
+      id: deletedActionId,
+    }
+    const editedAction = await editAction(actionData)
+    console.log("DELETED ACTION", {editedAction})
     setDeletedActionId(0)
   }
 
@@ -175,12 +200,18 @@ export default function ProjectDetailsPage(){
         ))}
         </FormProvider>
       </Box>
-        <ConfirmationDialog
-          open={Boolean(deletedActionId)}
-          title={`Delete Action: ${action?.title}?`}
-          onConfirm={deleteAction}
-          onCancel={() => setDeletedActionId(0)}
-        />
+      <ActionDeletedDialog
+        open={Boolean(deletedActionId)}
+        title={deletedAction?.title ?? ""}
+        onConfirm={deleteAction}
+        onCancel={() => setDeletedActionId(0)}
+      />
+      <ActionCompletedDialog
+        open={Boolean(completedActionId)}
+        title={completedAction?.title ?? ""}
+        onConfirm={actionCompleted}
+        onCancel={() => setCompletedActionId(0)}
+      />
     </PageLayout>
   )
 }

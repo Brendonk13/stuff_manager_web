@@ -1,4 +1,6 @@
 import z from "zod"
+import dayjs, { type Dayjs } from 'dayjs'
+
 import { actionSchemaObjectWithProject } from "./Action"
 // import { actionCompletionObject } from "./ActionCompletion"
 // todo: change path
@@ -12,8 +14,18 @@ const EditActionResponseSchema = z.object(actionSchemaObjectWithProject).omit({
 export type EditActionResponse = z.infer<typeof EditActionResponseSchema>
 
 export const EditActionSchema = z.object({
-  ...actionSchemaObjectWithProject,
-  project: ProjectSchema.optional().nullable(),
+  id              : z.number().optional(),
+  title           : z.string().optional(),
+  description     : z.string().optional(),
+  completed       : z.boolean().optional(),
+  energy          : z.number().optional(),
+  project         : ProjectSchema.optional().nullable(),
+  date            : actionSchemaObjectWithProject.date.nullable().optional(),
+  deletedDate     : actionSchemaObjectWithProject.deletedDate.optional(),
+  completedDate   : actionSchemaObjectWithProject.completedDate.optional(),
+  completionNotes : actionSchemaObjectWithProject.completionNotes.optional(),
+  requiredContext : actionSchemaObjectWithProject.requiredContext,
+  tags            : actionSchemaObjectWithProject.tags,
 })
 
 export type EditActionBody = z.infer<typeof EditActionSchema>

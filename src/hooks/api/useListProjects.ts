@@ -5,7 +5,7 @@ const useListProjects = () => {
   return useQuery({
     queryKey: [projectQueryKeys.LIST],
     queryFn: async () => await listProjects(),
-    select: (res) => res.data,
+    // select: (res) => res.data,
   })
 }
 

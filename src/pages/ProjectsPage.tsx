@@ -18,9 +18,9 @@ export default function ProjectsPage(){
   const { mutateAsync: createProject } = useCreateProject()
 
 
-  const projects = useListProjects()
+  const {data: projects} = useListProjects()
   // const projects = useMemo(() => useListProjects(), [])
-  console.log("projects", projects?.data)
+  console.log("projects", projects)
 
   const methods = useForm({
     defaultValues: defaultProject,
@@ -77,7 +77,7 @@ export default function ProjectsPage(){
 
       <br />
 
-      {projects?.data && projects?.data?.map(project => (
+      {projects && projects.map(project => (
         <Project
           key={project.id}
           project={project}

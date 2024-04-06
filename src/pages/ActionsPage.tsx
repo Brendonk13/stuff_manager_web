@@ -4,8 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Divider, Box, Stack, Button } from "@mui/material"
 import { FormProvider, useForm } from "react-hook-form"
 import { useSearchParams } from "react-router-dom"
+import dayjs from 'dayjs'
 
-import ConfirmationDialog from "@/dialogs/ConfirmationDialog"
+import ActionCompletedDialog from "@/dialogs/ActionCompletedDialog"
+import ActionDeletedDialog from "@/dialogs/ActionDeletedDialog"
 import useDraggableAction from "@/hooks/useDraggableAction"
 import Action from "@/components/common/Action"
 import PageLayout from "@/layouts/Page"
@@ -15,6 +17,7 @@ import useGetAction from "@/hooks/api/useGetAction"
 import ActionsFilterForm from "@/components/forms/ActionsFilterForm"
 import convertTags from "@/utils/random/convertTagsQueryParams"
 import { defaultActionQueryParams, ListActionQuerySchema, type ListActionQueryParams } from "@/types/Action/ListAction"
+import { type EditActionBody } from "@/types/Action/EditAction"
 import useEditAction from "@/hooks/api/useEditAction"
 
 function cleanupFormData(data) {
@@ -71,7 +74,9 @@ export default function ActionsPage(){
   const [expandContexts, setExpandContexts] = useState(false)
   console.log({expandTags})
 
-  const {data: action} = useGetAction(deletedActionId)
+  const {data: deletedAction} = useGetAction(deletedActionId)
+  const {data: completedAction} = useGetAction(completedActionId)
+
   const [searchParams, setSearchParams] = useSearchParams()
   const initialFormValues = {...defaultActionQueryParams, ...extractSearchParamsFromURL(searchParams)}
 
@@ -168,14 +173,14 @@ export default function ActionsPage(){
       console.log("completedActionId is still zero for some reason")
       return
     }
-    const actionData = {
-      id: action.id,
-      title: action.title,
+    const actionData: EditActionBody = {
+      id: completedActionId,
+      completed: true,
+      // title: action.title,
     }
-    const editedAction = await editAction(deletedActionId)
-    console.log("DELETE UNPROCESSED", {result})
-    console.log("DELETE ACTION", {action})
-    setDeletedActionId(0)
+    const editedAction = await editAction(actionData)
+    console.log("COMPLETED ACTION", {editedAction})
+    setCompletedActionId(0)
   }
 
   const deleteAction = async () => {
@@ -183,9 +188,12 @@ export default function ActionsPage(){
       console.log("deletedActionId is still zero for some reason")
       return
     }
-    // const result = await deleteAction(deletedActionId)
-    // console.log("DELETE UNPROCESSED", {result})
-    console.log("DELETE ACTION", {action})
+    const actionData: EditActionBody = {
+      deletedDate: dayjs().toISOString(),
+      id: deletedActionId,
+    }
+    const editedAction = await editAction(actionData)
+    console.log("DELETED ACTION", {editedAction})
     setDeletedActionId(0)
   }
 
@@ -218,17 +226,17 @@ export default function ActionsPage(){
           />
         ))}
       </Stack>
-      <ConfirmationDialog
+      <ActionDeletedDialog
         open={Boolean(deletedActionId)}
-        title={`Delete Action: ${action?.title}?`}
+        title={deletedAction?.title ?? ""}
         onConfirm={deleteAction}
         onCancel={() => setDeletedActionId(0)}
       />
-      <ConfirmationDialog
+      <ActionCompletedDialog
         open={Boolean(completedActionId)}
-        title={`Delete Action: ${action?.title}?`}
-        onConfirm={deleteAction}
-        onCancel={() => setDeletedActionId(0)}
+        title={completedAction?.title ?? ""}
+        onConfirm={actionCompleted}
+        onCancel={() => setCompletedActionId(0)}
       />
     </PageLayout>
   )

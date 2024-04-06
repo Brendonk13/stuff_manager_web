@@ -5,6 +5,5 @@ export default function useGetProject(projectId: number){
   return useQuery({
     queryKey: [projectQueryKeys.GET, projectId],
     queryFn: async () => await getProject(projectId),
-    select: (res) => res.data,
   })
 }

@@ -22,6 +22,9 @@ next:
 
         # todo: be able to search by regex in descriptions for list actions
 
+    list actions BUG:
+        - calls get /actions with no query filter AFTER calling with
+
     actions details:
         -- need to transform someday_maybe to Someday Maybe -- maybe leave for now
         - mark them as completed

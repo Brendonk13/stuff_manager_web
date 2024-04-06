@@ -107,6 +107,9 @@ export default function ActionDetailsPage(){
       console.log("========================= SUBMIT ============================= ", {data}, {values: getValues()})
 
       const newlyMarkedCompleted = action?.completed === false && data.completed === true
+      if (data?.energy === -1){
+        data.energy = null
+      }
       const newAction = await editAction(data)
       console.log({newAction})
 
