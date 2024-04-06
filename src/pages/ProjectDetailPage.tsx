@@ -32,6 +32,9 @@ export default function ProjectDetailsPage(){
 
   const [showEditProjectForm, setShowEditProjectForm] = useState(false)
 
+  const [expandTags, setExpandTags] = useState(false)
+  const [expandContexts, setExpandContexts] = useState(false)
+
   const [completedActionId, setCompletedActionId] = useState(0)
   const [deletedActionId,   setDeletedActionId] = useState(0)
 
@@ -45,9 +48,9 @@ export default function ProjectDetailsPage(){
   const { data: project } = useGetProject(Number(projectId))
   console.log({project})
 
-  const listActionQueryParams = defaultActionQueryParams
-  listActionQueryParams.project_id = Number(projectId)
-  const actions = useListActions(listActionQueryParams)
+  const listActionQueryParams = {...defaultActionQueryParams, project_id: Number(projectId)}
+  // listActionQueryParams.project_id = Number(projectId)
+  const {data: actions} = useListActions(listActionQueryParams)
 
   const methods = useForm({
     defaultValues: defaultProject,
@@ -109,6 +112,13 @@ export default function ProjectDetailsPage(){
     setDeletedActionId(0)
   }
 
+
+  const toggleTags = () => {
+    setExpandTags(!expandTags)
+  }
+  const toggleContexts = () => {
+    setExpandContexts(!expandContexts)
+  }
 
 
   const getNameWidth = (name?: string) => {
@@ -183,7 +193,7 @@ export default function ProjectDetailsPage(){
                 expand={expanded}
                 onClick={() => setExpanded(!expanded)}
                 aria-expanded={expanded}
-                aria-label="show more"
+                aria-label="show notes"
               >
               </ExpandMore>
             </Stack>
@@ -192,11 +202,20 @@ export default function ProjectDetailsPage(){
             </Collapse>
           </>
         )}
+            <Stack direction="row" spacing={1}>
+              <Button variant="outlined" onClick={toggleTags}>Expand Tags</Button>
+              <Button variant="outlined" onClick={toggleContexts}>Expand Contexts</Button>
+            </Stack>
 
           {/* list of actions in the project */}
           {/* todo: be able to toggle showing tags */}
-        {actions?.data?.map(action => (
-          <Action key={`Action_${action.id}`} action={action} showTags={false} showContexts={false}/>
+        {actions?.map(action => (
+          <Action
+            key={`Action_${action.id}`}
+            action={action}
+            showTags={expandTags}
+            showContexts={expandContexts}
+          />
         ))}
         </FormProvider>
       </Box>

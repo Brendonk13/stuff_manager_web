@@ -30,7 +30,8 @@ export default function ProcessItemPage() {
   // console.log({unprocessedId})
 
 
-  const unprocessedData = useGetUnprocessed(Number(unprocessedId))
+  const {data: unprocessed} = useGetUnprocessed(Number(unprocessedId))
+  // const unprocessedData = useGetUnprocessed(Number(unprocessedId))
   // console.log({unprocessedData})
   useWriteBearer()
 
@@ -89,8 +90,8 @@ export default function ProcessItemPage() {
         <Stack spacing={2}>
 
         <Stack >
-          <Typography variant="h2"> {unprocessedData?.data?.title || ""} </Typography>
-          <Typography sx={{padding: 2}}> {unprocessedData?.data?.description || ""} </Typography>
+          <Typography variant="h2"> {unprocessed?.title || ""} </Typography>
+          <Typography sx={{padding: 2}}> {unprocessed?.description || ""} </Typography>
         </Stack>
           <Divider sx={{borderBottomWidth:2}}/>
           <Stack direction="row">

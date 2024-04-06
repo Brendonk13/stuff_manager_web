@@ -5,6 +5,6 @@ export default function useListUnprocessed() {
   return useQuery({
     queryKey: [unprocessedQueryKeys.LIST],
     queryFn: async () => await listUnprocessed(),
-    select: (res) => res.data,
+    // select: (res) => res.data,
   })
 }

@@ -58,15 +58,15 @@ function extractNewProjectName(event, chosenOption){
 export default function ActionableForm(){
   const { control } = useFormContext()
   const { fields, remove, append } = useFieldArray({ control, name: "actions" })
-  const projects = useListProjects()
-  const options = projects?.data ?? [defaultProject]
+  const {data: projects} = useListProjects()
+  const options = projects ?? [defaultProject]
 
-  const tags = useListTags()
-  const tagOptions = tags?.data ?? [defaultTag]
+  const {data: tags} = useListTags()
+  const tagOptions = tags ?? [defaultTag]
   // console.log({tagOptions})
 
-  const contexts = useListContexts()
-  const contextOptions = contexts?.data ?? [defaultTag]
+  const {data: contexts} = useListContexts()
+  const contextOptions = contexts ?? [defaultTag]
 
   return (
       <>
@@ -135,7 +135,8 @@ export default function ActionableForm(){
                       sx: {
                         width: '60%',
                         padding: 1,
-                      }
+                      },
+                      inputRef: input => input != null && input.focus(),
                     }}
                   />
                   <ControlledTextField

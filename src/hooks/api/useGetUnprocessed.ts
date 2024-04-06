@@ -6,7 +6,7 @@ const useGetUnprocessed = (unprocessedId: number) => {
     queryKey: [unprocessedQueryKeys.GET, unprocessedId],
     queryFn: async () => await getUnprocessed(unprocessedId),
     enabled: Boolean(unprocessedId),
-    select: (res) => res.data,
+    // select: (res) => res.data,
   })
 }
 

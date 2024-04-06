@@ -9,11 +9,11 @@ import useDeleteUnprocessed from "@/hooks/api/useDeleteUnprocessed"
 
 export default function UnprocessedPage() {
   const navigate = useNavigate()
-  const unprocessed = useListUnprocessed()
+  const {data: unprocessedList} = useListUnprocessed()
   const { mutateAsync: deleteUnprocessed } = useDeleteUnprocessed()
   const [deletedUnprocessedId, setDeletedUnprocessedId] = useState(0)
 
-  console.log({unprocessed})
+  console.log({unprocessedList})
 
   const deleteUnprocessedItem = async () => {
     if (deletedUnprocessedId === 0){
@@ -29,7 +29,7 @@ export default function UnprocessedPage() {
     <PageLayout>
       <Typography variant="h2">Unprocessed Items</Typography>
       <br/>
-      {unprocessed?.data?.map(unprocessed => {
+      {unprocessedList?.map(unprocessed => {
         return (
         <Stack key={unprocessed.id} padding={1} sx={{display: "flex" }}>
           {/* <Paper elevation={2} sx={{  padding: 1 }}> */}

@@ -37,15 +37,14 @@ export default function ActionDetailsPage(){
   actionId = Number(actionId)
   const { data: action } = useGetAction(actionId)
 
-  const projects = useListProjects()
-  const projectOptions = projects?.data ?? [defaultProject]
+  const {data: projects} = useListProjects()
+  const projectOptions = projects ?? [defaultProject]
 
-  const tags = useListTags()
-  const tagOptions = tags?.data ?? [defaultTag]
+  const {data: tags} = useListTags()
+  const tagOptions = tags ?? [defaultTag]
 
-  const contexts = useListContexts()
-  const contextOptions = contexts?.data ?? [defaultTag]
-
+  const {data: contexts} = useListContexts()
+  const contextOptions = contexts ?? [defaultTag]
 
   const methods = useForm({
     defaultValues: defaultAction,

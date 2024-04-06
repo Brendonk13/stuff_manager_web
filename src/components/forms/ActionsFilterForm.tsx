@@ -42,15 +42,15 @@ export default function ActionsFilterForm({
   const defaultValue = null
 
   const actions  = useListActions(defaultActionQueryParams)?.data ?? [defaultValue]
-  const tags     = useListTags()
-  const projects = useListProjects()
-  const contexts = useListContexts()
+  const {data: tags}     = useListTags()
+  const {data: projects} = useListProjects()
+  const {data: contexts} = useListContexts()
 
   // should all of these be in a useeffect ?
   const actionTitleOptions = actions.map(action => action?.title)
-  const projectOptions     = projects?.data ?? [defaultValue]
-  const tagOptions         = tags?.data ?? [defaultValue]
-  const contextOptions     = contexts?.data ?? [defaultValue]
+  const projectOptions     = projects ?? [defaultValue]
+  const tagOptions         = tags ?? [defaultValue]
+  const contextOptions     = contexts ?? [defaultValue]
 
   const defaultTitle = initialFormValues?.title ?? ""
   let defaultEnergy = defaultValue

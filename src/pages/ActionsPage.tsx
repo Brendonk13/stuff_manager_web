@@ -91,7 +91,7 @@ export default function ActionsPage(){
   // do I need to setActionQueryParams here? why is it working for other things
   console.log({actionQueryParams})
   // the issue is that its not re-rendering upon getting the hook data and for some reason the hook is then called again
-  const actions = useListActions(actionQueryParams)
+  const {data: actions} = useListActions(actionQueryParams)
   // console.log("actions, query filters", actions, { actionQueryParams })
   console.log({actions})
 
@@ -197,6 +197,13 @@ export default function ActionsPage(){
     setDeletedActionId(0)
   }
 
+  const toggleTags = () => {
+    setExpandTags(!expandTags)
+  }
+  const toggleContexts = () => {
+    setExpandContexts(!expandContexts)
+  }
+
   return (
     <PageLayout>
       <Stack>
@@ -209,15 +216,14 @@ export default function ActionsPage(){
               />
             </FormProvider>
             <Stack direction="row" spacing={1}>
-              <Button variant="outlined" onClick={() => setExpandTags(!expandTags)}>Expand Tags</Button>
-              <Button variant="outlined" onClick={() => setExpandContexts(!expandContexts)}>Expand Contexts</Button>
+              <Button variant="outlined" onClick={toggleTags}>Expand Tags</Button>
+              <Button variant="outlined" onClick={toggleContexts}>Expand Contexts</Button>
             </Stack>
         </Box>
         {/* todo: decide if I want to keep this divider */}
         <Divider/>
-        {actions?.data?.map(action => (
+        {actions?.map(action => (
           <Action
-            // id={`Action_${action.id}`}
             key={`Action_${action.id}`}
             action={action}
             showProjectName={true} // todo: should i always show this ?
