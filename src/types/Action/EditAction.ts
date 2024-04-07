@@ -18,6 +18,7 @@ export const EditActionSchema = z.object({
   title           : z.string().optional(),
   description     : z.string().optional(),
   completed       : z.boolean().optional(),
+  deleted         : z.boolean().optional(),
   energy          : z.number().optional(),
   project         : ProjectSchema.optional().nullable(),
   date            : actionSchemaObjectWithProject.date.nullable().optional(),

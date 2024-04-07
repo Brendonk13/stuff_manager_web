@@ -21,6 +21,7 @@ export const actionSchemaObject = {
   deletedDate: z.string().nullable(),
   completedDate: z.string().nullable(),
   completed: z.boolean(),
+  deleted: z.boolean().optional(),
   completionNotes: z.object(actionCompletionObject).nullable(),
   energy: z.number().optional(),
   requiredContext: z.array(TagSchema).optional(),
@@ -58,6 +59,7 @@ export const defaultAction: Action = {
   deletedDate: null,
   completedDate: null,
   completed: false,
+  deleted: false,
   date: null,
   completionNotes: null,
 }

@@ -83,6 +83,9 @@ export default function ActionDetailsPage(){
     [setValue, action?.completed])
     // [setValue, action?.completed, showEditAction])
 
+  useEffect(() => setValue('deleted', action?.deleted ?? false),
+    [setValue, action?.deleted])
+
   useEffect(() => setValue('energy', action?.energy ?? -1),
     [setValue, action?.energy])
 
@@ -105,10 +108,12 @@ export default function ActionDetailsPage(){
     try {
       console.log("========================= SUBMIT ============================= ", {data}, {values: getValues()})
 
+      // const newlyMarkedDeleted = action?.deleted === false && data.deleted === true
       const newlyMarkedCompleted = action?.completed === false && data.completed === true
       if (data?.energy === -1){
         data.energy = null
       }
+      // if (newlyMarkedDeleted
       const newAction = await editAction(data)
       console.log({newAction})
 
@@ -119,6 +124,7 @@ export default function ActionDetailsPage(){
 
     } catch (e) {
       console.error(e)
+      // setShowEditAction(true)
     }
   }
 
@@ -201,34 +207,6 @@ export default function ActionDetailsPage(){
 
           <Divider sx={{borderBottomWidth: 2, mb: 2}}/>
 
-          <ControlledCheckbox
-            control={control}
-            name="completed"
-            label="Completed"
-            disabled={!showEditAction}
-            sx={{
-              transform: "scale(1.2)",
-              p: 1,
-              color: "#1677ff",
-            }}
-            CheckboxProps={{ style: {color: "#1677ff"}, }}
-          />
-
-          {showEditAction &&
-            <ControlledSlider
-              control={control}
-              label="Energy"
-              name="energy"
-              SliderProps={{
-                min: -1,
-                step: 1,
-                max: 10,
-                sx: { width: '60%', },
-                marks: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => ({label: i, value: i, }))
-              }}
-            />
-          }
-
         {action?.project && <br />}
           { showEditAction ?
             <ControlledAutoComplete
@@ -247,10 +225,51 @@ export default function ActionDetailsPage(){
               {/* todo: make the clickable bounds only the text and not the whole row !!!! */}
               <Typography variant="h5">{action?.project && action.project.name}</Typography>
             </Link>
-            <br />
           </>
         }
         {/* {action?.project && <br />} */}
+
+          <ControlledCheckbox
+            control={control}
+            name="completed"
+            label="Completed"
+            disabled={!showEditAction}
+            sx={{
+              transform: "scale(1.2)",
+              p: 1,
+              color: "#1677ff",
+            }}
+            CheckboxProps={{ style: {color: "#1677ff"}, }}
+          />
+
+          <br />
+          <ControlledCheckbox
+            control={control}
+            name="deleted"
+            label="Deleted"
+            disabled={!showEditAction}
+            sx={{
+              transform: "scale(1.2)",
+              p: 1,
+              color: "#1677ff",
+            }}
+            CheckboxProps={{ style: {color: "#ff4d4f"}, }}
+          />
+
+          {showEditAction &&
+            <ControlledSlider
+              control={control}
+              label="Energy"
+              name="energy"
+              SliderProps={{
+                min: -1,
+                step: 1,
+                max: 10,
+                sx: { width: '60%', },
+                marks: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => ({label: i, value: i, }))
+              }}
+            />
+          }
 
           {action?.tags?.length === 0 && <br />}
           { showEditAction ?
