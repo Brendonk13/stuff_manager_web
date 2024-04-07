@@ -39,10 +39,12 @@ function cleanupFormData(data) {
 function extractSearchParamsFromForm(formData){
   const params: ListActionQueryParams = {}
   // need null comparison incase user selected energy == 0
-  if (formData?.energy !== null  ) params.energy           = formData.energy
-  if (formData?.title            ) params.title            = formData.title
-  if (formData?.project_id       ) params.project_id       = formData.project_id
-  if (formData?.tags             ) params.tags             = convertTags(formData.tags)
+  if (formData?.energy !== null ) params.energy          = formData.energy
+  if (formData?.title           ) params.title           = formData.title
+  if (formData?.project_id      ) params.project_id      = formData.project_id
+  if (formData?.completed       ) params.completed       = formData.completed
+  if (formData?.deleted         ) params.deleted         = formData.deleted
+  if (formData?.tags            ) params.tags            = convertTags(formData.tags)
   if (formData?.requiredContext ) params.requiredContext = convertTags(formData.requiredContext)
 
   // console.log("EBERGTY", formData?.energy)
@@ -52,17 +54,22 @@ function extractSearchParamsFromForm(formData){
 
 function extractSearchParamsFromURL(searchParams){
   const params: ListActionQueryParams = {}
-  const energy           = searchParams.get("energy")
-  const title            = searchParams.get("title")
-  const project_id       = searchParams.get("project_id")
-  const tags             = searchParams.get("tags")
+  const energy          = searchParams.get("energy")
+  const title           = searchParams.get("title")
+  const project_id      = searchParams.get("project_id")
+  const completed       = searchParams.get("completed")
+  const deleted         = searchParams.get("deleted")
+  const tags            = searchParams.get("tags")
   const requiredContext = searchParams.get("requiredContext")
-  if (energy           ) params.energy           = energy
-  if (title            ) params.title            = title
-  if (project_id       ) params.project_id       = project_id
-  if (tags             ) params.tags             = tags
-  if (requiredContext ) params.requiredContext = requiredContext
+  if (energy           ) params.energy          = energy
+  if (title            ) params.title           = title
+  if (project_id       ) params.project_id      = project_id
+  if (completed        ) params.completed       = Boolean(completed)
+  if (deleted          ) params.deleted         = Boolean(deleted)
+  if (tags             ) params.tags            = tags
+  if (requiredContext  ) params.requiredContext = requiredContext
 
+  console.log("from url", {params})
   return params
 }
 
@@ -149,7 +156,7 @@ export default function ActionsPage(){
         // only want query params that are relevant for the query
         delete data.energy
       }
-      console.log({data})
+      console.log("new Listactions query params", {data})
 
       // set query string so that the form is filled with correct inital values
       setSearchParams(data)

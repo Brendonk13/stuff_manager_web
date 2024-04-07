@@ -3,6 +3,7 @@ import { Stack, Typography, Collapse, Button } from "@mui/material"
 // import { type SyntheticEvent } from 'react'
 import { useFormContext } from "react-hook-form"
 
+import ControlledCheckbox from "@/components/controlled/ControlledCheckBox"
 import ControlledAutoComplete from "@/components/controlled/ControlledAutoComplete"
 // import ControlledSelect from "@/components/controlled/ControlledSelect"
 import ControlledSlider from "@/components/controlled/ControlledSlider"
@@ -53,6 +54,8 @@ export default function ActionsFilterForm({
   const contextOptions     = contexts ?? [defaultValue]
 
   const defaultTitle = initialFormValues?.title ?? ""
+  const defaultCompleted = initialFormValues?.completed ?? null
+  const defaultDeleted = initialFormValues?.deleted ?? null
   let defaultEnergy = defaultValue
   if (initialFormValues?.energy !== null) {
     defaultEnergy = Number(initialFormValues.energy)
@@ -79,6 +82,8 @@ export default function ActionsFilterForm({
   defaultContexts = (!defaultContexts || !defaultContexts.length) ? defaultValue : defaultContexts[0]
   // console.log("defaultContexts", defaultContexts)
 
+  useEffect(() => { setValue("completed", defaultCompleted)},       [ setValue, defaultCompleted])
+  useEffect(() => { setValue("deleted", defaultDeleted)},           [ setValue, defaultDeleted])
   useEffect(() => { setValue("title", defaultTitle)},               [ setValue, defaultTitle])
   useEffect(() => { setValue("project_id", defaultProject)},        [ setValue, defaultProject])
   useEffect(() => { setValue("energy", defaultEnergy)},             [ setValue, defaultEnergy])
@@ -161,7 +166,7 @@ export default function ActionsFilterForm({
             // multiple={true} // todo: make this work, will require some thought since need to change types to an array even [null] which is annoying
             AutoCompleteProps={{
               sx: { width: '60%', },
-              defaultValue: null,
+              // defaultValue: null,
             }}
           />
           <br />
@@ -169,7 +174,6 @@ export default function ActionsFilterForm({
           <ControlledAutoComplete
             placeholder="Contexts"
             control={control}
-            // name="required_context"
             name="requiredContext"
             label=""
             getOptionLabel={getOptionLabel}
@@ -178,10 +182,38 @@ export default function ActionsFilterForm({
             //multiple={true}  // todo: change
             AutoCompleteProps={{
               sx: { width: '60%', },
-              defaultValue: null,
+              // defaultValue: null,
             }}
           />
 
+          {/* todo: figure out how to click anywhere, not just on box */}
+          {/* <Stack paddingX={0} spacing={-2}> */}
+          {/* <Stack spacing={-5}> */}
+          <ControlledCheckbox
+            control={control}
+            name="completed"
+            label="Completed"
+            sx={{
+              transform: "scale(1.1)",
+              p: 1,
+              color: "#1677ff",
+            }}
+            CheckboxProps={{ style: {color: "#1677ff"}, }}
+          />
+          {/* <br /> */}
+
+          <ControlledCheckbox
+            control={control}
+            name="deleted"
+            label="Deleted"
+            sx={{
+              transform: "scale(1.1)",
+              p: 1,
+              color: "#1677ff",
+            }}
+            CheckboxProps={{ style: {color: "#1677ff"}, }}
+          />
+          {/* </Stack> */}
 
           <br />
           <Button variant="contained" sx={{width:"60%"}} type="submit">Search</Button>
@@ -190,4 +222,4 @@ export default function ActionsFilterForm({
       {showing && <br />}
     </>
   )
-}
+ }
