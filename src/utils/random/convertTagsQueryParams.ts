@@ -28,39 +28,39 @@ export default function convertTagsQueryParamsToString(tags: any): string {
   return tagsString
 }
 
-export function convertOrderByToString(orderBy: any): string {
-  // I know whats happening
-  // this conversion needs to be done in the hook
-  console.log("original orderBy", {orderBy})
-  let orderByString = null
+// export function convertOrderByToString(orderBy: any): string {
+//   // I know whats happening
+//   // this conversion needs to be done in the hook
+//   console.log("original orderBy", {orderBy})
+//   let orderByString = null
 
-  if (Array.isArray(orderBy)){
-    console.log("order by is array")
-    orderByString = orderBy.map(orderByQuery => {
-      const val = `${orderByQuery?.value},${orderByQuery?.ascending}`
-      console.log("order by value", {val})
-      return val
-    }).join(',')
-    console.log("orderbystring before adding brackets", orderByString, "with->", "[" + orderByString + "]")
-    orderByString = "[" + orderByString + "]"
+//   if (Array.isArray(orderBy)){
+//     console.log("order by is array")
+//     orderByString = orderBy.map(orderByQuery => {
+//       const val = `${orderByQuery?.value},${orderByQuery?.ascending}`
+//       console.log("order by value", {val})
+//       return val
+//     }).join(',')
+//     console.log("orderbystring before adding brackets", orderByString, "with->", "[" + orderByString + "]")
+//     orderByString = "[" + orderByString + "]"
 
-  } else if (typeof tags == "object"){
-    console.log("orderby is object")
-    // console.log("typeof orderBy", typeof orderBy, orderBy, typeof [{h: "l"}], {hello: "world"}, Array.isArray([{h: "l"}]), Array.isArray(orderBy) )
-    // console.log(orderBy, orderBy[0], queryParams
-    orderByString = `[${orderBy.value},${orderBy.ascending}]`
+//   } else if (typeof tags == "object"){
+//     console.log("orderby is object")
+//     // console.log("typeof orderBy", typeof orderBy, orderBy, typeof [{h: "l"}], {hello: "world"}, Array.isArray([{h: "l"}]), Array.isArray(orderBy) )
+//     // console.log(orderBy, orderBy[0], queryParams
+//     orderByString = `[${orderBy.value},${orderBy.ascending}]`
 
-  } else if (typeof orderBy == "string"){
-    console.log("orderby is string")
-    orderByString = orderBy
+//   } else if (typeof orderBy == "string"){
+//     console.log("orderby is string")
+//     orderByString = orderBy
 
-  } else {
-    console.error("Could not parse orderBy in listActions service")
-  }
+//   } else {
+//     console.error("Could not parse orderBy in listActions service")
+//   }
 
-  // console.log("used tagString", orderByString)
-  return orderByString
-}
+//   // console.log("used tagString", orderByString)
+//   return orderByString
+// }
 
 export function tagsStringToArray(allTags: [Tag] | null, tagsString?: string): Array<string> | null {
   // if (!allTags || !tagsString || !tagsString.length) return [""]

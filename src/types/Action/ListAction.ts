@@ -20,19 +20,20 @@ export const orderByQueryParamSchemaObject = {
   orderBy: z.array(z.object({
     value: z.nativeEnum(orderByOptions),
     ascending: z.boolean(),
-  })).nullable().transform(orderBy => {
-    if (!orderBy){ return null } // must return null to not use this query param
-    const isArray = Array.isArray(orderBy)
-    if (isArray && !orderBy.length){
-      return null
-    }
+  })).nullable()
+  // .transform(orderBy => {
+  //   if (!orderBy){ return null } // must return null to not use this query param
+  //   const isArray = Array.isArray(orderBy)
+  //   if (isArray && !orderBy.length){
+  //     return null
+  //   }
 
-    const data = isArray
-      ? orderBy
-      : [orderBy]
-    console.log("LIST orderBy SCHEMA", data)
-    return data
-  }),
+  //   const data = isArray
+  //     ? orderBy
+  //     : [orderBy]
+  //   console.log("LIST orderBy SCHEMA", data)
+  //   return data
+  // }),
 }
 
 
@@ -57,6 +58,7 @@ export type ListActionQueryParams = z.infer<typeof ListActionQuerySchema>
 
 // export const defaultOrderby = [{value: orderByOptions.created, ascending: true}]
 export const defaultOrderby = {value: orderByOptions.created, ascending: true}
+export type OrderBy = z.infer<typeof orderByQueryParamSchemaObject.orderBy>
 
 export const defaultActionQueryParams: ListActionQueryParams = {
   title: null,

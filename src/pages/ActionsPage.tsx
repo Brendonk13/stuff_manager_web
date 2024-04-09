@@ -6,6 +6,7 @@ import { FormProvider, useForm } from "react-hook-form"
 import { useSearchParams } from "react-router-dom"
 import dayjs from 'dayjs'
 
+import { convertOrderByToArray, convertOrderByToString } from "@/utils/convertOrderBy"
 import ActionCompletedDialog from "@/dialogs/ActionCompletedDialog"
 import ActionDeletedDialog from "@/dialogs/ActionDeletedDialog"
 import useDraggableAction from "@/hooks/useDraggableAction"
@@ -15,7 +16,7 @@ import { useSnackbarContext } from '@/contexts/SnackbarContext'
 import useListActions from "@/hooks/api/useListActions"
 import useGetAction from "@/hooks/api/useGetAction"
 import ActionsFilterForm from "@/components/forms/ActionsFilterForm"
-import convertTags, { convertOrderByToString } from "@/utils/random/convertTagsQueryParams"
+import convertTags from "@/utils/random/convertTagsQueryParams"
 import { defaultOrderby, defaultActionQueryParams, ListActionQuerySchema, type ListActionQueryParams } from "@/types/Action/ListAction"
 import { type EditActionBody } from "@/types/Action/EditAction"
 import useEditAction from "@/hooks/api/useEditAction"
@@ -55,7 +56,7 @@ function extractSearchParamsFromForm(formData){
   if (formData?.requiredContext ) params.requiredContext = convertTags(formData.requiredContext)
 
   // console.log("EBERGTY", formData?.energy)
-  // console.log("form params", {params}, "original data:", {formData})
+  console.log("form params", {params}, "original data:", {formData})
   return params
 }
 
@@ -74,44 +75,44 @@ function extractSearchParamsFromURL(searchParams){
   if (project_id       ) params.project_id      = project_id
   if (completed        ) params.completed       = Boolean(completed)
   if (deleted          ) params.deleted         = Boolean(deleted)
-  if (orderBy          ){
-    console.log("searchParams.get", orderBy)
+  if (orderBy          ) params.orderBy         = convertOrderByToArray(orderBy)
+    // console.log("searchParams.get", orderBy)
     // params.orderBy = [defaultOrderby]
-    const newOrderBy = [{value: "created", ascending: "true"}]
+    // const newOrderBy = [{value: "created", ascending: "true"}]
 
-    // just put all this shit into a damn intercepter (middleware)
+    // // just put all this shit into a damn intercepter (middleware)
 
-    const orderByArray = orderBy.replace("[", "").replace("]", "").split(",")
-    console.log({orderByArray}, {newOrderBy})
-    orderByArray.map((orderByQuery, index) => {
-      console.log("orderBy array element", orderByQuery, "params length - 1", newOrderBy.length - 1)
-      const addingTo = newOrderBy[newOrderBy.length - 1]
-      if (index % 2 == 0){
-        const value = orderByQuery
-        addingTo.value = value
-      } else {
-        const ascending = orderByQuery === "true" ? true : false
-        addingTo.ascending = ascending
+    // const orderByArray = orderBy.replace("[", "").replace("]", "").split(",")
+    // // console.log({orderByArray}, {newOrderBy})
+    // orderByArray.map((orderByQuery, index) => {
+    //   // console.log("orderBy array element", orderByQuery, "params length - 1", newOrderBy.length - 1)
+    //   const addingTo = newOrderBy[newOrderBy.length - 1]
+    //   if (index % 2 == 0){
+    //     const value = orderByQuery
+    //     addingTo.value = value
+    //   } else {
+    //     const ascending = orderByQuery === "true" ? true : false
+    //     addingTo.ascending = ascending
 
-        // add another object if there are more params
-        if (index < orderByArray.length - 1){
-          newOrderBy[newOrderBy.length - 1] = addingTo
-          newOrderBy.push(defaultOrderby)
-          console.log("added another")
-        }
-      }
-      console.log(newOrderBy)
-      // console.log("adding order by", addingTo)
-      // if (index % 2 == 0){
-      //   console.log("adding order by", newOrderBy[newOrderBy.length - 1])
-      // } else {
-      //   console.log("adding order by", newOrderBy[newOrderBy.length - 2])
-    // }
+    //     // add another object if there are more params
+    //     if (index < orderByArray.length - 1){
+    //       newOrderBy[newOrderBy.length - 1] = addingTo
+    //       newOrderBy.push(defaultOrderby)
+    //       // console.log("added another")
+    //     }
+    //   }
+    //   // console.log(newOrderBy)
+    //   // console.log("adding order by", addingTo)
+    //   // if (index % 2 == 0){
+    //   //   console.log("adding order by", newOrderBy[newOrderBy.length - 1])
+    //   // } else {
+    //   //   console.log("adding order by", newOrderBy[newOrderBy.length - 2])
+    // // }
 
-    })
-    console.log("newOrderBy completed", newOrderBy)
-    params.orderBy = newOrderBy
-  }
+    // })
+    // console.log("newOrderBy completed", newOrderBy)
+    // params.orderBy = newOrderBy
+  // }
   if (tags             ) params.tags            = tags
   if (requiredContext  ) params.requiredContext = requiredContext
 
