@@ -31,7 +31,7 @@ export default function ActionCompletedDialog({ open, title, onCancel, onConfirm
     onCancel && onCancel()
   }
 
-  console.log({title})
+  // console.log({title})
   // const dialogTitle =
 
   return (

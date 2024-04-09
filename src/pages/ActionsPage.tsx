@@ -15,12 +15,13 @@ import { useSnackbarContext } from '@/contexts/SnackbarContext'
 import useListActions from "@/hooks/api/useListActions"
 import useGetAction from "@/hooks/api/useGetAction"
 import ActionsFilterForm from "@/components/forms/ActionsFilterForm"
-import convertTags from "@/utils/random/convertTagsQueryParams"
-import { defaultActionQueryParams, ListActionQuerySchema, type ListActionQueryParams } from "@/types/Action/ListAction"
+import convertTags, { convertOrderByToString } from "@/utils/random/convertTagsQueryParams"
+import { defaultOrderby, defaultActionQueryParams, ListActionQuerySchema, type ListActionQueryParams } from "@/types/Action/ListAction"
 import { type EditActionBody } from "@/types/Action/EditAction"
 import useEditAction from "@/hooks/api/useEditAction"
 
 function cleanupFormData(data) {
+  console.log("cleanup forma data", data?.orderBy)
   if (data?.title === ""){
     data.title = null
   }
@@ -30,13 +31,18 @@ function cleanupFormData(data) {
 
   if (data?.tags){
     data.tags = convertTags(data.tags)
-  } if (data?.requiredContext){
+  }
+  if (data?.requiredContext){
     data.requiredContext = convertTags(data.requiredContext)
+  }
+  if (data?.orderBy){
+    data.orderBy = convertOrderByToString(data.orderBy)
   }
 
 }
 
 function extractSearchParamsFromForm(formData){
+  console.log("extract search params from form", formData?.orderBy)
   const params: ListActionQueryParams = {}
   // need null comparison incase user selected energy == 0
   if (formData?.energy !== null ) params.energy          = formData.energy
@@ -44,11 +50,12 @@ function extractSearchParamsFromForm(formData){
   if (formData?.project_id      ) params.project_id      = formData.project_id
   if (formData?.completed       ) params.completed       = formData.completed
   if (formData?.deleted         ) params.deleted         = formData.deleted
+  if (formData?.orderBy         ) params.orderBy         = convertOrderByToString(formData.orderBy)
   if (formData?.tags            ) params.tags            = convertTags(formData.tags)
   if (formData?.requiredContext ) params.requiredContext = convertTags(formData.requiredContext)
 
   // console.log("EBERGTY", formData?.energy)
-  console.log("form params", {params}, "original data:", {formData})
+  // console.log("form params", {params}, "original data:", {formData})
   return params
 }
 
@@ -59,6 +66,7 @@ function extractSearchParamsFromURL(searchParams){
   const project_id      = searchParams.get("project_id")
   const completed       = searchParams.get("completed")
   const deleted         = searchParams.get("deleted")
+  const orderBy         = searchParams.get("orderBy")
   const tags            = searchParams.get("tags")
   const requiredContext = searchParams.get("requiredContext")
   if (energy           ) params.energy          = energy
@@ -66,6 +74,44 @@ function extractSearchParamsFromURL(searchParams){
   if (project_id       ) params.project_id      = project_id
   if (completed        ) params.completed       = Boolean(completed)
   if (deleted          ) params.deleted         = Boolean(deleted)
+  if (orderBy          ){
+    console.log("searchParams.get", orderBy)
+    // params.orderBy = [defaultOrderby]
+    const newOrderBy = [{value: "created", ascending: "true"}]
+
+    // just put all this shit into a damn intercepter (middleware)
+
+    const orderByArray = orderBy.replace("[", "").replace("]", "").split(",")
+    console.log({orderByArray}, {newOrderBy})
+    orderByArray.map((orderByQuery, index) => {
+      console.log("orderBy array element", orderByQuery, "params length - 1", newOrderBy.length - 1)
+      const addingTo = newOrderBy[newOrderBy.length - 1]
+      if (index % 2 == 0){
+        const value = orderByQuery
+        addingTo.value = value
+      } else {
+        const ascending = orderByQuery === "true" ? true : false
+        addingTo.ascending = ascending
+
+        // add another object if there are more params
+        if (index < orderByArray.length - 1){
+          newOrderBy[newOrderBy.length - 1] = addingTo
+          newOrderBy.push(defaultOrderby)
+          console.log("added another")
+        }
+      }
+      console.log(newOrderBy)
+      // console.log("adding order by", addingTo)
+      // if (index % 2 == 0){
+      //   console.log("adding order by", newOrderBy[newOrderBy.length - 1])
+      // } else {
+      //   console.log("adding order by", newOrderBy[newOrderBy.length - 2])
+    // }
+
+    })
+    console.log("newOrderBy completed", newOrderBy)
+    params.orderBy = newOrderBy
+  }
   if (tags             ) params.tags            = tags
   if (requiredContext  ) params.requiredContext = requiredContext
 
@@ -79,7 +125,6 @@ export default function ActionsPage(){
   const [deletedActionId, setDeletedActionId] = useState(0)
   const [expandTags, setExpandTags] = useState(false)
   const [expandContexts, setExpandContexts] = useState(false)
-  console.log({expandTags})
 
   const {data: deletedAction} = useGetAction(deletedActionId)
   const {data: completedAction} = useGetAction(completedActionId)
@@ -87,16 +132,16 @@ export default function ActionsPage(){
   const [searchParams, setSearchParams] = useSearchParams()
   const initialFormValues = {...defaultActionQueryParams, ...extractSearchParamsFromURL(searchParams)}
 
+  console.log("before cleanp", {initialFormValues})
   cleanupFormData(initialFormValues)
 
   useDraggableAction({setCompletedActionId, setDeletedActionId})
-  // console.log({initialFormValues})
 
 
 
   const [actionQueryParams, setActionQueryParams] = useState(initialFormValues)
   // do I need to setActionQueryParams here? why is it working for other things
-  console.log({actionQueryParams})
+  // console.log({actionQueryParams})
   // the issue is that its not re-rendering upon getting the hook data and for some reason the hook is then called again
   const {data: actions} = useListActions(actionQueryParams)
   // console.log("actions, query filters", actions, { actionQueryParams })
@@ -152,6 +197,9 @@ export default function ActionsPage(){
       console.log("========================= SUBMIT ============================= ", {_data})
       const data = extractSearchParamsFromForm(_data)
 
+//       if (data?.orderBy && data?.orderBy.value?.value){
+//         data.
+//       }
       if (data?.energy && data.energy === -1){
         // only want query params that are relevant for the query
         delete data.energy

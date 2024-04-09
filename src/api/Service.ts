@@ -58,6 +58,7 @@ instance.interceptors.request.use(config => {
 
   if (config.params) {
     newConfig.params = decamelizeKeys(config.params)
+    // console.log("decamelize params", newConfig.params)
   }
 
   if (config.data) {

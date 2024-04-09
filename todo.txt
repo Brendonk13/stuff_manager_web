@@ -5,7 +5,6 @@ cleanup:
     - fix data shape for process items form
     - fix backend process items form -- doesnt probably work for existing projects
     - rename Action component to ActionList?
-    - make different confirmationdialog for deleting actions so that the title is different color for action name and maybe use 2 lines optionally
 
 next:
     List Actions:
@@ -27,43 +26,15 @@ next:
 
     actions details:
         -- need to transform someday_maybe to Someday Maybe -- maybe leave for now
-        - mark them as completed
-        ability to delete
-        -- frontend is done for completed
-
-    Swiping:
-        - edit onend for interact
-        - make it show dialog (for each?)
-        - maybe add a column in db for deleted actions ?
-        NEXT:
-            - make custom dialogs for actioncompleted and deleted
-
-    completion notes dialog:
-        - make a custom controlled component with days, hours, mins for the duration field
-        or maybe just change to an object on frontend first !!!!
-        -- update backend to use an array // json
 
     list actions:
-        - swipe to delete or mark actions as completed
         -- completed actions, unless filtered out, are shown with a darker background paper color
-        -- need a confirmation dialog for deletes and completions
-            -- completions dialog will have form for start/end time, duration, and notes
-
-
-    ADD A PAGE TO VIEW ALL UNPROCESSED "THINGS"
 
     - maybe add copy buttons next to titles when processing an action
 
-    -- think I need to add a trash for actions
-    -- ALSO NEED TO BE ABLE TO MARK ACTIONS AS COMPLETED
-
-    unprocessed page:
-        - need to add a form for submitting the button to remove things
-        - MAYBE ADD A MODAL TO CONFIRM DELETING ?
+    need to add a trash for actions
 
     Current:
-        - add unprocessed page
-            - add this to the sidebar
         - Finish the favorites page
         - settings page after release
         - make sidebar have justifycontent: space-between
@@ -71,14 +42,10 @@ next:
         - test get unprocessed with ID
         - need the processitem page to mark unprocessed things as processed OR just delete them maybe
 
-    mark unprocessed in backend:
-        - need to add the field: unprocessedId to schemas
-
     maybe redirect the user when they successfully complete the process item form
 
 
     SideBar
-        - add query params to work via url and functionality to save queries and show these dynamically in the sidebar
         - view all major lists
 
 
@@ -101,28 +68,13 @@ cool idea:
         - list projects:
             - be able to view actions from here
 
-    - add hook for createActionable
-    - fix types and form so that projects work with ID's
-        -- rn works with strings
-        -- need to edit the types/Action file s.t project is an object, instead of project_title the string
-
-    - and api
-    processitempage:
-        - already getting data from the hook
-        - autofill the title and description
-        - the data is in default values but not in the title or description
-        - and can no longer edit said title
-
-        solution:
-            title, description are un-editable
-            todo: how to make it clear what this title/description is for
-            - add project picker so you can add the actions to existing projects or make a new one
 
 Autocomplete:
     - fix the clear button not being centered vertically
         https://mui.com/material-ui/api/autocomplete/#Autocomplete-prop-clearIcon
     - need to make sure it highlights/bolds your characters you type
         https://stackoverflow.com/questions/48444803/react-material-ui-autocomplete-highlight-searched-text-in-results
+    - be able to pick multiple tags
 
 
 Actionable form todo:

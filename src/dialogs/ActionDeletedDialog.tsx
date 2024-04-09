@@ -31,7 +31,7 @@ export default function ActionDeletedDialog({ open, title, onCancel, onConfirm }
     onCancel && onCancel()
   }
 
-  console.log({title})
+  // console.log({title})
 
   return (
     <Dialog open={open} onClose={handleCancel} fullScreen={isMobile}>

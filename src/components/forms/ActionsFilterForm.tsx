@@ -1,14 +1,19 @@
 import { useEffect } from "react"
+import z from "zod"
 import { Stack, Typography, Collapse, Button } from "@mui/material"
 // import { type SyntheticEvent } from 'react'
 import { useFormContext } from "react-hook-form"
 
+
+import OrderByAction from "@/components/forms/OrderByAction"
+// import ControlledSelect from "@/components/controlled/ControlledSelect"
+import ControlledSwitch from "@/components/controlled/ControlledSwitch"
 import ControlledCheckbox from "@/components/controlled/ControlledCheckBox"
 import ControlledAutoComplete from "@/components/controlled/ControlledAutoComplete"
 // import ControlledSelect from "@/components/controlled/ControlledSelect"
 import ControlledSlider from "@/components/controlled/ControlledSlider"
 import ExpandMore from "@/components/common/ExpandMore"
-import { defaultActionQueryParams, type ListActionQueryParams } from "@/types/Action/ListAction"
+import { defaultOrderby, orderByOptions as orderByOptionsInput, defaultActionQueryParams, listActionQuerySchemaObject, type ListActionQueryParams } from "@/types/Action/ListAction"
 import { type Action } from "@/types/Action/Action"
 import { type Tag } from "@/types/Tag"
 import { defaultProject as _defaultProject, type Project } from "@/types/Project/Project"
@@ -53,9 +58,22 @@ export default function ActionsFilterForm({
   const tagOptions         = tags ?? [defaultValue]
   const contextOptions     = contexts ?? [defaultValue]
 
+  const orderByOptions = []
+  // (orderByOption : z.infer<typeof listActionQuerySchemaObject.orderBy>) => {
+  Object.keys(orderByOptionsInput).map(orderByOption => {
+    // orderByOptions.push({
+    //   value: orderByOption,
+    //   ascending: true,
+    // })
+    orderByOptions.push(orderByOption)
+  })
+  // console.log({orderByOptions})
+
   const defaultTitle = initialFormValues?.title ?? ""
   const defaultCompleted = initialFormValues?.completed ?? null
   const defaultDeleted = initialFormValues?.deleted ?? null
+  const defaultOrderBy = initialFormValues?.orderBy ?? null
+  console.log({defaultOrderBy})
   let defaultEnergy = defaultValue
   if (initialFormValues?.energy !== null) {
     defaultEnergy = Number(initialFormValues.energy)
@@ -84,6 +102,7 @@ export default function ActionsFilterForm({
 
   useEffect(() => { setValue("completed", defaultCompleted)},       [ setValue, defaultCompleted])
   useEffect(() => { setValue("deleted", defaultDeleted)},           [ setValue, defaultDeleted])
+  useEffect(() => { setValue("order_by", defaultOrderBy)},           [ setValue, defaultOrderBy])
   useEffect(() => { setValue("title", defaultTitle)},               [ setValue, defaultTitle])
   useEffect(() => { setValue("project_id", defaultProject)},        [ setValue, defaultProject])
   useEffect(() => { setValue("energy", defaultEnergy)},             [ setValue, defaultEnergy])
@@ -116,9 +135,9 @@ export default function ActionsFilterForm({
 
           <ControlledAutoComplete
             placeholder="Name"
+            label="Name"
             control={control}
             name="title"
-            label=""
             getOptionLabel={getOptionLabel}
             getOptionKey={option => `${keyPrefix}_name_${addUid(option)}`}
             options={actionTitleOptions}
@@ -130,9 +149,9 @@ export default function ActionsFilterForm({
 
           <ControlledAutoComplete
             placeholder="Project"
+            label="Project"
             control={control}
             name="project_id"
-            label=""
             getOptionLabel={getOptionLabel}
             options={projectOptions}
             AutoCompleteProps={{
@@ -157,9 +176,9 @@ export default function ActionsFilterForm({
 
           <ControlledAutoComplete
             placeholder="Tags"
+            label="Tags"
             control={control}
             name="tags"
-            label=""
             getOptionLabel={getOptionLabel}
             options={tagOptions}
             getOptionKey={option => `${keyPrefix}_tags_${addUid(option.value)}`}
@@ -173,9 +192,9 @@ export default function ActionsFilterForm({
 
           <ControlledAutoComplete
             placeholder="Contexts"
+            label="Contexts"
             control={control}
             name="requiredContext"
-            label=""
             getOptionLabel={getOptionLabel}
             options={contextOptions}
             getOptionKey={option => `${keyPrefix}_contexts_${addUid(option.value)}`}
@@ -200,7 +219,12 @@ export default function ActionsFilterForm({
             }}
             CheckboxProps={{ style: {color: "#1677ff"}, }}
           />
-          {/* <br /> */}
+          {/* <br style={{lineHeight:"1px"}}/> */}
+          {/* <hr style={{height:"-3px", visibility:"hidden"}} /> */}
+
+          <br />
+          {/* <div style={{lineHeight:"30%"}}> */}
+          {/* </div> */}
 
           <ControlledCheckbox
             control={control}
@@ -215,6 +239,36 @@ export default function ActionsFilterForm({
           />
           {/* </Stack> */}
 
+          {/* <Stack direction="row"> */}
+          {/*   <ControlledAutoComplete */}
+          {/*     placeholder="Order By" */}
+          {/*     label="Order By" */}
+          {/*     control={control} */}
+          {/*     name="orderBy" */}
+          {/*     getOptionLabel={getOptionLabel} */}
+          {/*     options={Object.values(orderByOptions)} */}
+          {/*     getOptionKey={option => `${keyPrefix}_orderBy_${addUid(option.value)}`} */}
+          {/*     //multiple={true}  // todo: change */}
+          {/*     AutoCompleteProps={{ */}
+          {/*       sx: { width: '35%', }, */}
+          {/*       // defaultValue: null, */}
+          {/*     }} */}
+          {/*   /> */}
+
+          {/*   <ControlledSwitch */}
+          {/*     control={control} */}
+          {/*     name="orderByAscending" */}
+          {/*     label="Ascending" */}
+          {/*   /> */}
+
+          {/* </Stack> */}
+
+            <OrderByAction
+              fieldArrayName="orderBy"
+              label="orderBy"
+              options={orderByOptions}
+            />
+
           <br />
           <Button variant="contained" sx={{width:"60%"}} type="submit">Search</Button>
         </Collapse>
@@ -223,3 +277,22 @@ export default function ActionsFilterForm({
     </>
   )
  }
+
+// {/* <ControlledSelect */}
+// {/*   control={control} */}
+// {/*   options={[{label: "ascending", value: "ascending"}, {label: "descending", value: "descending"}]} */}
+// {/*   name="orderByAscending" */}
+// {/* /> */}
+
+// {/* <ControlledCheckbox */}
+// {/*   control={control} */}
+// {/*   name="orderByAscending" */}
+// {/*   label="Ascending" */}
+// {/*   sx={{ */}
+// {/*     transform: "scale(1.1)", */}
+// {/*     p: 1, */}
+// {/*     color: "#1677ff", */}
+// {/*   }} */}
+// {/*   CheckboxProps={{ style: {color: "#1677ff"}, }} */}
+// {/* /> */}
+

@@ -42,11 +42,17 @@ export interface ControlledAutocompleteProps<
   setTextFieldValue?: Dispatch<SetStateAction<string>>
 }
 
+// function getLabel(value, label): string{
+//   console.log({value}, label)
+//   return value ? label : ""
+//   // return (value && value.length) ? label : ""
+//   // return label
+// }
 
 export default function ControlledAutocomplete<FieldValueProps extends FieldValues>({
   control,
   name,
-  // label,
+  label = "",
   options,
   onChange = (e, newValue) => { },
   // createFilterOptions,
@@ -71,11 +77,11 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
       render={({ field, fieldState: { error } }) => (
         <Autocomplete
           id="controlled-autocomplete"
+          aria-labelledby={name}
           {...field}
           {...AutoCompleteProps}
           {...props}
           multiple={multiple}
-          // value={getValue(AutoCompleteProps?.value)}
           onChange={(_e, values) => {
             // do things like transform input from filterOptions producing a new option such as when creating new projects
             field.onChange(values)
@@ -92,7 +98,6 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
           getOptionKey={getOptionKey}
           filterSelectedOptions
           getOptionLabel={getOptionLabel}
-          //onChange={(_e, values) => field.onChange( values)}
           renderInput={params => {
             // console.log({old: params.InputProps.endAdornment}, {old: )
             params.InputProps.endAdornment = InputProps?.endAdornment
@@ -101,32 +106,8 @@ export default function ControlledAutocomplete<FieldValueProps extends FieldValu
                 {...params}
                 placeholder={placeholder}
                 {...TextFieldProps}
-                // InputProps={{...params.InputProps, ...InputProps}}
-                // InputProps={{
-                //     endAdornment: (
-                //       <InputAdornment position="end">
-                //         <IconButton size="small" color="secondary"
-                //               // {/* <IconButton size="small" onClick={() => remove(index)} color="secondary" */}
-                //             sx={{
-                //               // alignSelf: "flex-end",
-                //               // justifySelf: "flex-end",
-                //               float: "right",
-                //               position: 'absolute',
-                //               left: '89%',
-                //               top: '-13%',
-                //             }}
-                //           >
-                //             <Box
-                //               component="img"
-                //               sx={{
-                //                 borderRadius: 5,
-                //               }}
-                //               src={CloseWindowImage}
-                //             />
-                //         </IconButton>
-                //       </InputAdornment>
-                //     ),
-                // }}
+                InputLabelProps={{ shrink: true }}
+                label={field.value ? label : ""}
                 sx={{
                   // make it stand out
                   '& .MuiOutlinedInput-root': {
