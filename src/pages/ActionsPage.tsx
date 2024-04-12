@@ -101,12 +101,13 @@ export default function ActionsPage(){
   const {data: completedAction} = useGetAction(completedActionId)
 
   const [searchParams, setSearchParams] = useSearchParams()
+
+  // this is passed to child form
   const initialFormValues = {...defaultActionQueryParams, ...extractSearchParamsFromURL(searchParams)}
 
-  console.log("before cleanup", {initialFormValues})
-  // convertFormDataToAPIQueryString(initialFormValues)
+  // console.log("before cleanup", {initialFormValues})
   cleanupFormData(initialFormValues)
-  console.log("after cleanup", {initialFormValues})
+  // console.log("after cleanup", {initialFormValues})
 
 
 
@@ -114,13 +115,11 @@ export default function ActionsPage(){
   const initialAPIQueryString = {...initialFormValues}
   convertFormDataToAPIQueryString(initialAPIQueryString)
   // console.log({initialAPIQueryString})
+
+  // set query string for API based on the current URL's query string
   const [actionQueryParams, setActionQueryParams] = useState(initialAPIQueryString)
-  // const [actionQueryParams, setActionQueryParams] = useState(initialFormValues)
-  // do I need to setActionQueryParams here? why is it working for other things
-  // console.log({actionQueryParams})
-  // the issue is that its not re-rendering upon getting the hook data and for some reason the hook is then called again
+
   const {data: actions} = useListActions(actionQueryParams)
-  // console.log("actions, query filters", actions, { actionQueryParams })
   console.log({actions})
 
   const { mutateAsync: editAction } = useEditAction()
@@ -161,6 +160,7 @@ export default function ActionsPage(){
     setActionQueryParams(data)
   }
 
+  // ensure that the list of actions is correct by re-computing the API query string from the new URL after back arrow
   useEffect(() => {
     window.removeEventListener("popstate", setQueryParamsFromUrl)
     window.addEventListener("popstate", setQueryParamsFromUrl)
@@ -172,9 +172,6 @@ export default function ActionsPage(){
       console.log("========================= SUBMIT ============================= ", {_data})
       const data = extractSearchParamsFromForm(_data)
 
-//       if (data?.orderBy && data?.orderBy.value?.value){
-//         data.
-//       }
       if (data?.energy && data.energy === -1){
         // only want query params that are relevant for the query
         delete data.energy
@@ -206,7 +203,6 @@ export default function ActionsPage(){
     const actionData: EditActionBody = {
       id: completedActionId,
       completed: true,
-      // title: action.title,
     }
     const editedAction = await editAction(actionData)
     console.log("COMPLETED ACTION", {editedAction})
