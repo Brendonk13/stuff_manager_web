@@ -21,14 +21,18 @@ import { defaultOrderby, defaultActionQueryParams, ListActionQuerySchema, type L
 import { type EditActionBody } from "@/types/Action/EditAction"
 import useEditAction from "@/hooks/api/useEditAction"
 
-function cleanupFormData(data) {
-  console.log("cleanup forma data", data?.orderBy)
+function cleanupFormData(data){
   if (data?.title === ""){
     data.title = null
   }
   if (data?.project_id === 0){
     data.project_id = null
   }
+}
+
+function convertFormDataToAPIQueryString(data) {
+  console.log("cleanup forma data", data?.orderBy)
+  cleanupFormData(data)
 
   if (data?.tags){
     data.tags = convertTags(data.tags)
@@ -37,9 +41,11 @@ function cleanupFormData(data) {
     data.requiredContext = convertTags(data.requiredContext)
   }
   if (data?.orderBy){
-    data.orderBy = convertOrderByToString(data.orderBy)
+    console.log("cleanup form data found order by", {data})
+    const clean = convertOrderByToString(data.orderBy)
+    data.orderBy = clean
+    console.log("within, after cleanup form data found order by", {data}, {clean})
   }
-
 }
 
 function extractSearchParamsFromForm(formData){
@@ -55,7 +61,6 @@ function extractSearchParamsFromForm(formData){
   if (formData?.tags            ) params.tags            = convertTags(formData.tags)
   if (formData?.requiredContext ) params.requiredContext = convertTags(formData.requiredContext)
 
-  // console.log("EBERGTY", formData?.energy)
   console.log("form params", {params}, "original data:", {formData})
   return params
 }
@@ -76,43 +81,6 @@ function extractSearchParamsFromURL(searchParams){
   if (completed        ) params.completed       = Boolean(completed)
   if (deleted          ) params.deleted         = Boolean(deleted)
   if (orderBy          ) params.orderBy         = convertOrderByToArray(orderBy)
-    // console.log("searchParams.get", orderBy)
-    // params.orderBy = [defaultOrderby]
-    // const newOrderBy = [{value: "created", ascending: "true"}]
-
-    // // just put all this shit into a damn intercepter (middleware)
-
-    // const orderByArray = orderBy.replace("[", "").replace("]", "").split(",")
-    // // console.log({orderByArray}, {newOrderBy})
-    // orderByArray.map((orderByQuery, index) => {
-    //   // console.log("orderBy array element", orderByQuery, "params length - 1", newOrderBy.length - 1)
-    //   const addingTo = newOrderBy[newOrderBy.length - 1]
-    //   if (index % 2 == 0){
-    //     const value = orderByQuery
-    //     addingTo.value = value
-    //   } else {
-    //     const ascending = orderByQuery === "true" ? true : false
-    //     addingTo.ascending = ascending
-
-    //     // add another object if there are more params
-    //     if (index < orderByArray.length - 1){
-    //       newOrderBy[newOrderBy.length - 1] = addingTo
-    //       newOrderBy.push(defaultOrderby)
-    //       // console.log("added another")
-    //     }
-    //   }
-    //   // console.log(newOrderBy)
-    //   // console.log("adding order by", addingTo)
-    //   // if (index % 2 == 0){
-    //   //   console.log("adding order by", newOrderBy[newOrderBy.length - 1])
-    //   // } else {
-    //   //   console.log("adding order by", newOrderBy[newOrderBy.length - 2])
-    // // }
-
-    // })
-    // console.log("newOrderBy completed", newOrderBy)
-    // params.orderBy = newOrderBy
-  // }
   if (tags             ) params.tags            = tags
   if (requiredContext  ) params.requiredContext = requiredContext
 
@@ -124,6 +92,8 @@ export default function ActionsPage(){
 
   const [completedActionId, setCompletedActionId] = useState(0)
   const [deletedActionId, setDeletedActionId] = useState(0)
+  useDraggableAction({setCompletedActionId, setDeletedActionId})
+
   const [expandTags, setExpandTags] = useState(false)
   const [expandContexts, setExpandContexts] = useState(false)
 
@@ -133,14 +103,19 @@ export default function ActionsPage(){
   const [searchParams, setSearchParams] = useSearchParams()
   const initialFormValues = {...defaultActionQueryParams, ...extractSearchParamsFromURL(searchParams)}
 
-  console.log("before cleanp", {initialFormValues})
+  console.log("before cleanup", {initialFormValues})
+  // convertFormDataToAPIQueryString(initialFormValues)
   cleanupFormData(initialFormValues)
-
-  useDraggableAction({setCompletedActionId, setDeletedActionId})
-
+  console.log("after cleanup", {initialFormValues})
 
 
-  const [actionQueryParams, setActionQueryParams] = useState(initialFormValues)
+
+
+  const initialAPIQueryString = {...initialFormValues}
+  convertFormDataToAPIQueryString(initialAPIQueryString)
+  // console.log({initialAPIQueryString})
+  const [actionQueryParams, setActionQueryParams] = useState(initialAPIQueryString)
+  // const [actionQueryParams, setActionQueryParams] = useState(initialFormValues)
   // do I need to setActionQueryParams here? why is it working for other things
   // console.log({actionQueryParams})
   // the issue is that its not re-rendering upon getting the hook data and for some reason the hook is then called again
@@ -173,7 +148,7 @@ export default function ActionsPage(){
 
   const setQueryParamsFromUrl = () => {
     const data = getValues()
-    cleanupFormData(data)
+    convertFormDataToAPIQueryString(data)
     if (data?.project_id){ // todo: make this just run the normal transform project in zod
       // console.log("parsed zod", ListActionQuerySchema.project_id.parse(data.project_id))
       data.project_id = data.project_id.id
@@ -181,7 +156,6 @@ export default function ActionsPage(){
         data.project_id = null
       }
     }
-
     // console.log("BACK CLICKED", {searchParams: extractSearchParamsFromURL(searchParams)}, {values: getValues()}, {data})
     // console.log("setQueryParamsFromUrl", {data})
     setActionQueryParams(data)

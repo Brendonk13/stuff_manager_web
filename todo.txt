@@ -23,6 +23,7 @@ next:
 
     list actions BUG:
         - calls get /actions with no query filter AFTER calling with
+        - this is due to the child form: actionsfilter form which must be called for the autocomplete forms
 
     actions details:
         -- need to transform someday_maybe to Someday Maybe -- maybe leave for now
