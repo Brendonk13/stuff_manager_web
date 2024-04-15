@@ -67,8 +67,12 @@ export default function ActionDetailsPage(){
   useEffect(() => setValue('id', action?.id ?? 0),
     [setValue, action?.id])
 
-  useEffect(() => setValue('title', action?.title ?? ""),
-    [setValue, action?.title])
+  // useEffect(() => setValue('title', action?.title ?? ""),
+  //   [setValue, action?.title])
+  useEffect(() => {
+    console.log("edit titl, current: ", action?.title)
+    setValue('title', action?.title ?? "")
+  }, [setValue, action?.title])
 
   useEffect(() => setValue('description', action?.description ?? ""),
     [setValue, action?.description])

@@ -24,7 +24,6 @@ export const EditActionSchema = z.object({
   date            : actionSchemaObjectWithProject.date.nullable().optional(),
   deletedDate     : actionSchemaObjectWithProject.deletedDate.optional(),
   completedDate   : actionSchemaObjectWithProject.completedDate.optional(),
-  completionNotes : actionSchemaObjectWithProject.completionNotes.optional(),
   requiredContext : actionSchemaObjectWithProject.requiredContext,
   tags            : actionSchemaObjectWithProject.tags,
 })

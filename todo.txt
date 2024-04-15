@@ -28,9 +28,6 @@ next:
     actions details:
         -- need to transform someday_maybe to Someday Maybe -- maybe leave for now
 
-    list actions:
-        -- completed actions, unless filtered out, are shown with a darker background paper color
-
     - maybe add copy buttons next to titles when processing an action
 
     need to add a trash for actions

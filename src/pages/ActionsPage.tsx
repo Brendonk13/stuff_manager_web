@@ -61,6 +61,14 @@ function extractSearchParamsFromForm(formData){
   if (formData?.tags            ) params.tags            = convertTags(formData.tags)
   if (formData?.requiredContext ) params.requiredContext = convertTags(formData.requiredContext)
 
+  if (params?.energy && params.energy === -1){
+    // only want query params that are relevant for the query
+    delete params.energy
+  }
+  console.log("submit", params?.orderBy, "type -> ", typeof params?.orderBy, "length", params?.orderBy?.length)
+  if (params?.orderBy !== undefined && params.orderBy !== null && params.orderBy.length === 0){
+    delete params.orderBy
+  }
   console.log("form params", {params}, "original data:", {formData})
   return params
 }
@@ -167,15 +175,12 @@ export default function ActionsPage(){
     return () => window.removeEventListener("popstate", setQueryParamsFromUrl)
   }, [])
 
+
   const onSubmit = async (_data: typeof defaultActionQueryParams) => {
     try {
       console.log("========================= SUBMIT ============================= ", {_data})
       const data = extractSearchParamsFromForm(_data)
 
-      if (data?.energy && data.energy === -1){
-        // only want query params that are relevant for the query
-        delete data.energy
-      }
       console.log("new Listactions query params", {data})
 
       // set query string so that the form is filled with correct inital values

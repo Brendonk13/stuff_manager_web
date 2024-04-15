@@ -77,6 +77,7 @@ export default function ControlledTextField<FieldValueProps extends FieldValues>
             {...TextFieldProps}
             fullWidth={true}
             InputLabelProps={{ shrink: true }}
+            value={value}
             // value={getValue(value)}
           />
         </Box>

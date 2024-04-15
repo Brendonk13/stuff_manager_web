@@ -1,5 +1,5 @@
 import { Button, Box, Stack, Collapse, Typography, IconButton } from '@mui/material'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from "react-hook-form"
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
@@ -61,7 +61,17 @@ export default function ProjectDetailsPage(){
     control,
     handleSubmit,
     formState: { errors, },
+    setValue,
   } = methods
+
+  useEffect(() => setValue('id', project?.id ?? 0),
+    [setValue, project?.id])
+
+  useEffect(() => setValue('name', project?.name ?? ""),
+    [setValue, project?.name])
+
+  useEffect(() => setValue('notes', project?.notes ?? ""),
+    [setValue, project?.notes])
 
   if (Object.keys(errors).length > 0){
     console.log("EDIT PROJECT FORM ERRORS", {errors})
@@ -139,7 +149,6 @@ export default function ProjectDetailsPage(){
               name="name"
               label="Project Name"
               TextFieldProps={{
-                value: project?.name,
                 sx: {
                   width: getNameWidth(project?.name),
                 },
@@ -175,7 +184,6 @@ export default function ProjectDetailsPage(){
               name="notes"
               label="Project Notes"
               TextFieldProps={{
-                value: project?.notes,
                 multiline: true,
                 minRows: 2,
                 sx: {
