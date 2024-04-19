@@ -64,30 +64,26 @@ export default function ActionDetailsPage(){
     console.log("EDIT ACTION FORM ERRORS", {errors}, {values: getValues()})
   }
 
-  useEffect(() => setValue('id', action?.id ?? 0),
+  useEffect(() => setValue('id', action?.id ?? defaultAction.id),
     [setValue, action?.id])
 
-  // useEffect(() => setValue('title', action?.title ?? ""),
-  //   [setValue, action?.title])
-  useEffect(() => {
-    console.log("edit titl, current: ", action?.title)
-    setValue('title', action?.title ?? "")
-  }, [setValue, action?.title])
+  useEffect(() => setValue('title', action?.title ?? defaultAction.title),
+    [setValue, action?.title])
 
-  useEffect(() => setValue('description', action?.description ?? ""),
+  useEffect(() => setValue('description', action?.description ?? defaultAction.description),
     [setValue, action?.description])
 
-  useEffect(() => setValue('deletedDate', action?.deletedDate ?? null),
+  useEffect(() => setValue('deletedDate', action?.deletedDate ?? defaultAction.deletedDate),
     [setValue, action?.deletedDate])
 
-  useEffect(() => setValue('completedDate', action?.completedDate ?? null),
+  useEffect(() => setValue('completedDate', action?.completedDate ?? defaultAction.completedDate),
     [setValue, action?.completedDate])
 
-  useEffect(() => setValue('completed', action?.completed ?? false),
+  useEffect(() => setValue('completed', action?.completed ?? defaultAction.completed),
     [setValue, action?.completed])
     // [setValue, action?.completed, showEditAction])
 
-  useEffect(() => setValue('deleted', action?.deleted ?? false),
+  useEffect(() => setValue('deleted', action?.deleted ?? defaultAction.deleted),
     [setValue, action?.deleted])
 
   useEffect(() => setValue('energy', action?.energy ?? -1),
@@ -98,11 +94,11 @@ export default function ActionDetailsPage(){
     [setValue, action?.project])
 
   // todo: is this correct default value ????
-  useEffect(() => setValue('tags', action?.tags ?? []),
+  useEffect(() => setValue('tags', action?.tags ?? defaultAction.tags),
     [setValue, action?.tags])
 
   // useEffect(() => setValue('required_context', action?.required_context ?? []),
-  useEffect(() => setValue('requiredContext', action?.requiredContext ?? []),
+  useEffect(() => setValue('requiredContext', action?.requiredContext ?? defaultAction.requiredContext),
     [setValue, action?.requiredContext])
 
 

@@ -22,6 +22,7 @@ export const defaultCreateItemAction: CreateItemAction = {
   delegated: false,
   energy: 0,
   completed: false,
+  completionNotes: null,
   date: null,
 }
 

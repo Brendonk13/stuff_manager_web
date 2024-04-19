@@ -2,8 +2,9 @@ import z from "zod"
 
 
 export const unprocessedSchemaObject = {
-  title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
   id: z.number(),
+  created: z.string(),
+  title: z.string(),
+  description: z.string(),
 }
 export const UnprocessedSchema = z.object(unprocessedSchemaObject)

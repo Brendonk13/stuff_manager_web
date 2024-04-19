@@ -61,6 +61,8 @@ export const defaultAction: Action = {
   completed: false,
   deleted: false,
   date: null,
+  tags: [],
+  requiredContext: [],
   completionNotes: null,
 }
 
