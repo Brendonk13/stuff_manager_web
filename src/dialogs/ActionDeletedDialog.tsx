@@ -13,12 +13,12 @@ import {
 
 interface ConfirmationDialogProps {
   open: boolean
-  title: string
+  name: string
   onCancel?: () => void
   onConfirm: () => void
 }
 
-export default function ActionDeletedDialog({ open, title, onCancel, onConfirm }: ConfirmationDialogProps){
+export default function ActionDeletedDialog({ open, name, onCancel, onConfirm }: ConfirmationDialogProps){
   const isMobile = useMediaQuery('(max-width: 460px)')
 
   console
@@ -44,7 +44,7 @@ export default function ActionDeletedDialog({ open, title, onCancel, onConfirm }
           justifyContent="space-between"
           alignSelf="stretch"
         >
-        Delete Action: &nbsp;{<Typography color="grey.700" fontSize={24}>{title}</Typography>}
+        Delete Action: &nbsp;{<Typography color="grey.700" fontSize={24}>{name}</Typography>}
           <IconButton onClick={handleCancel}>
             <Close />
           </IconButton>

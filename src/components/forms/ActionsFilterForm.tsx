@@ -28,7 +28,7 @@ function getOptionLabel(option: string | Project | Action | Tag){
   if (typeof option === "string"){
     return option
   }
-  return option?.name ?? option?.title ?? option?.value
+  return option?.name ?? option?.name ?? option?.value
 }
 
 type ActionsFilterFormProps = {
@@ -53,10 +53,10 @@ export default function ActionsFilterForm({
   const {data: contexts} = useListContexts()
 
   // should all of these be in a useeffect ?
-  const actionTitleOptions = actions.map(action => action?.title)
-  const projectOptions     = projects ?? [defaultValue]
-  const tagOptions         = tags ?? [defaultValue]
-  const contextOptions     = contexts ?? [defaultValue]
+  const actionNameOptions = actions.map(action => action?.name)
+  const projectOptions    = projects ?? [defaultValue]
+  const tagOptions        = tags ?? [defaultValue]
+  const contextOptions    = contexts ?? [defaultValue]
 
   const orderByOptions = []
   // (orderByOption : z.infer<typeof listActionQuerySchemaObject.orderBy>) => {
@@ -69,7 +69,7 @@ export default function ActionsFilterForm({
   })
   // console.log({orderByOptions})
 
-  const defaultTitle = initialFormValues?.title ?? ""
+  const defaultName = initialFormValues?.name ?? ""
   const defaultCompleted = initialFormValues?.completed ?? null
   const defaultDeleted = initialFormValues?.deleted ?? null
   const defaultOrderBy = initialFormValues?.orderBy ?? null
@@ -95,20 +95,20 @@ export default function ActionsFilterForm({
   // console.log("defaultTags", defaultTags)
 
   // let defaultContexts = tagsStringToArray(contextOptions, initialFormValues?.required_context)
-  let defaultContexts = tagsStringToArray(contextOptions, initialFormValues?.requiredContext)
+  let defaultContexts = tagsStringToArray(contextOptions, initialFormValues?.contexts)
   // console.log("returned defaultContexts: ", {defaultContexts})
   defaultContexts = (!defaultContexts || !defaultContexts.length) ? defaultValue : defaultContexts[0]
   // console.log("defaultContexts", defaultContexts)
 
   useEffect(() => { setValue("completed", defaultCompleted)},       [ setValue, defaultCompleted])
   useEffect(() => { setValue("deleted", defaultDeleted)},           [ setValue, defaultDeleted])
-  useEffect(() => { setValue("order_by", defaultOrderBy)},           [ setValue, defaultOrderBy])
-  useEffect(() => { setValue("title", defaultTitle)},               [ setValue, defaultTitle])
+  useEffect(() => { setValue("order_by", defaultOrderBy)},          [ setValue, defaultOrderBy])
+  useEffect(() => { setValue("name", defaultName)},                 [ setValue, defaultName])
   useEffect(() => { setValue("project_id", defaultProject)},        [ setValue, defaultProject])
   useEffect(() => { setValue("energy", defaultEnergy)},             [ setValue, defaultEnergy])
   useEffect(() => { setValue("tags", defaultTags)},                 [ setValue, defaultTags])
   // useEffect(() => { setValue("required_context", defaultContexts)}, [ setValue, defaultContexts])
-  useEffect(() => { setValue("requiredContext", defaultContexts)}, [ setValue, defaultContexts])
+  useEffect(() => { setValue("contexts", defaultContexts)}, [ setValue, defaultContexts])
 
 
   const handleExpandClick = () => { setShowing(!showing) }
@@ -137,10 +137,10 @@ export default function ActionsFilterForm({
             placeholder="Name"
             label="Name"
             control={control}
-            name="title"
+            name="name"
             getOptionLabel={getOptionLabel}
             getOptionKey={option => `${keyPrefix}_name_${addUid(option)}`}
-            options={actionTitleOptions}
+            options={actionNameOptions}
             AutoCompleteProps={{
               sx: { width: '60%', },
             }}
@@ -194,7 +194,7 @@ export default function ActionsFilterForm({
             placeholder="Contexts"
             label="Contexts"
             control={control}
-            name="requiredContext"
+            name="contexts"
             getOptionLabel={getOptionLabel}
             options={contextOptions}
             getOptionKey={option => `${keyPrefix}_contexts_${addUid(option.value)}`}

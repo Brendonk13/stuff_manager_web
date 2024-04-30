@@ -1,15 +1,40 @@
 import * as React from 'react'
-import { Link, ListItemText, ListItemIcon, ListItem, Divider, List, Box, Drawer, Button } from '@mui/material'
+import { useClerk } from '@clerk/clerk-react'
+
+import { Link, ListItemText, ListItemIcon, ListItemButton, ListItem, Divider, List, Box, Drawer, Button } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
 // import InboxIcon from '@mui/icons-material/MoveToInbox'
 import sideBarLinks from "./links"
 import MenuIcon from '@mui/icons-material/Menu'
 // import { Link, useNavigate } from "react-router-dom"
 import { Link as RouterLink } from "react-router-dom"
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { SignOutButton } from '@clerk/clerk-react'
+import LogoutIcon from '@mui/icons-material/Logout'
 
 type Anchor =  'left'
 
+function ClickableListItem({path, text, icon}){
+  return (
+    <Link component={RouterLink} to={path} key={text} underline="none" color="grey.700" >
+      <ListItem
+        sx={{
+          '&:hover': {
+            backgroundColor: "rgba(0, 0, 0, 0.04)",
+          },
+        }}
+        key={text}
+      >
+        <ListItemIcon>{icon}</ListItemIcon>
+        <ListItemText primary={text}/>
+      </ListItem>
+    </Link>
+  )
+}
+
 export default function TemporaryDrawer() {
+  const { signOut } = useClerk()
+
   // const navigate = useNavigate()
   const [state, setState] = React.useState({
     left: false,
@@ -40,19 +65,20 @@ export default function TemporaryDrawer() {
     >
       <List>
         {sideBarLinks.map(link => (
-          <Link component={RouterLink} to={link.path} key={link.text} underline="none" color="grey.700" >
-            <ListItem
-              sx={{
-                '&:hover': {
-                  backgroundColor: "rgba(0, 0, 0, 0.04)",
-                },
-              }}
-              key={link.text}
-            >
-              <ListItemIcon>{link.icon}</ListItemIcon>
-              <ListItemText primary={link.text}/>
-            </ListItem>
-          </Link>
+          <ClickableListItem path={link.path} text={link.text} icon={link.icon} />
+          // <Link component={RouterLink} to={link.path} key={link.text} underline="none" color="grey.700" >
+          //   <ListItem
+          //     sx={{
+          //       '&:hover': {
+          //         backgroundColor: "rgba(0, 0, 0, 0.04)",
+          //       },
+          //     }}
+          //     key={link.text}
+          //   >
+          //     <ListItemIcon>{link.icon}</ListItemIcon>
+          //     <ListItemText primary={link.text}/>
+          //   </ListItem>
+          // </Link>
         ))}
       </List>
 
@@ -64,21 +90,30 @@ export default function TemporaryDrawer() {
       <Divider />
       {/* <List sx={{display: "flex", flexDirection: "column", justifyContent: "flex-end"}}> */}
       <List >
-        <Link component={RouterLink} to="/settings" key="settings" underline="none" color="grey.700" >
-          <ListItem
-            sx={{
-              '&:hover': {
-                backgroundColor: "rgba(0, 0, 0, 0.04)",
-              },
-            }}
-            key="settings"
-          >
+        <ClickableListItem path="/settings" text="Settings" icon={<SettingsIcon/>} />
+        <ClickableListItem path="/profile" text="Profile" icon={<AccountCircleIcon/>} />
+        <ListItem
+          sx={{
+            '&:hover': {
+              backgroundColor: "rgba(0, 0, 0, 0.04)",
+            },
+          }}
+          key="Log Out"
+          onClick={() => signOut()}
+        >
             <ListItemIcon>
-              <SettingsIcon />
+              <LogoutIcon/>
             </ListItemIcon>
-            <ListItemText primary="Settings"/>
-          </ListItem>
-        </Link>
+            <ListItemText primary="Log Out"/>
+          {/* <SignOutButton> */}
+          {/* <ListItemButton sx={{ '&:hover': {} }}> */}
+          {/*   <ListItemIcon> */}
+          {/*     <LogoutIcon/> */}
+          {/*   </ListItemIcon> */}
+          {/*   <ListItemText primary="Log Out"/> */}
+          {/* </ListItemButton> */}
+        {/* </SignOutButton> */}
+        </ListItem>
       </List>
     </Box>
   )

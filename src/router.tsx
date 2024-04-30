@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import SidebarLayout from "@/layouts/SidebarLayout"
 import HomePage from "@/pages/HomePage"
+import ProfilePage from "@/pages/ProfilePage"
 import ProcessItemPage from "@/pages/ProcessItemPage"
 import ProjectsPage from "@/pages/ProjectsPage"
 import ProjectDetailPage from "@/pages/ProjectDetailPage"
@@ -27,6 +28,7 @@ export default function Router(){
           <Route path="actions/:actionId" element={<ActionDetailPage />} />
           <Route path="favorites" element={<FavoritesPage />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
           <Route path="unprocessed" element={<UnprocessedPage />} />
           {/* <Route path="actions/:actionId" element={<ActionsPage />} /> */}
         </Route>

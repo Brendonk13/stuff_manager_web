@@ -129,8 +129,8 @@ export default function ActionableForm(){
                 }}>
                   <ControlledTextField
                     control={control}
-                    name={`actions[${index}].title`}
-                    label="Title"
+                    name={`actions[${index}].name`}
+                    label="Name"
                     TextFieldProps={{
                       sx: {
                         width: '60%',
@@ -209,7 +209,7 @@ export default function ActionableForm(){
                 />
                 <NestedTagsArray
                   // fieldArrayName={`actions[${index}].required_context`}
-                  fieldArrayName={`actions[${index}].requiredContext`}
+                  fieldArrayName={`actions[${index}].contexts`}
                   options={contextOptions}
                   label="Required context"
                 />

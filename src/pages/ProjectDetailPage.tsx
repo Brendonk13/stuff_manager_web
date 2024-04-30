@@ -101,7 +101,7 @@ export default function ProjectDetailsPage(){
     const actionData: EditActionBody = {
       id: completedActionId,
       completed: true,
-      // title: action.title,
+      // name: action.name,
     }
     const editedAction = await editAction(actionData)
     console.log("COMPLETED ACTION", {editedAction})
@@ -229,13 +229,13 @@ export default function ProjectDetailsPage(){
       </Box>
       <ActionDeletedDialog
         open={Boolean(deletedActionId)}
-        title={deletedAction?.title ?? ""}
+        name={deletedAction?.name ?? ""}
         onConfirm={deleteAction}
         onCancel={() => setDeletedActionId(0)}
       />
       <ActionCompletedDialog
         open={Boolean(completedActionId)}
-        title={completedAction?.title ?? ""}
+        name={completedAction?.name ?? ""}
         onConfirm={actionCompleted}
         onCancel={() => setCompletedActionId(0)}
       />

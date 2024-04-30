@@ -15,7 +15,7 @@ export const CreateItemActionSchema = z.object({
 export type CreateItemAction = z.infer<typeof CreateItemActionSchema>
 
 export const defaultCreateItemAction: CreateItemAction = {
-  title: "",
+  name: "",
   description: "",
   somedayMaybe: false,
   cannotBeDoneYet: false,

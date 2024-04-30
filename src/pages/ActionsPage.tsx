@@ -22,8 +22,8 @@ import { type EditActionBody } from "@/types/Action/EditAction"
 import useEditAction from "@/hooks/api/useEditAction"
 
 function cleanupFormData(data){
-  if (data?.title === ""){
-    data.title = null
+  if (data?.name === ""){
+    data.name = null
   }
   if (data?.project_id === 0){
     data.project_id = null
@@ -37,8 +37,8 @@ function convertFormDataToAPIQueryString(data) {
   if (data?.tags){
     data.tags = convertTags(data.tags)
   }
-  if (data?.requiredContext){
-    data.requiredContext = convertTags(data.requiredContext)
+  if (data?.contexts){
+    data.contexts = convertTags(data.contexts)
   }
   if (data?.orderBy){
     console.log("cleanup form data found order by", {data})
@@ -52,14 +52,14 @@ function extractSearchParamsFromForm(formData){
   console.log("extract search params from form", formData?.orderBy)
   const params: ListActionQueryParams = {}
   // need null comparison incase user selected energy == 0
-  if (formData?.energy !== null ) params.energy          = formData.energy
-  if (formData?.title           ) params.title           = formData.title
-  if (formData?.project_id      ) params.project_id      = formData.project_id
-  if (formData?.completed       ) params.completed       = formData.completed
-  if (formData?.deleted         ) params.deleted         = formData.deleted
-  if (formData?.orderBy         ) params.orderBy         = convertOrderByToString(formData.orderBy)
-  if (formData?.tags            ) params.tags            = convertTags(formData.tags)
-  if (formData?.requiredContext ) params.requiredContext = convertTags(formData.requiredContext)
+  if (formData?.energy !== null ) params.energy     = formData.energy
+  if (formData?.name            ) params.name       = formData.name
+  if (formData?.project_id      ) params.project_id = formData.project_id
+  if (formData?.completed       ) params.completed  = formData.completed
+  if (formData?.deleted         ) params.deleted    = formData.deleted
+  if (formData?.orderBy         ) params.orderBy    = convertOrderByToString(formData.orderBy)
+  if (formData?.tags            ) params.tags       = convertTags(formData.tags)
+  if (formData?.contexts        ) params.contexts   = convertTags(formData.contexts)
 
   if (params?.energy && params.energy === -1){
     // only want query params that are relevant for the query
@@ -76,21 +76,21 @@ function extractSearchParamsFromForm(formData){
 function extractSearchParamsFromURL(searchParams){
   const params: ListActionQueryParams = {}
   const energy          = searchParams.get("energy")
-  const title           = searchParams.get("title")
+  const name            = searchParams.get("name")
   const project_id      = searchParams.get("project_id")
   const completed       = searchParams.get("completed")
   const deleted         = searchParams.get("deleted")
   const orderBy         = searchParams.get("orderBy")
   const tags            = searchParams.get("tags")
-  const requiredContext = searchParams.get("requiredContext")
-  if (energy           ) params.energy          = energy
-  if (title            ) params.title           = title
-  if (project_id       ) params.project_id      = project_id
-  if (completed        ) params.completed       = Boolean(completed)
-  if (deleted          ) params.deleted         = Boolean(deleted)
-  if (orderBy          ) params.orderBy         = convertOrderByToArray(orderBy)
-  if (tags             ) params.tags            = tags
-  if (requiredContext  ) params.requiredContext = requiredContext
+  const contexts        = searchParams.get("contexts")
+  if (energy     ) params.energy     = energy
+  if (name       ) params.name       = name
+  if (project_id ) params.project_id = project_id
+  if (completed  ) params.completed  = Boolean(completed)
+  if (deleted    ) params.deleted    = Boolean(deleted)
+  if (orderBy    ) params.orderBy    = convertOrderByToArray(orderBy)
+  if (tags       ) params.tags       = tags
+  if (contexts   ) params.contexts   = contexts
 
   console.log("from url", {params})
   return params
@@ -265,13 +265,13 @@ export default function ActionsPage(){
       </Stack>
       <ActionDeletedDialog
         open={Boolean(deletedActionId)}
-        title={deletedAction?.title ?? ""}
+        name={deletedAction?.name ?? ""}
         onConfirm={deleteAction}
         onCancel={() => setDeletedActionId(0)}
       />
       <ActionCompletedDialog
         open={Boolean(completedActionId)}
-        title={completedAction?.title ?? ""}
+        name={completedAction?.name ?? ""}
         onConfirm={actionCompleted}
         onCancel={() => setCompletedActionId(0)}
       />

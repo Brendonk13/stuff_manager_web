@@ -125,6 +125,7 @@ export default function OrderByAction(
                                   borderRadius: 10,
                                 }}
                                 src={CloseWindowImage}
+                                alt="Close"
                               />
                           </IconButton>
                         </InputAdornment>

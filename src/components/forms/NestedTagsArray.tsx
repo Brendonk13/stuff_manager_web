@@ -101,6 +101,7 @@ export default function NestedTagsArray(
                                   borderRadius: 10,
                                 }}
                                 src={CloseWindowImage}
+                                alt="Close"
                               />
                           </IconButton>
                         </InputAdornment>

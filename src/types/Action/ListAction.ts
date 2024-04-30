@@ -7,7 +7,7 @@ export const ListActionSchema = z.array(z.object(actionSchemaObjectWithProject))
 export type ListActionResponse = z.infer<typeof ListActionSchema>
 
 export enum orderByOptions {
-  title = "title",
+  name = "name",
   energy = "energy",
   date = "date",
   project_id = "project_id",
@@ -38,7 +38,7 @@ export const orderByQueryParamSchemaObject = {
 
 
 export const listActionQuerySchemaObject = {
-  title: z.string().nullable(),
+  name: z.string().nullable(),
   project_id: UnrestrictedProjectSchema.optional().nullable().transform(project => project?.id ?? null),
   energy: actionSchemaObject.energy.nullable(),
   date: actionSchemaObject.date.nullable(),
@@ -50,7 +50,7 @@ export const listActionQuerySchemaObject = {
   // orderBy: z.array(z.boolean().or(z.nativeEnum(orderByOptions))),
   orderBy: orderByQueryParamSchemaObject.orderBy,
   // orderByAscending: z.boolean(),
-  requiredContext: tagQueryParamSchemaObject.tags,
+  contexts: tagQueryParamSchemaObject.tags,
 }
 
 export const ListActionQuerySchema = z.object(listActionQuerySchemaObject)
@@ -61,7 +61,7 @@ export const defaultOrderby = {value: orderByOptions.created, ascending: true}
 export type OrderBy = z.infer<typeof orderByQueryParamSchemaObject.orderBy>
 
 export const defaultActionQueryParams: ListActionQueryParams = {
-  title: null,
+  name: null,
   project_id: null,
   energy: null,
   date: null, // make this date ranges maybe one day idk
@@ -72,6 +72,6 @@ export const defaultActionQueryParams: ListActionQueryParams = {
   completed: null,
   deleted: null,
   tags: null,
-  requiredContext: null,
+  contexts: null,
 }
 

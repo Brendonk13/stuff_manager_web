@@ -13,7 +13,7 @@ import { actionCompletionObject } from "./ActionCompletion"
 // todo: add created field
 export const actionSchemaObject = {
   id: z.number(),
-  title: z.string().min(1, "Title is required"),
+  name: z.string().min(1, "Name is required"),
   description: z.string().min(1, "No 1 letter descriptions").optional(), // todo: dont require descriptions -- title only is sick
   date: z.custom<Dayjs>((val) => val instanceof dayjs, 'Invalid date').optional().nullable().transform(date => date?.toISOString() ?? null),
   // deletedDate: z.custom<Dayjs>((val) => val instanceof dayjs, 'Invalid date').optional().nullable().transform(date => date?.toISOString() ?? null),
@@ -24,7 +24,7 @@ export const actionSchemaObject = {
   deleted: z.boolean().optional(),
   completionNotes: z.object(actionCompletionObject).nullable(),
   energy: z.number().optional(),
-  requiredContext: z.array(TagSchema).optional(),
+  contexts: z.array(TagSchema).optional(),
   tags: z.array(TagSchema).optional(),
 }
 
@@ -53,7 +53,7 @@ export const tagQueryParamSchemaObject = {
 
 export const defaultAction: Action = {
   id: 0,
-  title: "",
+  name: "",
   description: "",
   energy: 0,
   deletedDate: null,
@@ -62,7 +62,7 @@ export const defaultAction: Action = {
   deleted: false,
   date: null,
   tags: [],
-  requiredContext: [],
+  contexts: [],
   completionNotes: null,
 }
 

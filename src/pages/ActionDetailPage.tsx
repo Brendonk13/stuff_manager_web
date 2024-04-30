@@ -67,8 +67,8 @@ export default function ActionDetailsPage(){
   useEffect(() => setValue('id', action?.id ?? defaultAction.id),
     [setValue, action?.id])
 
-  useEffect(() => setValue('title', action?.title ?? defaultAction.title),
-    [setValue, action?.title])
+  useEffect(() => setValue('name', action?.name ?? defaultAction.name),
+    [setValue, action?.name])
 
   useEffect(() => setValue('description', action?.description ?? defaultAction.description),
     [setValue, action?.description])
@@ -98,8 +98,8 @@ export default function ActionDetailsPage(){
     [setValue, action?.tags])
 
   // useEffect(() => setValue('required_context', action?.required_context ?? []),
-  useEffect(() => setValue('requiredContext', action?.requiredContext ?? defaultAction.requiredContext),
-    [setValue, action?.requiredContext])
+  useEffect(() => setValue('contexts', action?.contexts ?? defaultAction.contexts),
+    [setValue, action?.contexts])
 
 
 
@@ -150,14 +150,14 @@ export default function ActionDetailsPage(){
           {showEditAction ?
             <ControlledTextField
               control={control}
-              name="title"
+              name="name"
               label="Action Name"
-              sx={{width: getNameWidth(action?.title)}}
+              sx={{width: getNameWidth(action?.name)}}
             />
            : (
             <Stack direction="row" spacing={2}>
               <img src={getEnergySymbol(action?.energy ?? null)} alt="energy" style={{ height: 35, width: 24 }} />
-              <Typography variant="h2">{action?.title || ""}</Typography>
+              <Typography variant="h2">{action?.name || ""}</Typography>
             </Stack>
           )}
 
@@ -287,14 +287,14 @@ export default function ActionDetailsPage(){
 
           { showEditAction ?
             <NestedTagsArray
-              fieldArrayName="requiredContext"
+              fieldArrayName="contexts"
               label="Contexts"
               options={contextOptions}
             />
           : (
             <>
               <Typography variant="h5">Contexts:</Typography>
-              <Tags tags={action?.requiredContext} />
+              <Tags tags={action?.contexts} />
             </>
           )
           }

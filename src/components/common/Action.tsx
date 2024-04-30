@@ -41,7 +41,7 @@ export default function Action({action, showProjectName, showTags: showTagsProp,
             {/* todo: figure out what padding looks good */}
             <Stack sx={{paddingX: 1}}>
               <Link href={`/actions/${action.id}`} color="text.primary">
-                <Typography variant="h3">{action?.title || ""}</Typography>
+                <Typography variant="h3">{action?.name || ""}</Typography>
               </Link>
               <Typography variant="body1">{action?.description || ""}</Typography>
             </Stack>
@@ -84,7 +84,7 @@ export default function Action({action, showProjectName, showTags: showTagsProp,
               {/* make it expandable but also show in a grid with contexts appearing underneath maybe */}
               <Collapse in={showContexts || showContextProp}>
                 {/* <Tags tags={action?.required_context ?? []} displayOnRight={true}/> */}
-                <Tags tags={action?.requiredContext ?? []} displayOnRight={true}/>
+                <Tags tags={action?.contexts ?? []} displayOnRight={true}/>
               </Collapse>
             </Stack>
             <img src={getEnergySymbol(action.energy)} alt="energy" style={{ height: 35, width: 24 }} loading="lazy"/>
