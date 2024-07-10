@@ -33,7 +33,7 @@ export default function Action({action, showProjectName, showTags: showTagsProp,
           {/* ================== LEFT elements ================== */}
           <Stack>
             {showProjectName && action?.project?.name && (
-              <Link href={`/projects/${action.project.project_id}`} color="secondary" underline="always">
+              <Link href={`/projects/${action.project.id}`} color="secondary" underline="always">
                 {action.project.name}
               </Link>
             )}
