@@ -265,7 +265,7 @@ export default function ActionsFilterForm({
 
             <OrderByAction
               fieldArrayName="orderBy"
-              label="orderBy"
+              label={<Typography sx={{transform: "scale(1.1)"}}>Order By</Typography>}
               options={orderByOptions}
             />
 
