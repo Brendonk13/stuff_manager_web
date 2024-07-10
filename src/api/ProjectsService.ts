@@ -17,12 +17,12 @@ export const getProject = (projectId: number) =>
     ProjectsService.get<GetProjectResponse>(`/${projectId}`).then(res => res.data)
 
 export const editProject = (data: EditProjectBody) => {
-    console.log({data})
+    // console.log({data})
     return ProjectsService.put<EditProjectResponse>(`/${data.id}`, data).then(res => res.data)
 }
 
 export const createProject = (data: CreateProjectRequestBody) => {
-    console.log({data})
+    // console.log({data})
     return ProjectsService.post<CreateProjectResponse>(``, data).then(res => res.data)
 }
 

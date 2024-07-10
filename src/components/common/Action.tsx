@@ -15,14 +15,23 @@ interface ActionProps {
 }
 
 export default function Action({action, showProjectName, showTags: showTagsProp, showContexts: showContextProp}: ActionProps){
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
 
   const [showTags, setShowTags] = useState(showTagsProp)
   const [showContexts, setShowContexts] = useState(showContextProp)
+
+  const toggleDescriptionExpanded = () => {
+    setDescriptionExpanded(!descriptionExpanded);
+  }
+  const descriptionLines = 3
 
 
   // todo: add an info icon for: created, tags, required_contexts, project name
   // this slides in additional info, making each action bigger
   // add hyperlink to project: use an icon, when you hover it shows the project name?
+  console.log({description: action?.description})
+
+  // todo: add button to expand all descriptions for actions
 
   return (
     <Stack padding={1}>
@@ -43,7 +52,22 @@ export default function Action({action, showProjectName, showTags: showTagsProp,
               <Link href={`/actions/${action.id}`} color="text.primary">
                 <Typography variant="h3">{action?.name || ""}</Typography>
               </Link>
-              <Typography variant="body1">{action?.description || ""}</Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  overflow: 'hidden',
+                  textOverflow: descriptionExpanded ? 'clip' : 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: descriptionExpanded ? 'unset' : descriptionLines,
+                  WebkitBoxOrient: 'vertical',
+                  cursor: 'pointer',
+                }}
+                onClick={toggleDescriptionExpanded}
+              >
+                <pre style={{ fontFamily: 'inherit' }}>
+                  {action?.description || ""}
+                </pre>
+              </Typography>
             </Stack>
           </Stack>
 
